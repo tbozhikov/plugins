@@ -11,7 +11,8 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
   constructor() {
     super();
-    // this.APP_TITLE = 'Put name of your app here';
+    this.APP_TITLE = 'The Official NativeScript Plugins Resource';
+    this.ENABLE_SCSS = true;
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;

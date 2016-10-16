@@ -22,7 +22,6 @@ import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
 import { multilingualReducer, MultilingualEffects } from './app/frameworks/i18n/index';
 import { MultilingualModule } from './app/frameworks/i18n/multilingual.module';
 import { SampleModule } from './app/frameworks/sample/sample.module';
-import { nameListReducer, NameListEffects } from './app/frameworks/sample/index';
 
 // config
 import { Config, WindowService, ConsoleService } from './app/frameworks/core/index';
@@ -62,11 +61,9 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
     }]),
     SampleModule,
     StoreModule.provideStore({
-      i18n: multilingualReducer,
-      names: nameListReducer
+      i18n: multilingualReducer
     }),
-    EffectsModule.run(MultilingualEffects),
-    EffectsModule.run(NameListEffects)
+    EffectsModule.run(MultilingualEffects)
   ],
   declarations: [
     AppComponent,

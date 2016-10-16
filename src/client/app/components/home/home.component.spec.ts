@@ -14,7 +14,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { t } from '../../frameworks/test/index';
-import { NameListService, nameListReducer, NameListEffects } from '../../frameworks/sample/index';
 import { CoreModule } from '../../frameworks/core/core.module';
 import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
 import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
@@ -25,13 +24,10 @@ const testModuleConfig = () => {
   TestBed.configureTestingModule({
     imports: [
       CoreModule, RouterTestingModule, AnalyticsModule,
-      MultilingualModule,
-      StoreModule.provideStore({ names: nameListReducer }),
-      EffectsModule.run(NameListEffects)
+      MultilingualModule
     ],
     declarations: [HomeComponent, TestComponent],
     providers: [
-      NameListService,
       BaseRequestOptions,
       MockBackend,
       {
@@ -59,15 +55,7 @@ export function main() {
             let homeInstance = fixture.debugElement.children[0].componentInstance;
             let homeDOMEl = fixture.debugElement.children[0].nativeElement;
 
-            t.e(homeDOMEl.querySelectorAll('li').length).toEqual(0);
-
-            homeInstance.newName = 'Minko';
-            homeInstance.addName();
-
-            fixture.detectChanges();
-
-            t.e(homeDOMEl.querySelectorAll('li').length).toEqual(1);
-            t.e(homeDOMEl.querySelectorAll('li')[0].textContent).toEqual('Minko');
+            t.e(homeDOMEl.querySelectorAll('p').text).toEqual('');
           });
       }));
   });
