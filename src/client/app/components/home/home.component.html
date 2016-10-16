@@ -3,4 +3,20 @@
 </p>
 <div class="smile"></div>
 
-
+<div class="auth">
+  <div *ngIf="!current">
+    <button class="btn btn-primary btn-margin" (click)="login()">Auth0 Login</button>
+    <p>
+      Users can now login via Auth0.
+    </p>
+  </div>
+  <div *ngIf="current">
+    <button class="btn btn-primary btn-margin" (click)="logout()">LOGOUT</button>
+    <div class="profile">
+      <div style="text-decoration:underline;">Current User</div>
+      <div>Name: {{current?.name}}</div>
+      <div>Email: {{current?.email}}</div>
+      <div><img [src]="current?.picture"/></div>
+    </div>
+  </div>
+</div>

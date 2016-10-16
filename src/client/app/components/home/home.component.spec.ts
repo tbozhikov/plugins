@@ -17,6 +17,9 @@ import { t } from '../../frameworks/test/index';
 import { CoreModule } from '../../frameworks/core/core.module';
 import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
 import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
+import { authReducer, AuthEffects, AuthService, AUTH_LOCK } from '../../frameworks/progress/services/auth.service';
+import { AuthLockMock } from '../../frameworks/progress/testing/index';
+import { StorageService } from '../../frameworks/progress/services/storage.service';
 import { HomeComponent } from './home.component';
 
 // test module configuration for each test
@@ -24,10 +27,15 @@ const testModuleConfig = () => {
   TestBed.configureTestingModule({
     imports: [
       CoreModule, RouterTestingModule, AnalyticsModule,
+      StoreModule.provideStore({ auth: authReducer }),
+      EffectsModule.run(AuthEffects),
       MultilingualModule
     ],
     declarations: [HomeComponent, TestComponent],
     providers: [
+      AuthService,
+      StorageService,
+      { provide: AUTH_LOCK, useValue: AuthLockMock },
       BaseRequestOptions,
       MockBackend,
       {
@@ -52,10 +60,10 @@ export function main() {
             let fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
 
-            let homeInstance = fixture.debugElement.children[0].componentInstance;
+            // let homeInstance = fixture.debugElement.children[0].componentInstance;
             let homeDOMEl = fixture.debugElement.children[0].nativeElement;
 
-            t.e(homeDOMEl.querySelectorAll('p').text).toEqual('');
+            t.e(homeDOMEl.querySelectorAll('p')[0].textContent.trim()).toBe('HEADING');
           });
       }));
   });

@@ -7,8 +7,10 @@ import { StoreModule } from '@ngrx/store';
 
 import { t } from '../frameworks/test/index';
 import { TEST_CORE_PROVIDERS, TEST_HTTP_PROVIDERS } from '../frameworks/core/testing/index';
-import { NameListService, NavbarComponent, ToolbarComponent } from '../frameworks/sample/index';
 import { MultilingualModule } from '../frameworks/i18n/multilingual.module';
+import { NavbarComponent, ToolbarComponent } from '../frameworks/progress/components/index';
+import { AUTH_LOCK } from '../frameworks/progress/services/auth.service';
+import { AuthLockMock } from '../frameworks/progress/testing/index';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
@@ -35,15 +37,19 @@ const testModuleConfig = () => {
     providers: [
       TEST_CORE_PROVIDERS(),
       TEST_HTTP_PROVIDERS(),
-      NameListService
+      { provide: AUTH_LOCK, useValue: AuthLockMock }
     ]
   });
 };
 
 export function main() {
   t.describe('@Component: AppComponent', () => {
+    let spy;
 
-    t.be(testModuleConfig);
+    t.be(() => {
+      testModuleConfig();
+      spy = t.spyOn(console, 'log');
+    });
 
     t.it('should build without a problem',
       t.async(() => {

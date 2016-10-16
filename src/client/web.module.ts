@@ -9,6 +9,7 @@ import { Http } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 // app
 import { AppComponent } from './app/components/app.component';
@@ -21,7 +22,7 @@ import { CoreModule } from './app/frameworks/core/core.module';
 import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
 import { multilingualReducer, MultilingualEffects } from './app/frameworks/i18n/index';
 import { MultilingualModule } from './app/frameworks/i18n/multilingual.module';
-import { SampleModule } from './app/frameworks/sample/sample.module';
+import { ProgressModule } from './app/frameworks/progress/progress.module';
 
 // config
 import { Config, WindowService, ConsoleService } from './app/frameworks/core/index';
@@ -32,8 +33,8 @@ if (String('<%= ENV %>') === 'dev') {
 }
 
 // sample config (extra)
-import { AppConfig } from './app/frameworks/sample/services/app-config';
-import { MultilingualService } from './app/frameworks/i18n/services/multilingual.service';
+import { AppConfig, IAuthState, authReducer, AuthEffects } from './app/frameworks/progress/index';
+import { MultilingualService, IMultilingualState } from './app/frameworks/i18n/services/multilingual.service';
 // custom i18n language support
 MultilingualService.SUPPORTED_LANGUAGES = AppConfig.SUPPORTED_LANGUAGES;
 
@@ -44,6 +45,12 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
   // desktop (electron) must use hash
   routerModule = RouterModule.forRoot(routes, {useHash: true});
 }
+
+// state
+export interface IAppStore {
+  i18n: IMultilingualState;
+  user: IAuthState;
+};
 
 @NgModule({
   imports: [
@@ -59,11 +66,13 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
       deps: [Http],
       useFactory: (http: Http) => new TranslateStaticLoader(http, 'assets/i18n', '.json')
     }]),
-    SampleModule,
+    ProgressModule,
     StoreModule.provideStore({
-      i18n: multilingualReducer
+      i18n: multilingualReducer,
+      auth: authReducer
     }),
-    EffectsModule.run(MultilingualEffects)
+    EffectsModule.run(MultilingualEffects),
+    EffectsModule.run(AuthEffects)
   ],
   declarations: [
     AppComponent,
@@ -74,7 +83,8 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
     {
       provide: APP_BASE_HREF,
       useValue: '<%= APP_BASE %>'
-    }
+    },
+    AUTH_PROVIDERS
   ],
   bootstrap: [AppComponent]
 })

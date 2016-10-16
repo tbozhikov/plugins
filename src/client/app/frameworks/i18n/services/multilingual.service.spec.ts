@@ -52,7 +52,7 @@ export function main() {
 
     });
 
-    t.describe('MultilingualService for French browser/platform', () => {
+    t.xdescribe('MultilingualService for French browser/platform', () => {
       const SUPPORTED_LANGUAGES: Array<ILang> = [
         { code: 'en', title: 'English' },
         { code: 'fr', title: 'French' }

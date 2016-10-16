@@ -50,6 +50,13 @@ module.exports = function (config) {
       { pattern: 'node_modules/@ngrx/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/angulartics2/**/*.js', included: false, watched: false },
 
+      // Plugins site
+      { pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/js-base64/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/base64-js/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/buffer/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/ieee754/**/*.js', included: false, watched: false },
+
       { pattern: 'dist/dev/**/*.js', included: false, watched: true },
       { pattern: 'dist/dev/**/*.html', included: false, watched: true, served: true },
       { pattern: 'dist/dev/**/*.css', included: false, watched: true, served: true },

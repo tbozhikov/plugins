@@ -24,7 +24,14 @@ ul {
 }
 
 .auth {
-  margin: 0 auto;
+  margin: 20px auto;
+  width:500px;
+  text-align: center;
+
+  .profile {
+    text-align: left;
+    color: lighten(#00e, 20%);
+  }
 }
 
 a.link {

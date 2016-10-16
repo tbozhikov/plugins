@@ -1,5 +1,6 @@
 // libs
 import { Store } from '@ngrx/store';
+import 'rxjs/add/operator/take';
 
 // app
 import { BaseComponent, Config, LogService, ILang } from '../../core/index';
