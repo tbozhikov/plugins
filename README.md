@@ -15,10 +15,11 @@ Currently a work in progress.
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Usage](#usage)
+- [How to start](#how-to-start)
+- [How to start with AoT compilation](#how-to-start-with-aot-compilation)
 - [NativeScript App](#nativescript-app)
 - [Electron App](#electron-app)
-- [Testing](#testing)
+- [Running tests](#running-tests)
 - [Framework How-Tos](#framework-how-tos)
 - [Web Configuration Options](#web-configuration-options)
 - [License](#license)
@@ -27,27 +28,62 @@ Currently a work in progress.
 
 * node v5.x.x or higher and npm 3 or higher.
 
-## Usage
+* To run the NativeScript app:
 
+```
+npm install -g nativescript
+npm install -g typescript
+```
+
+## How to start
 
 ```bash
 # install the project's dependencies
-npm install
+$ npm install
+# fast install (via Yarn, https://yarnpkg.com)
+$ yarn install  # or yarn
+
 # watches your files and uses livereload by default
-npm start
+$ npm start
 # api document for the app
-npm run serve.docs
+# npm run build.docs
 
 # to start deving with livereload site and coverage as well as continuous testing
-npm run start.deving
+$ npm run start.deving
 
 # dev build
-npm run build.dev
+$ npm run build.dev
 # prod build
-npm run build.prod
-# prod build with AoT compilation
-npm run build.prod.exp
+$ npm run build.prod
 ```
+
+## How to start with AoT compilation
+
+**Note** that AoT compilation requires **node v6.5.0 or higher** and **npm 3.10.3 or higher**.
+
+In order to start the seed with AoT use:
+
+```bash
+# prod build with AoT compilation
+$ npm run build.prod.exp
+```
+
+When using AoT compilation, please consider the following:
+
+Currently you cannot use custom component decorators with AoT compilation. This may change in the future but for now you can use this pattern for when you need to create AoT builds for the web:
+
+```
+import { Component } from '@angular/core';
+import { BaseComponent } from '../frameworks/core/index';
+
+// @BaseComponent({   // just comment this out and use Component from 'angular/core'
+@Component({
+  // etc.
+```
+
+After doing the above, running AoT build via `npm run build.prod.exp` will succeed. :)
+
+`BaseComponent` custom component decorator does the auto `templateUrl` switching to use {N} views when running in the {N} app therefore you don't need it when creating AoT builds for the web. However just note that when going back to run your {N} app, you should comment back in the `BaseComponent`. Again this temporary inconvenience may be unnecessary in the future.
 
 ## NativeScript App
 
@@ -77,6 +113,46 @@ OR...
 
 * [GenyMotion Android Emulator](https://www.genymotion.com/)
 
+##### Building with Webpack for release builds
+
+You can greatly reduce the final size of your NativeScript app by the following:
+
+```
+cd nativescript
+npm i nativescript-dev-webpack --save-dev
+```
+Then you will need to modify your components to *not* use `moduleId: module.id` and change `templateUrl` to true relative app, for example:
+
+before:
+
+```
+@BaseComponent({
+  moduleId: module.id,
+  selector: 'sd-home',
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.css']
+})
+```
+after:
+
+```
+@BaseComponent({
+  // moduleId: module.id,
+  selector: 'sd-home',
+  templateUrl: './app/components/home/home.component.html',
+  styleUrls: ['./app/components/home/home.component.css']
+})
+```
+
+Then to build:
+
+Ensure you are in the `nativescript` directory when running these commands.
+
+* iOS: `WEBPACK_OPTS="--display-error-details" tns build ios --bundle`
+* Android: `WEBPACK_OPTS="--display-error-details" tns build android --bundle`
+
+Notice your final build will be drastically smaller. In some cases 120 MB -> ~28 MB. 👍 
+
 ## Electron App
 
 #### Develop
@@ -100,38 +176,38 @@ Windows:  npm run build.desktop.windows
 Linux:    npm run build.desktop.linux
 ```
 
-## Testing
+## Running tests
 
 ```bash
-npm test
+$ npm test
 
 # Development. Your app will be watched by karma
 # on each change all your specs will be executed.
-npm run test.watch
+$ npm run test.watch
 # NB: The command above might fail with a "EMFILE: too many open files" error.
 # Some OS have a small limit of opened file descriptors (256) by default
 # and will result in the EMFILE error.
 # You can raise the maximum of file descriptors by running the command below:
-ulimit -n 10480
+$ ulimit -n 10480
 
 
 # code coverage (istanbul)
 # auto-generated at the end of `npm test`
 # view coverage report:
-npm run serve.coverage
+$ npm run serve.coverage
 
 # e2e (aka. end-to-end, integration) - In three different shell windows
 # Make sure you don't have a global instance of Protractor
 
 # npm install webdriver-manager <- Install this first for e2e testing
 # npm run webdriver-update <- You will need to run this the first time
-npm run webdriver-start
-npm run serve.e2e
-npm run e2e
+$ npm run webdriver-start
+$ npm run serve.e2e
+$ npm run e2e
 
 # e2e live mode - Protractor interactive mode
 # Instead of last command above, you can use:
-npm run e2e.live
+$ npm run e2e.live
 ```
 You can learn more about [Protractor Interactive Mode here](https://github.com/angular/protractor/blob/master/docs/debugging.md#testing-out-protractor-interactively)
 

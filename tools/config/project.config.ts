@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { SeedAdvancedConfig } from './seed-advanced.config';
+// import { ExtendPackages } from './seed.config.interfaces';
 
 /**
  * This class extends the basic seed configuration, allowing for project specific overrides. A few examples can be found
@@ -34,24 +35,37 @@ export class ProjectConfig extends SeedAdvancedConfig {
     this.SYSTEM_CONFIG.packages['angular2-jwt'] = {
       defaultExtension : 'js'
     };
-    this.SYSTEM_CONFIG.paths['npm:'] = `${this.APP_BASE}node_modules/`;
+    this.SYSTEM_CONFIG.paths['npm:'] = `node_modules/`;
     if (!this.SYSTEM_CONFIG.map) this.SYSTEM_CONFIG.map = {};
-    this.SYSTEM_CONFIG.map['angular2-jwt'] = `npm:angular2-jwt/angular2-jwt`;
-    this.SYSTEM_CONFIG.map['js-base64'] = `npm:js-base64/base64`;
-    // all this stuff is nonsense but needed for angular2-jwt
-    this.SYSTEM_CONFIG.map['base64-js'] = `npm:base64-js/index`;
-    this.SYSTEM_CONFIG.map['buffer'] = `npm:buffer/index`;
-    this.SYSTEM_CONFIG.map['ieee754'] = `npm:ieee754/index`;
+    this.SYSTEM_CONFIG.map['angular2-jwt'] = `npm:angular2-jwt/angular2-jwt.js`;
 
     // prod
-    // this.SYSTEM_BUILDER_CONFIG.packages['angular2-jwt'] = {
-    //   defaultExtension : 'js'
-    // };
     this.SYSTEM_BUILDER_CONFIG.paths['angular2-jwt'] = `node_modules/angular2-jwt/angular2-jwt.js`;
-    this.SYSTEM_BUILDER_CONFIG.paths['js-base64'] = `node_modules/js-base64/base64.js`;
-    this.SYSTEM_BUILDER_CONFIG.paths['base64-js'] = `node_modules/base64-js/index.js`;
-    this.SYSTEM_BUILDER_CONFIG.paths['buffer'] = `node_modules/buffer/index.js`;
-    this.SYSTEM_BUILDER_CONFIG.paths['ieee754'] = `node_modules/ieee754/index.js`;
+
+    // Add packages (e.g. lodash)
+    // let additionalPackages: ExtendPackages[] = [{
+    //   name: 'lodash',
+    //   path: `${this.APP_BASE}node_modules/lodash/lodash.js`,
+    //   packageMeta: {
+    //     main: 'index.js',
+    //     defaultExtension: 'js'
+    //   }
+    // }];
+    //
+    // or
+    //
+    // let additionalPackages: ExtendPackages[] = [];
+    //
+    // additionalPackages.push({
+    //   name: 'lodash',
+    //   path: `${this.APP_BASE}node_modules/lodash/lodash.js`,
+    //   packageMeta: {
+    //     main: 'index.js',
+    //     defaultExtension: 'js'
+    //   }
+    // });
+    //
+    // this.addPackagesBundles(additionalPackages);
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
