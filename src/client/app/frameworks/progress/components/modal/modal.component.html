@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <div class="title">
+    <h4 class="modal-title">{{(modalState$ | async)?.title}}</h4>
+    <span class="fa fa-close" (click)="activeModal.dismiss()" *ngIf="!modalService.modalForceAction" data-icon="close-alt"></span>
+  </div>
+</div>
+
+<div class="modal-body">
+  <ng-content></ng-content>
+</div>

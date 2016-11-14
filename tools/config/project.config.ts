@@ -38,9 +38,30 @@ export class ProjectConfig extends SeedAdvancedConfig {
     this.SYSTEM_CONFIG.paths['npm:'] = `node_modules/`;
     if (!this.SYSTEM_CONFIG.map) this.SYSTEM_CONFIG.map = {};
     this.SYSTEM_CONFIG.map['angular2-jwt'] = `npm:angular2-jwt/angular2-jwt.js`;
+    this.SYSTEM_CONFIG.map['@ng-bootstrap/ng-bootstrap'] = `npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap`;
+
+    // debug tools
+    this.SYSTEM_CONFIG['packages']['@ngrx/store-devtools'] = {
+      main: 'bundles/store-devtools.umd.js',
+      defaultExtension: 'js'
+    };
+    this.SYSTEM_CONFIG['packages']['@ngrx/store-log-monitor'] = {
+      main: 'bundles/store-log-monitor.umd.js',
+      defaultExtension: 'js'
+    };
 
     // prod
     this.SYSTEM_BUILDER_CONFIG.paths['angular2-jwt'] = `node_modules/angular2-jwt/angular2-jwt.js`;
+    this.SYSTEM_BUILDER_CONFIG.paths['@ng-bootstrap/ng-bootstrap'] = `node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js`;
+
+    this.SYSTEM_BUILDER_CONFIG['packages']['@ngrx/store-devtools'] = {
+      main: 'bundles/store-devtools.umd.js',
+      defaultExtension: 'js'
+    };
+    this.SYSTEM_BUILDER_CONFIG['packages']['@ngrx/store-log-monitor'] = {
+      main: 'bundles/store-log-monitor.umd.js',
+      defaultExtension: 'js'
+    };
 
     // Add packages (e.g. lodash)
     // let additionalPackages: ExtendPackages[] = [{

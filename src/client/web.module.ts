@@ -22,6 +22,8 @@ import { CoreModule } from './app/frameworks/core/core.module';
 import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
 import { multilingualReducer, MultilingualEffects } from './app/frameworks/i18n/index';
 import { MultilingualModule, translateFactory } from './app/frameworks/i18n/multilingual.module';
+import { LibsModule } from './libs.module';
+import { modalReducer, ModalEffects } from './app/frameworks/progress/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 
 // config
@@ -44,6 +46,26 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
   Config.PLATFORM_TARGET = Config.PLATFORMS.DESKTOP;
   // desktop (electron) must use hash
   routerModule = RouterModule.forRoot(routes, {useHash: true});
+}
+
+// dev tools (only used during development - not included in production)
+let DEV_TOOLS: any[] = [];
+let DEV_TOOLS_EXPORT: any[] = [];
+if (String('<%= BUILD_TYPE %>') !== 'prod') {
+
+  let devTools = require('@ngrx/store-devtools').StoreDevtoolsModule;
+  DEV_TOOLS_EXPORT.push(devTools);
+// import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
+  DEV_TOOLS = [
+    devTools.instrumentOnlyWithExtension()
+    // StoreDevtoolsModule.instrumentStore({
+    //   monitor: useLogMonitor({
+    //     visible: false,
+    //     position: 'right'
+    //   })
+    // }),
+    // StoreLogMonitorModule
+  ];
 }
 
 declare var window, console;
@@ -72,11 +94,17 @@ export function cons() {
     }]),
     ProgressModule,
     StoreModule.provideStore({
+      auth: authReducer,
       i18n: multilingualReducer,
-      auth: authReducer
+      modal: modalReducer
     }),
+    EffectsModule.run(AuthEffects),
+    EffectsModule.run(ModalEffects),
     EffectsModule.run(MultilingualEffects),
-    EffectsModule.run(AuthEffects)
+    // 3rd party lib module
+    LibsModule,
+    // dev tools (empty in production)
+    DEV_TOOLS
   ],
   declarations: [
     AppComponent,
