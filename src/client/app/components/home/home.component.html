@@ -2,7 +2,6 @@
   {{'HEADING' | translate}}
 </p>
 <div class="smile"></div>
-
 <div class="auth">
   <div *ngIf="!current">
     <button class="btn btn-primary btn-margin" (click)="login()">Auth0 Login</button>
@@ -16,7 +15,18 @@
       <div style="text-decoration:underline;">Current User</div>
       <div>Name: {{current?.name}}</div>
       <div>Email: {{current?.email}}</div>
-      <div><img [src]="current?.picture"/></div>
+      <div><img [src]="current?.picture" /></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row is-flex">
+    <div class="col-sm-3" *ngFor="let plugin of plugins">
+      <div class="plugin-box">
+        <h1>{{plugin.title}}</h1>
+        <h2>{{plugin.author}}</h2>
+        <p>{{plugin.description}}</p>
+      </div>
     </div>
   </div>
 </div>
