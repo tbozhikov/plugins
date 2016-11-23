@@ -1,7 +1,7 @@
 <p>
   {{'HEADING' | translate}}
 </p>
-<div class="smile"></div>
+<!-- <div class="smile"></div>
 <div class="auth">
   <div *ngIf="!current">
     <button class="btn btn-primary btn-margin" (click)="login()">Auth0 Login</button>
@@ -18,14 +18,14 @@
       <div><img [src]="current?.picture" /></div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="container">
   <div class="row is-flex">
     <div class="col-sm-3" *ngFor="let plugin of plugins">
       <div class="plugin-box">
         <div style="float: right"><i class="fa fa-star fa-lg"></i>{{plugin.stars}}</div>
         <h1>{{plugin.title}}</h1>
-        <h2>{{plugin.author}}</h2>
+        <h3>{{plugin.author}}</h3>
         <div class="fixed-height">
           <p>{{plugin.description}}</p>
         </div>
