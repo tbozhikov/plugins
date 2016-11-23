@@ -19,6 +19,7 @@ h1 {
 h3 {
   margin-top: -5px;
   font-weight: lighter;
+  font-size: 20px;
 }
 .smile {
   background: url("./assets/svg/smile.svg");
@@ -104,11 +105,15 @@ a.link:hover {
 .platform-icon {
   float: left;
 }
-.android {
+.platform-icon-line {
+  float: right;
+}
+.icon-space {
   margin-left: 5px;
+  margin-right: 5px;
 }
 .fa-star {
-  color: blue;
+  color: #106cc8;
 }
 .repo-box {
   background-color: rgba(242, 242, 242, 1);
@@ -123,4 +128,7 @@ a.link:hover {
 }
 .fixed-height {
   height: 4em;
+}
+.bg {
+  font-size: 24px;
 }

@@ -20,9 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   public current: IUser;
   private _sub: Subscription;
   plugins: Array<plugin>;
-
+  cardView: boolean;
   constructor(private store: Store<any>) {
     this.plugins = plugins;
+    this.cardView = true;
   }
 
   public login() {
@@ -31,6 +32,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.store.dispatch({ type: AUTH_ACTIONS.LOGOUT });
+  }
+
+  public toggle() {
+    this.cardView = !this.cardView;
   }
 
   ngOnInit() {

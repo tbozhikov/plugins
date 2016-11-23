@@ -20,7 +20,13 @@
   </div>
 </div> -->
 <div class="container">
-  <div class="row is-flex">
+  <div class="row">
+    <div class="col-sm-12">
+      <i class="fa fa-th-large bg" *ngIf="cardView == false" (click)="toggle()"></i>
+      <i class="fa fa-list bg" *ngIf="cardView == true" (click)="toggle()"></i>
+    </div>
+  </div>
+  <div class="row is-flex" *ngIf="cardView == true">
     <div class="col-sm-3" *ngFor="let plugin of plugins">
       <div class="plugin-box">
         <div style="float: right"><i class="fa fa-star fa-lg"></i>{{plugin.stars}}</div>
@@ -30,10 +36,25 @@
           <p>{{plugin.description}}</p>
         </div>
         <div *ngIf="plugin.ios" class="platform-icon"><i class="fa fa-apple fa-lg"></i></div>
-        <div *ngIf="plugin.android" class="platform-icon android"><i class="fa fa-android fa-lg"></i></div>
+        <div *ngIf="plugin.android" class="platform-icon icon-space"><i class="fa fa-android fa-lg"></i></div>
       </div>
       <div class="repo-box">
         <a href="{{plugin.repo}}" target="_blank">{{plugin.repo}}</a>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="cardView == false">
+    <div class="col-xs-12" *ngFor="let plugin of plugins">
+      <div class="plugin-box">
+        <div style="float: right"><i class="fa fa-star fa-lg"></i>{{plugin.stars}}</div>
+        <h1>{{plugin.title}}</h1>
+        <h3>{{plugin.author}}</h3>
+        <p>{{plugin.description}}</p>
+      </div>
+      <div class="repo-box">
+        <a href="{{plugin.repo}}" target="_blank">{{plugin.repo}}</a>
+        <div *ngIf="plugin.ios" class="platform-icon-line icon-space"><i class="fa fa-apple fa-lg"></i></div>
+        <div *ngIf="plugin.android" class="platform-icon-line"><i class="fa fa-android fa-lg"></i></div>
       </div>
     </div>
   </div>
