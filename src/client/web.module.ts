@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { Http } from '@angular/http';
-
+import { JsonpModule } from '@angular/http';
 // libs
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,7 +17,7 @@ import { HomeComponent } from './app/components/home/home.component';
 import { AboutComponent } from './app/components/about/about.component';
 import { routes } from './app/components/app.routes';
 import { PluginService } from './app/services/plugins.service';
-
+import { SearchComponent } from './app/components/search/search.component';
 // feature modules
 import { CoreModule } from './app/frameworks/core/core.module';
 import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
@@ -105,12 +105,14 @@ export function cons() {
     // 3rd party lib module
     LibsModule,
     // dev tools (empty in production)
-    DEV_TOOLS
+    DEV_TOOLS,
+    JsonpModule
   ],
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    SearchComponent
   ],
   providers: [
     {

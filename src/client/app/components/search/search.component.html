@@ -1,0 +1,5 @@
+<div class="form-group" [class.has-danger]="searchFailed">
+  <input type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" placeholder="Search" />
+  <span *ngIf="searching">searching...</span>
+  <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+</div>
