@@ -16,6 +16,7 @@ import { AppComponent } from './app/components/app.component';
 import { HomeComponent } from './app/components/home/home.component';
 import { AboutComponent } from './app/components/about/about.component';
 import { routes } from './app/components/app.routes';
+import { PluginService } from './app/services/plugins.service';
 
 // feature modules
 import { CoreModule } from './app/frameworks/core/core.module';
@@ -116,7 +117,8 @@ export function cons() {
       provide: APP_BASE_HREF,
       useValue: '<%= APP_BASE %>'
     },
-    AUTH_PROVIDERS
+    AUTH_PROVIDERS,
+    PluginService
   ],
   bootstrap: [AppComponent]
 })

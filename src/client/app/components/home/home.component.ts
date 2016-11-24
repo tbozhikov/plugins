@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-
+import { PluginService, plugin } from '../../services/plugins.service';
 // libs
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
@@ -21,8 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _sub: Subscription;
   plugins: Array<plugin>;
   cardView: boolean;
-  constructor(private store: Store<any>) {
-    this.plugins = plugins;
+  constructor(private store: Store<any>, private pluginService: PluginService) {
+    this.plugins = this.pluginService.getAll();
     this.cardView = true;
   }
 
@@ -48,69 +48,3 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this._sub) this._sub.unsubscribe();
   }
 }
-declare class plugin {
-  title: string;
-  author: string;
-  stars: number;
-  description: string;
-  ios: boolean;
-  android: boolean;
-  repo: string;
-}
-
-var plugins: Array<plugin> = [
-  {
-    title: 'SQLLite',
-    author: 'nathanael',
-    stars: 5,
-    description: 'A sqlite Nativescript module for ios and android',
-    ios: true,
-    android: true,
-    repo: 'https://github.com/nathanael/sqlite'
-  },
-  {
-    title: 'Shimer',
-    author: 'walkerrunpdx',
-    stars: 5,
-    description: 'Facebook shimer effect plugin',
-    ios: true,
-    android: true,
-    repo: 'https://github.com/walkerrunpdx/shimer'
-  },
-  {
-    title: 'Orientation',
-    author: 'nathanael',
-    stars: 5,
-    description: 'A sqlite Nativescript module for ios and android',
-    ios: true,
-    android: true,
-    repo: 'https://github.com/nathanael/sqlite'
-  },
-  {
-    title: 'CardView',
-    author: 'walkerrunpdx',
-    stars: 5,
-    description: 'Facebook shimer effect plugin',
-    ios: true,
-    android: true,
-    repo: 'https://github.com/walkerrunpdx/shimer'
-  },
-  {
-    title: 'SQLLite',
-    author: 'nathanael',
-    stars: 5,
-    description: 'A sqlite Nativescript module for ios and android',
-    ios: true,
-    android: true,
-    repo: 'https://github.com/nathanael/sqlite'
-  },
-  {
-    title: 'Shimer',
-    author: 'walkerrunpdx',
-    stars: 5,
-    description: 'Facebook shimer effect plugin',
-    ios: true,
-    android: true,
-    repo: 'https://github.com/walkerrunpdx/shimer'
-  }
-]
