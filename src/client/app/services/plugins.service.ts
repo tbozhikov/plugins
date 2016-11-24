@@ -4,7 +4,10 @@ import { Injectable } from '@angular/core';
 export class PluginService {
     plugins: Array<plugin>;
     constructor() { }
-
+    /**
+     * TODO: Sorting, Filtering, Pageination + HTTP w/ backend API
+     * - either with different functions or params to the current getAll() func
+     */
     getAll() {
         this.plugins = plugins;
         return this.plugins;
