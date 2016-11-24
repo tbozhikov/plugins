@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PluginService } from '../../services/plugins.service';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
     moduleId: module.id,
