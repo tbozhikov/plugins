@@ -1,8 +1,9 @@
 // app
-import { HomeRoutes } from './home/home.routes';
-import { AboutRoutes } from './about/about.routes';
+import { Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { PluginComponent } from './plugin/plugin.component';
 
-export const routes: Array<any> = [
-  ...HomeRoutes,
-  ...AboutRoutes
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'plugin/:id', component: PluginComponent },
 ];

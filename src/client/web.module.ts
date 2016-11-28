@@ -18,6 +18,7 @@ import { AboutComponent } from './app/components/about/about.component';
 import { routes } from './app/components/app.routes';
 import { PluginService } from './app/services/plugins.service';
 import { SearchComponent } from './app/components/search/search.component';
+import { PluginComponent } from './app/components/plugin/plugin.component';
 // feature modules
 import { CoreModule } from './app/frameworks/core/core.module';
 import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
@@ -112,7 +113,8 @@ export function cons() {
     AppComponent,
     HomeComponent,
     AboutComponent,
-    SearchComponent
+    SearchComponent,
+    PluginComponent
   ],
   providers: [
     {
