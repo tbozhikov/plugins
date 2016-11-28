@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
     moduleId: module.id,
@@ -6,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: 'plugin.component.html'
 })
 export class PluginComponent implements OnInit {
-    constructor() { }
+    title: string;
+    constructor(private route: ActivatedRoute) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.route.params.forEach((params: Params) => {
+            this.title = params['id'];
+        });
+    }
 }
