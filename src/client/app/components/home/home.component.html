@@ -2,24 +2,7 @@
   {{'HEADING' | translate}}
 </p>
 <sd-search></sd-search>
-<!-- <div class="smile"></div>
-<div class="auth">
-  <div *ngIf="!current">
-    <button class="btn btn-primary btn-margin" (click)="login()">Auth0 Login</button>
-    <p>
-      Users can now login via Auth0.
-    </p>
-  </div>
-  <div *ngIf="current">
-    <button class="btn btn-primary btn-margin" (click)="logout()">LOGOUT</button>
-    <div class="profile">
-      <div style="text-decoration:underline;">Current User</div>
-      <div>Name: {{current?.name}}</div>
-      <div>Email: {{current?.email}}</div>
-      <div><img [src]="current?.picture" /></div>
-    </div>
-  </div>
-</div> -->
+
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -27,35 +10,23 @@
       <i class="fa fa-list bg" *ngIf="cardView == true" (click)="toggle()"></i>
     </div>
   </div>
-  <div class="row is-flex" *ngIf="cardView == true">
-    <div class="col-sm-3" *ngFor="let plugin of plugins">
-      <div class="plugin-box">
+  <div class="row is-flex">
+    <div [ngClass]="{'col-sm-3': cardView, 'col-xs-12': !cardView }" *ngFor="let plugin of plugins">
+      <div class="plugin-box" (click)="onSelect(plugin)">
         <div style="float: right"><i class="fa fa-star fa-lg"></i>{{plugin.stars}}</div>
         <h1>{{plugin.title}}</h1>
         <h3>{{plugin.author}}</h3>
-        <div class="fixed-height">
+        <div class="fixed-height" *ngIf="cardView == true">
           <p>{{plugin.description}}</p>
         </div>
-        <div *ngIf="plugin.ios" class="platform-icon"><i class="fa fa-apple fa-lg"></i></div>
-        <div *ngIf="plugin.android" class="platform-icon icon-space"><i class="fa fa-android fa-lg"></i></div>
+        <p *ngIf="cardView == false">{{plugin.description}}</p>
+        <div *ngIf="plugin.ios && cardView == true" class="platform-icon"><i class="fa fa-apple fa-lg"></i></div>
+        <div *ngIf="plugin.android && cardView == true" class="platform-icon icon-space"><i class="fa fa-android fa-lg"></i></div>
       </div>
       <div class="repo-box">
         <a href="{{plugin.repo}}" target="_blank">{{plugin.repo}}</a>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="cardView == false">
-    <div class="col-xs-12" *ngFor="let plugin of plugins">
-      <div class="plugin-box">
-        <div style="float: right"><i class="fa fa-star fa-lg"></i>{{plugin.stars}}</div>
-        <h1>{{plugin.title}}</h1>
-        <h3>{{plugin.author}}</h3>
-        <p>{{plugin.description}}</p>
-      </div>
-      <div class="repo-box">
-        <a href="{{plugin.repo}}" target="_blank">{{plugin.repo}}</a>
-        <div *ngIf="plugin.ios" class="platform-icon-line icon-space"><i class="fa fa-apple fa-lg"></i></div>
-        <div *ngIf="plugin.android" class="platform-icon-line"><i class="fa fa-android fa-lg"></i></div>
+        <div *ngIf="plugin.ios && cardView == false" class="platform-icon-line icon-space"><i class="fa fa-apple fa-lg"></i></div>
+        <div *ngIf="plugin.android && cardView == false" class="platform-icon-line"><i class="fa fa-android fa-lg"></i></div>
       </div>
     </div>
   </div>

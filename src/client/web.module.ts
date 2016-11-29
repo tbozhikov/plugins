@@ -15,7 +15,6 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 // app
 import { APP_COMPONENTS, AppComponent } from './app/components/index';
 import { routes } from './app/components/app.routes';
-import { SearchComponent } from './app/components/search/search.component';
 
 // feature modules
 import { CoreModule } from './app/frameworks/core/core.module';
@@ -106,6 +105,7 @@ export function cons() {
   ],
   declarations: [
     APP_COMPONENTS
+
   ],
   providers: [
     {

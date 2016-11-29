@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 // libs
 import { Store } from '@ngrx/store';
@@ -24,11 +25,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _sub: Subscription;
   plugins: Array<plugin>;
   cardView: boolean;
-  constructor(private store: Store<any>, private pluginService: PluginService) {
+  constructor(private store: Store<any>, private pluginService: PluginService, private router: Router) {
     this.plugins = this.pluginService.getAll();
     this.cardView = true;
   }
 
+  ngOnInit() {
+    this._sub = this.store.select('auth').subscribe((auth: IAuthState) => {
+      this.current = auth.current;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this._sub) this._sub.unsubscribe();
+  }
   public login() {
     this.store.dispatch(new authActions.LoginAction());
   }
@@ -41,13 +51,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.cardView = !this.cardView;
   }
 
-  ngOnInit() {
-    this._sub = this.store.select('auth').subscribe((auth: IAuthState) => {
-      this.current = auth.current;
-    });
-  }
-
-  ngOnDestroy() {
-    if (this._sub) this._sub.unsubscribe();
+  public onSelect(plugin: plugin) {
+    console.log('Click')
+    this.router.navigate(['/plugin', plugin.title]);
   }
 }
