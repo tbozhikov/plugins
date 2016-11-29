@@ -15,6 +15,15 @@ export class PluginService {
         return this.plugins;
     }
 
+    findPlugin(title: string) {
+        for (let plugin of plugins) {
+            if (plugin.title == title) {
+                return plugin;
+            }
+        }
+        return null;
+    }
+
     search(term: string) {
         if (term === '') {
             return Observable.of([]);
@@ -43,6 +52,7 @@ export declare class plugin {
     ios: boolean;
     android: boolean;
     repo: string;
+    readme: string;
 }
 
 var plugins: Array<plugin> = [
@@ -53,7 +63,8 @@ var plugins: Array<plugin> = [
         description: 'A sqlite Nativescript module for ios and android',
         ios: true,
         android: true,
-        repo: 'https://github.com/nathanael/sqlite'
+        repo: 'https://github.com/nathanael/sqlite',
+        readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
     },
     {
         title: 'Shimer',
@@ -62,7 +73,8 @@ var plugins: Array<plugin> = [
         description: 'Facebook shimer effect plugin',
         ios: true,
         android: true,
-        repo: 'https://github.com/walkerrunpdx/shimer'
+        repo: 'https://github.com/walkerrunpdx/shimer',
+        readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
     },
     {
         title: 'Orientation',
@@ -71,7 +83,8 @@ var plugins: Array<plugin> = [
         description: 'A sqlite Nativescript module for ios and android',
         ios: true,
         android: true,
-        repo: 'https://github.com/nathanael/sqlite'
+        repo: 'https://github.com/nathanael/sqlite',
+        readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
     },
     {
         title: 'CardView',
@@ -80,7 +93,8 @@ var plugins: Array<plugin> = [
         description: 'Facebook shimer effect plugin',
         ios: true,
         android: true,
-        repo: 'https://github.com/walkerrunpdx/shimer'
+        repo: 'https://github.com/walkerrunpdx/shimer',
+        readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
     },
     {
         title: 'SQLLite',
@@ -89,7 +103,8 @@ var plugins: Array<plugin> = [
         description: 'A sqlite Nativescript module for ios and android',
         ios: true,
         android: true,
-        repo: 'https://github.com/nathanael/sqlite'
+        repo: 'https://github.com/nathanael/sqlite',
+        readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
     },
     {
         title: 'Shimer',
@@ -98,6 +113,7 @@ var plugins: Array<plugin> = [
         description: 'Facebook shimer effect plugin',
         ios: true,
         android: true,
-        repo: 'https://github.com/walkerrunpdx/shimer'
+        repo: 'https://github.com/walkerrunpdx/shimer',
+        readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
     }
 ]
