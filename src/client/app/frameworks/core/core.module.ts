@@ -6,11 +6,8 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
 // app
-import { PlatformDirective } from './directives/platform.directive';
-import { ConsoleService } from './services/console.service';
-import { LogService } from './services/log.service';
-import { RouterExtensions } from './services/router-extensions';
-import { WindowService } from './services/window.service';
+import { CORE_DIRECTIVES } from './directives/index';
+import { CORE_PROVIDERS } from './services/index';
 
 interface ICoreModuleOptions {
   window?: any;
@@ -28,7 +25,7 @@ interface ICoreModuleOptions {
     HttpModule
   ],
   declarations: [
-    PlatformDirective
+    CORE_DIRECTIVES
   ],
   exports: [
     CommonModule,
@@ -36,13 +33,10 @@ interface ICoreModuleOptions {
     ReactiveFormsModule,
     RouterModule,
     HttpModule,
-    PlatformDirective
+    CORE_DIRECTIVES
   ],
   providers: [
-    ConsoleService,
-    LogService,
-    RouterExtensions,
-    WindowService
+    CORE_PROVIDERS
   ]
 })
 export class CoreModule {

@@ -12,7 +12,11 @@ import { t } from '../../test/index';
 import { LogService } from '../../core/index';
 import { CoreModule } from '../../core/core.module';
 import { AnalyticsModule } from '../../analytics/analytics.module';
-import { ModalService, MODAL_ACTIONS, modalReducer, ModalEffects, IModalOptions, IModalState } from './modal.service';
+import * as actions from '../actions/modal.action';
+import { ModalEffects } from '../effects/index';
+import { modalReducer } from '../reducers/index';
+import { IModalState, IModalOptions } from '../states/index';
+import { ModalService } from './modal.service';
 
 // test module configuration for each test
 const testModuleConfig = () => {
@@ -56,7 +60,7 @@ export function main() {
           title: 'Login with...'
         }
       };
-      store.dispatch({ type: MODAL_ACTIONS.OPEN, payload: options });
+      store.dispatch(new actions.OpenAction(options));
 
       t.tick();
       store.select('modal').take(1).subscribe((state: IModalState) => {
@@ -65,7 +69,7 @@ export function main() {
         t.e(state.title).toBe('Login with...');
       });
 
-      store.dispatch({ type: MODAL_ACTIONS.CLOSE });
+      store.dispatch(new actions.CloseAction({ resetState: true}));
 
       t.tick();
       store.select('modal').take(1).subscribe((state: IModalState) => {
@@ -81,16 +85,15 @@ export function main() {
         cmpType: 'TestComponent',  // can pass string for testing (in practice, must be valid component type)
         modalForceAction: true
       };
-      store.dispatch({ type: MODAL_ACTIONS.OPEN, payload: options });
+      store.dispatch(new actions.OpenAction(options));
 
       t.tick();
-      t.e(modalService.zipInProgress).toBe(true);
       t.e(modalService.modalForceAction).toBe(true);
       store.select('modal').take(1).subscribe((state: IModalState) => {
         t.e(state.open).toBe(true);
       });
 
-      store.dispatch({ type: MODAL_ACTIONS.CLOSE });
+      store.dispatch(new actions.CloseAction({ resetState: true}));
 
       t.tick();
       t.e(modalService.modalForceAction).toBe(false);

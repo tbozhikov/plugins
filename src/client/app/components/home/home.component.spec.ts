@@ -5,36 +5,44 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   BaseRequestOptions,
   ConnectionBackend,
-  Http
+  Http,
+  JsonpModule
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 // libs
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { t } from '../../frameworks/test/index';
 import { CoreModule } from '../../frameworks/core/core.module';
 import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
 import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
-import { authReducer, AuthEffects, AuthService, AUTH_LOCK } from '../../frameworks/progress/services/auth.service';
-import { AuthLockMock } from '../../frameworks/progress/testing/index';
+import { authReducer } from '../../frameworks/progress/reducers/index';
+import { AuthEffects } from '../../frameworks/progress/effects/index';
+import { AuthService, AUTH_LOCK } from '../../frameworks/progress/services/auth.service';
 import { StorageService } from '../../frameworks/progress/services/storage.service';
+import { PluginService } from '../../frameworks/progress/services/plugins.service';
+import { AuthLockMock } from '../../frameworks/progress/testing/index';
 import { HomeComponent } from './home.component';
+import { SearchComponent } from '../search/search.component';
 
 // test module configuration for each test
 const testModuleConfig = () => {
   TestBed.configureTestingModule({
     imports: [
-      CoreModule, RouterTestingModule, AnalyticsModule,
+      CoreModule, RouterTestingModule, AnalyticsModule, JsonpModule,
+      NgbModule.forRoot(),
       StoreModule.provideStore({ auth: authReducer }),
       EffectsModule.run(AuthEffects),
       MultilingualModule
     ],
-    declarations: [HomeComponent, TestComponent],
+    declarations: [HomeComponent, SearchComponent, TestComponent],
     providers: [
       AuthService,
       StorageService,
+      PluginService,
       { provide: AUTH_LOCK, useValue: AuthLockMock },
       BaseRequestOptions,
       MockBackend,
