@@ -11,59 +11,10 @@ import { LogService, WindowService } from '../../core/index';
 import { IUser, UserModel } from '../models/index';
 import { Tracking } from '../utils/index';
 import { StorageService } from './storage.service';
-
-const CATEGORY = Tracking.Categories.USERS;
+import * as actions from '../actions/auth.action';
 
 // Auth0 Lock
 export const AUTH_LOCK: OpaqueToken = new OpaqueToken('Auth0Lock');
-
-/**
- * ngrx start --
- */
-export interface IAuthState {
-  current?: IUser;
-}
-
-const initialState: IAuthState = {
-  current: null
-};
-
-interface IAUTH_ACTIONS {
-  INIT: string;
-  CHANGE: string;
-  UPDATED: string;
-  LOGIN: string;
-  LOGIN_SUCCESS: string;
-  LOGIN_FAILED: string;
-  LOGOUT: string;
-  REGISTER: string;
-}
-
-export const AUTH_ACTIONS: IAUTH_ACTIONS = {
-  INIT: `${CATEGORY}_INIT`,
-  CHANGE: `${CATEGORY}_CHANGE`,
-  UPDATED: `${CATEGORY}_UPDATED`,
-  LOGIN: `${CATEGORY}_LOGIN`,
-  LOGIN_SUCCESS: `${CATEGORY}_LOGIN_SUCCESS`,
-  LOGIN_FAILED: `${CATEGORY}_LOGIN_FAILED`,
-  LOGOUT: `${CATEGORY}_LOGOUT`,
-  REGISTER: `${CATEGORY}_REGISTER`
-};
-
-export const authReducer: ActionReducer<IAuthState> = (state: IAuthState = initialState, action: Action) => {
-  let changeState = () => {
-    return Object.assign({}, state, action.payload);
-  };
-  switch (action.type) {
-    case AUTH_ACTIONS.UPDATED:
-      return changeState();
-    default:
-      return state;
-  }
-};
-/**
- * ngrx end --
- */
 
 @Injectable()
 export class AuthService extends Analytics {
@@ -92,12 +43,10 @@ export class AuthService extends Analytics {
 
         profile.authIdToken = authResult.idToken;
         this.ngZone.run(() => {
-          this.store.dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: profile });
+          this.store.dispatch({ type: actions.ActionTypes.LOGIN_SUCCESS, payload: profile });
         });
       });
     });
-
-    this.store.dispatch({ type: AUTH_ACTIONS.INIT });
   }
 
   public login() {
@@ -116,11 +65,6 @@ export class AuthService extends Analytics {
   public authenticated() {
     // Check if there's an unexpired JWT
     return tokenNotExpired();
-  }
-
-  public loginSuccess(user: any) {
-    this.track(Tracking.Actions.LOGGED_IN, { label: user.email });
-    this.store.dispatch({ type: AUTH_ACTIONS.CHANGE, payload: user });
   }
 
   public set current(user: IUser) {
@@ -147,51 +91,4 @@ export class AuthService extends Analytics {
     }
     return null;
   }
-}
-
-@Injectable()
-export class AuthEffects {
-
-  @Effect() init$ = this.actions$
-    .ofType(AUTH_ACTIONS.INIT)
-    .map(action => {
-      this.log.debug(AUTH_ACTIONS.INIT);
-      let savedUser = this.authService.current;
-      return ({ type: AUTH_ACTIONS.CHANGE, payload: savedUser });
-    });
-
-  @Effect({ dispatch: false }) login$ = this.actions$
-    .ofType(AUTH_ACTIONS.LOGIN)
-    .do(action => {
-      this.authService.login();
-    });
-
-  @Effect({ dispatch: false }) loginSuccess$ = this.actions$
-    .ofType(AUTH_ACTIONS.LOGIN_SUCCESS)
-    .do(action => this.authService.loginSuccess(action.payload));
-
-  // @Effect({dispatch: false}) loginFailed$ = this.actions$
-  //   .ofType(AUTH_ACTIONS.LOGIN_FAILED)
-  //   .do(action => this.authService.loginFailed());
-
-  @Effect() authChange$ = this.actions$
-    .ofType(AUTH_ACTIONS.CHANGE)
-    .map(action => {
-      this.log.debug(AUTH_ACTIONS.CHANGE);
-      // persist user changes
-      this.authService.current = action.payload;
-      return ({ type: AUTH_ACTIONS.UPDATED, payload: { current: action.payload } });
-    });
-
-  @Effect() logout$ = this.actions$
-    .ofType(AUTH_ACTIONS.LOGOUT)
-    .map(action => {
-      this.log.debug(AUTH_ACTIONS.LOGOUT);
-      // analytics
-      let label = this.authService.current ? this.authService.current.email : 'Unavailable';
-      this.authService.track(Tracking.Actions.LOGGED_OUT, { label });
-      return ({ type: AUTH_ACTIONS.CHANGE, payload: null });
-    });
-
-  constructor(private store: Store<any>, private log: LogService, private actions$: Actions, private win: WindowService, private authService: AuthService) { }
 }

@@ -11,52 +11,8 @@ import { isString } from 'lodash';
 
 // app
 import { LogService } from '../../core/index';
+import * as actions from '../actions/modal.action';
 
-const CATEGORY: string = 'Modal';
-
-// ngrx setup
-export interface IModalState {
-  open: boolean;
-  cmpType?: any;
-  title?: string;
-}
-
-const initialState: IModalState = {
-  open: false
-};
-
-interface IMODAL_ACTIONS {
-  OPEN: string;
-  OPENED: string;
-  CLOSE: string;
-  CLOSED: string;
-}
-
-export const MODAL_ACTIONS: IMODAL_ACTIONS = {
-  OPEN: `${CATEGORY}_OPEN`,
-  OPENED: `${CATEGORY}_OPENED`,
-  CLOSE: `${CATEGORY}_CLOSE`,
-  CLOSED: `${CATEGORY}_CLOSED`
-};
-
-export function modalReducerFn(state: IModalState = initialState, action: Action) {
-  let changeState = () => {
-    return Object.assign({}, state, action.payload);
-  };
-  switch (action.type) {
-    case MODAL_ACTIONS.OPENED:
-      action.payload = { open: true, cmpType: action.payload.cmpType, title: action.payload.title };
-      return changeState();
-    case MODAL_ACTIONS.CLOSED:
-      action.payload = { open: false, cmpType: null, title: null };
-      return changeState();
-    default:
-      return state;
-  }
-};
-
-export const modalReducer: ActionReducer<IModalState> = modalReducerFn;
-// ngrx end
 
 export interface IModalOptions {
   cmpType: any;
@@ -76,7 +32,7 @@ export class ModalService {
 
     router.events.subscribe((e) => {
       if (e instanceof NavigationStart) {
-        this.store.dispatch({ type: MODAL_ACTIONS.CLOSE });
+        this.store.dispatch({ type: actions.ActionTypes.CLOSE });
       }
     });
   }
@@ -106,13 +62,13 @@ export class ModalService {
     }
     this.modalForceAction = options.modalForceAction;
 
-    this.store.dispatch({ type: MODAL_ACTIONS.OPENED, payload });
+    this.store.dispatch({ type: actions.ActionTypes.OPENED, payload });
   }
 
   public close(result?: any) {
     if (this._modalRef) {
       this._modalRef.close(result);
-      this.store.dispatch({ type: MODAL_ACTIONS.CLOSED });
+      this.store.dispatch({ type: actions.ActionTypes.CLOSED });
     }
   }
 
@@ -123,20 +79,6 @@ export class ModalService {
   private reset() {
     this.modalForceAction = false;
     this._modalRef = undefined;
-    this.store.dispatch({ type: MODAL_ACTIONS.CLOSED });
+    this.store.dispatch({ type: actions.ActionTypes.CLOSED });
   }
-}
-
-@Injectable()
-export class ModalEffects {
-
-  @Effect({dispatch: false}) open$ = this.actions$
-    .ofType(MODAL_ACTIONS.OPEN)
-    .do(action => this.modal.open(action.payload));
-
-  @Effect({dispatch: false}) close$ = this.actions$
-    .ofType(MODAL_ACTIONS.CLOSE)
-    .do(action => this.modal.close(action.payload));
-
-  constructor(private store: Store<any>, private actions$: Actions, private log: LogService, private modal: ModalService) { }
 }

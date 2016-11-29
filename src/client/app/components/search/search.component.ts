@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PluginService } from '../../services/plugins.service';
+
+// libs
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/debounceTime';
+
+// app
+import { PluginService } from '../../frameworks/progress/index';
 
 @Component({
     moduleId: module.id,

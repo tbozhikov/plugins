@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { PluginService, plugin } from '../../services/plugins.service';
+
 // libs
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 // app
-import { BaseComponent } from '../../frameworks/core/index';
-import { IUser } from '../../frameworks/progress/models/index';
-import { AUTH_ACTIONS, IAuthState } from '../../frameworks/progress/services/auth.service';
+import { BaseComponent, RouterExtensions } from '../../frameworks/core/index';
+import { IAppState } from '../../frameworks/ngrx/index';
+import { IAuthState, IUser, PluginService, plugin } from '../../frameworks/progress/index';
+import * as authActions from '../../frameworks/progress/actions/auth.action';
 
 @BaseComponent({
   moduleId: module.id,
@@ -27,11 +28,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public login() {
-    this.store.dispatch({ type: AUTH_ACTIONS.LOGIN });
+    this.store.dispatch(new authActions.LoginAction());
   }
 
   public logout() {
-    this.store.dispatch({ type: AUTH_ACTIONS.LOGOUT });
+    this.store.dispatch(new authActions.LogoutAction());
   }
 
   public toggle() {

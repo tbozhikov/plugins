@@ -17,9 +17,8 @@ import { t } from '../../frameworks/test/index';
 import { CoreModule } from '../../frameworks/core/core.module';
 import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
 import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
-import { authReducer, AuthEffects, AuthService, AUTH_LOCK } from '../../frameworks/progress/services/auth.service';
+import { authReducer, AuthEffects, AuthService, AUTH_LOCK, StorageService } from '../../frameworks/progress/index';
 import { AuthLockMock } from '../../frameworks/progress/testing/index';
-import { StorageService } from '../../frameworks/progress/services/storage.service';
 import { HomeComponent } from './home.component';
 
 // test module configuration for each test

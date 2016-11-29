@@ -3,28 +3,28 @@ import { NgModule } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { Http } from '@angular/http';
-import { JsonpModule } from '@angular/http';
+import { Http, JsonpModule } from '@angular/http';
+
 // libs
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader } from 'ng2-translate';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 // app
-import { AppComponent } from './app/components/app.component';
-import { HomeComponent } from './app/components/home/home.component';
-import { AboutComponent } from './app/components/about/about.component';
+import { APP_COMPONENTS, AppComponent } from './app/components/index';
 import { routes } from './app/components/app.routes';
-import { PluginService } from './app/services/plugins.service';
 import { SearchComponent } from './app/components/search/search.component';
+
 // feature modules
 import { CoreModule } from './app/frameworks/core/core.module';
+import { AppReducer } from './app/frameworks/ngrx/index';
 import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
-import { multilingualReducer, MultilingualEffects } from './app/frameworks/i18n/index';
 import { MultilingualModule, translateFactory } from './app/frameworks/i18n/multilingual.module';
+import { MultilingualEffects } from './app/frameworks/i18n/effects/index';
 import { LibsModule } from './libs.module';
-import { modalReducer, ModalEffects } from './app/frameworks/progress/index';
+import { AppConfig, AuthEffects, ModalEffects } from './app/frameworks/progress/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 
 // config
@@ -36,7 +36,6 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
 }
 
 // sample config (extra)
-import { AppConfig, authReducer, AuthEffects } from './app/frameworks/progress/index';
 import { MultilingualService } from './app/frameworks/i18n/services/multilingual.service';
 // custom i18n language support
 MultilingualService.SUPPORTED_LANGUAGES = AppConfig.SUPPORTED_LANGUAGES;
@@ -94,11 +93,7 @@ export function cons() {
       useFactory: (translateFactory)
     }]),
     ProgressModule,
-    StoreModule.provideStore({
-      auth: authReducer,
-      i18n: multilingualReducer,
-      modal: modalReducer
-    }),
+    StoreModule.provideStore(AppReducer),
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ModalEffects),
     EffectsModule.run(MultilingualEffects),
@@ -109,18 +104,14 @@ export function cons() {
     JsonpModule
   ],
   declarations: [
-    AppComponent,
-    HomeComponent,
-    AboutComponent,
-    SearchComponent
+    APP_COMPONENTS
   ],
   providers: [
     {
       provide: APP_BASE_HREF,
       useValue: '<%= APP_BASE %>'
     },
-    AUTH_PROVIDERS,
-    PluginService
+    AUTH_PROVIDERS
   ],
   bootstrap: [AppComponent]
 })
