@@ -58,10 +58,16 @@ export class ModalService {
     this.store.dispatch(new actions.OpenedAction(payload));
   }
 
-  public close(result?: any) {
-    if (this._modalRef) {
-      this._modalRef.close(result);
-      this.store.dispatch(new actions.ClosedAction());
+  public close(result?: actions.IClosePayload) {
+    if (this._modalRef || (result && result.resetState)) {
+      if (this._modalRef) {
+        this._modalRef.close(result);
+      }
+      if (result && result.resetState) {
+        this.reset();
+      } else {
+        this.store.dispatch(new actions.ClosedAction());
+      }
     }
   }
 

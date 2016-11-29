@@ -42,9 +42,13 @@ export class OpenedAction implements Action {
   constructor(public payload: IModalState) { }
 }
 
+export interface IClosePayload {
+  // force a state reset if needed whether a modal was previously open or not
+  resetState?: boolean;
+}
 export class CloseAction implements Action {
   type = ActionTypes.CLOSE;
-  constructor(public payload?: any) { }
+  constructor(public payload?: any | IClosePayload) { }
 }
 
 export class ClosedAction implements Action {

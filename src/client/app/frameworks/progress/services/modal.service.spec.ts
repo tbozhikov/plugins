@@ -52,7 +52,7 @@ export function main() {
       store = injector.get(Store);
     });
 
-    t.fit('open/close', t.fakeAsync(() => {
+    t.it('open/close', t.fakeAsync(() => {
 
       let options: IModalOptions = {
         cmpType: 'TestComponent',  // can pass string for testing (in practice, must be valid component type)
@@ -69,7 +69,7 @@ export function main() {
         t.e(state.title).toBe('Login with...');
       });
 
-      store.dispatch(new actions.CloseAction());
+      store.dispatch(new actions.CloseAction({ resetState: true}));
 
       t.tick();
       store.select('modal').take(1).subscribe((state: IModalState) => {
@@ -93,7 +93,7 @@ export function main() {
         t.e(state.open).toBe(true);
       });
 
-      store.dispatch(new actions.CloseAction());
+      store.dispatch(new actions.CloseAction({ resetState: true}));
 
       t.tick();
       t.e(modalService.modalForceAction).toBe(false);
