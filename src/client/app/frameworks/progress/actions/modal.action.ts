@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { type } from '../../core/utils/type';
 import { MODAL } from '../common/categories';
-import { IModalState } from '../states/modal.state';
+import { IModalState, IModalOptions } from '../states/modal.state';
 
 /**
  * For each action type in an action group, make a simple
@@ -34,7 +34,7 @@ export const ActionTypes: IModalActions = {
  */
 export class OpenAction implements Action {
   type = ActionTypes.OPEN;
-  constructor(public payload: IModalState) { }
+  constructor(public payload: IModalOptions) { }
 }
 
 export class OpenedAction implements Action {
@@ -44,12 +44,12 @@ export class OpenedAction implements Action {
 
 export class CloseAction implements Action {
   type = ActionTypes.CLOSE;
-  constructor(public payload: IModalState) { }
+  constructor(public payload?: any) { }
 }
 
 export class ClosedAction implements Action {
   type = ActionTypes.CLOSED;
-  constructor(public payload: IModalState) { }
+  payload: string = null;
 }
 
 /**

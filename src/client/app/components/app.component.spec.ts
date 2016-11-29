@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Route } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { t } from '../frameworks/test/index';
 import { TEST_CORE_PROVIDERS, TEST_HTTP_PROVIDERS } from '../frameworks/core/testing/index';
@@ -14,6 +15,7 @@ import { AuthLockMock } from '../frameworks/progress/testing/index';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
+import { SearchComponent } from './search/search.component';
 
 const config:Route[] = [
   {path: '', component: HomeComponent},
@@ -26,12 +28,14 @@ const testModuleConfig = () => {
     imports: [
       FormsModule,
       MultilingualModule,
+      NgbModule.forRoot(),
       StoreModule.provideStore({}),
       RouterTestingModule.withRoutes(config)
     ],
     declarations: [
       TestComponent, AppComponent,
       HomeComponent, AboutComponent,
+      SearchComponent,
       NavbarComponent, ToolbarComponent
     ],
     providers: [

@@ -40,6 +40,8 @@ import * as fromMultilingual from '../../i18n/index';
 /**
  * Progress
  */
+import * as progressReducers from '../../progress/reducers/index';
+import * as progressState from '../../progress/states/index';
 import * as fromProgress from '../../progress/index';
 
 /**
@@ -47,9 +49,9 @@ import * as fromProgress from '../../progress/index';
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface IAppState {
-  auth: fromProgress.IAuthState
+  auth: progressState.IAuthState
   i18n: fromMultilingual.IMultilingualState;
-  modal: fromProgress.IModalState;
+  modal: progressState.IModalState;
 };
 
 /**
@@ -60,9 +62,9 @@ export interface IAppState {
  * the result from right to left.
  */
 const reducers = {
-  auth: fromProgress.authReducer,
+  auth: progressReducers.authReducer,
   i18n: fromMultilingual.reducer,
-  modal: fromProgress.modalReducer
+  modal: progressReducers.modalReducer
 };
 
 const developmentReducer: ActionReducer<IAppState> = compose(storeFreeze, combineReducers)(reducers);

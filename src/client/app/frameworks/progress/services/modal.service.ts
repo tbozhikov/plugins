@@ -6,20 +6,13 @@ import { Router, NavigationStart } from '@angular/router';
 // libs
 import { Store, ActionReducer, Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-import { NgbModal, NgbModalRef, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { isString } from 'lodash';
 
 // app
 import { LogService } from '../../core/index';
 import * as actions from '../actions/modal.action';
-
-
-export interface IModalOptions {
-  cmpType: any;
-  props?: any;
-  modalOptions?: NgbModalOptions;
-  modalForceAction?: boolean;
-}
+import { IModalOptions } from '../states/index';
 
 @Injectable()
 export class ModalService {
@@ -32,7 +25,7 @@ export class ModalService {
 
     router.events.subscribe((e) => {
       if (e instanceof NavigationStart) {
-        this.store.dispatch({ type: actions.ActionTypes.CLOSE });
+        this.store.dispatch(new actions.CloseAction());
       }
     });
   }
@@ -62,13 +55,13 @@ export class ModalService {
     }
     this.modalForceAction = options.modalForceAction;
 
-    this.store.dispatch({ type: actions.ActionTypes.OPENED, payload });
+    this.store.dispatch(new actions.OpenedAction(payload));
   }
 
   public close(result?: any) {
     if (this._modalRef) {
       this._modalRef.close(result);
-      this.store.dispatch({ type: actions.ActionTypes.CLOSED });
+      this.store.dispatch(new actions.ClosedAction());
     }
   }
 
@@ -79,6 +72,6 @@ export class ModalService {
   private reset() {
     this.modalForceAction = false;
     this._modalRef = undefined;
-    this.store.dispatch({ type: actions.ActionTypes.CLOSED });
+    this.store.dispatch(new actions.ClosedAction());
   }
 }

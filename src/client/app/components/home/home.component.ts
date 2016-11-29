@@ -7,8 +7,10 @@ import { Subscription } from 'rxjs/Subscription';
 // app
 import { BaseComponent, RouterExtensions } from '../../frameworks/core/index';
 import { IAppState } from '../../frameworks/ngrx/index';
-import { IAuthState, IUser, PluginService, plugin } from '../../frameworks/progress/index';
+import { IUser } from '../../frameworks/progress/models/index';
+import { IAuthState } from '../../frameworks/progress/states/index';
 import * as authActions from '../../frameworks/progress/actions/auth.action';
+import { PluginService, plugin } from '../../frameworks/progress/services/plugins.service';
 
 @BaseComponent({
   moduleId: module.id,

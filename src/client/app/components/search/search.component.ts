@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 // app
-import { PluginService } from '../../frameworks/progress/index';
+import { PluginService } from '../../frameworks/progress/services/plugins.service';
 
 @Component({
     moduleId: module.id,

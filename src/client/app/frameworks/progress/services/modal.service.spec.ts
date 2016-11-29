@@ -15,8 +15,8 @@ import { AnalyticsModule } from '../../analytics/analytics.module';
 import * as actions from '../actions/modal.action';
 import { ModalEffects } from '../effects/index';
 import { modalReducer } from '../reducers/index';
-import { IModalState } from '../states/index';
-import { ModalService, IModalOptions } from './modal.service';
+import { IModalState, IModalOptions } from '../states/index';
+import { ModalService } from './modal.service';
 
 // test module configuration for each test
 const testModuleConfig = () => {
@@ -52,7 +52,7 @@ export function main() {
       store = injector.get(Store);
     });
 
-    t.it('open/close', t.fakeAsync(() => {
+    t.fit('open/close', t.fakeAsync(() => {
 
       let options: IModalOptions = {
         cmpType: 'TestComponent',  // can pass string for testing (in practice, must be valid component type)
@@ -60,7 +60,7 @@ export function main() {
           title: 'Login with...'
         }
       };
-      store.dispatch({ type: actions.ActionTypes.OPEN, payload: options });
+      store.dispatch(new actions.OpenAction(options));
 
       t.tick();
       store.select('modal').take(1).subscribe((state: IModalState) => {
@@ -69,7 +69,7 @@ export function main() {
         t.e(state.title).toBe('Login with...');
       });
 
-      store.dispatch({ type: actions.ActionTypes.CLOSE });
+      store.dispatch(new actions.CloseAction());
 
       t.tick();
       store.select('modal').take(1).subscribe((state: IModalState) => {
@@ -85,7 +85,7 @@ export function main() {
         cmpType: 'TestComponent',  // can pass string for testing (in practice, must be valid component type)
         modalForceAction: true
       };
-      store.dispatch({ type: actions.ActionTypes.OPEN, payload: options });
+      store.dispatch(new actions.OpenAction(options));
 
       t.tick();
       t.e(modalService.modalForceAction).toBe(true);
@@ -93,7 +93,7 @@ export function main() {
         t.e(state.open).toBe(true);
       });
 
-      store.dispatch({ type: actions.ActionTypes.CLOSE });
+      store.dispatch(new actions.CloseAction());
 
       t.tick();
       t.e(modalService.modalForceAction).toBe(false);
