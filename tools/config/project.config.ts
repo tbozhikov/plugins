@@ -39,6 +39,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
     if (!this.SYSTEM_CONFIG.map) this.SYSTEM_CONFIG.map = {};
     this.SYSTEM_CONFIG.map['angular2-jwt'] = `npm:angular2-jwt/angular2-jwt.js`;
     this.SYSTEM_CONFIG.map['@ng-bootstrap/ng-bootstrap'] = `npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap`;
+    this.SYSTEM_CONFIG.map['showdown'] = `npm:showdown/dist/showdown.min.js`;
 
     // debug tools
     this.SYSTEM_CONFIG['packages']['@ngrx/store-devtools'] = {
@@ -53,6 +54,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
     // prod
     this.SYSTEM_BUILDER_CONFIG.paths['angular2-jwt'] = `node_modules/angular2-jwt/angular2-jwt.js`;
     this.SYSTEM_BUILDER_CONFIG.paths['@ng-bootstrap/ng-bootstrap'] = `node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js`;
+    this.SYSTEM_BUILDER_CONFIG.paths['showdown'] = `node_modules/showdown/dist/showdown.min.js`;
 
     this.SYSTEM_BUILDER_CONFIG['packages']['@ngrx/store-devtools'] = {
       main: 'bundles/store-devtools.umd.js',
