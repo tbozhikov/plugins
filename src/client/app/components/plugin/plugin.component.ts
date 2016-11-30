@@ -6,7 +6,8 @@ import * as showdown from 'showdown';
 @Component({
     moduleId: module.id,
     selector: 'sd-detail',
-    templateUrl: 'plugin.component.html'
+    templateUrl: 'plugin.component.html',
+    styleUrls: ['plugin.component.css']
 })
 export class PluginComponent implements OnInit {
     Plugin: plugin;
