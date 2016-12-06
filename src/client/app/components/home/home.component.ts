@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 
 // libs
 import { Store } from '@ngrx/store';
@@ -25,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _sub: Subscription;
   plugins: Array<plugin>;
   cardView: boolean;
-  constructor(private store: Store<any>, private pluginService: PluginService, private router: Router) {
+  constructor(private store: Store<any>, private pluginService: PluginService, private router: RouterExtensions) {
     this.plugins = this.pluginService.getAll();
     this.cardView = true;
   }

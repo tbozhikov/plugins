@@ -1,6 +1,8 @@
+// libs
 import { Observable } from 'rxjs/Observable';
 // import { combineLatest } from 'rxjs/observable/combineLatest';
 import { ActionReducer } from '@ngrx/store';
+import '@ngrx/core/add/operator/select';
 
 /**
  * The compose function is one of our most handy tools. In basic terms, you give
@@ -85,5 +87,5 @@ export function getMultilingualState(state$: Observable<IAppState>) {
 //   return state$.select(s => s.sample);
 // }
 
-export const getLang = compose(fromMultilingual.getLang, getMultilingualState);
-// export const getNames = compose(fromSample.getNames, getNameListState);
+export const getLang: any = compose(fromMultilingual.getLang, getMultilingualState);
+// export const getNames: any = compose(fromSample.getNames, getNameListState);
