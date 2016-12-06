@@ -54,6 +54,7 @@ export interface IAppState {
   auth: progressState.IAuthState
   i18n: fromMultilingual.IMultilingualState;
   modal: progressState.IModalState;
+  plugin: progressState.IPluginState;
 };
 
 /**
@@ -66,7 +67,8 @@ export interface IAppState {
 const reducers = {
   auth: progressReducers.authReducer,
   i18n: fromMultilingual.reducer,
-  modal: progressReducers.modalReducer
+  modal: progressReducers.modalReducer,
+  plugin: progressReducers.pluginReducer
 };
 
 const developmentReducer: ActionReducer<IAppState> = compose(storeFreeze, combineReducers)(reducers);

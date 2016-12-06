@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Jsonp, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+
+import { LogService } from '../../core/services/log.service';
+import { StorageService } from './storage.service';
+import * as pluginActions from '../actions/plugin.action';
+import { PluginModel, IPlugin } from '../models/index';
+import { IPluginState } from '../states/index';
 
 @Injectable()
 export class PluginService {
-    plugins: Array<plugin>;
-    constructor(private _jsonp: Jsonp) { }
-    /**
-     * TODO: Sorting, Filtering, Pageination + HTTP w/ backend API
-     * - either with different functions or params to the current getAll() func
-     */
-    getAll() {
-        this.plugins = plugins;
-        return this.plugins;
-    }
 
-    findPlugin(title: string) {
-        for (let plugin of plugins) {
+    constructor(private store: Store<any>, private storage: StorageService, private log: LogService, private _jsonp: Jsonp) { }
+
+    findPlugin(title: string): Promise<any> {
+      return new Promise((resolve, reject) => {
+        this.store.select('plugin').take(1).subscribe((state: IPluginState) => {
+          for (let plugin of state.list) {
             if (plugin.title == title) {
-                return plugin;
+              resolve(plugin);
             }
-        }
-        return null;
+          }
+        });
+      });
     }
 
-    search(term: string) {
+    search(term: string):any {
         if (term === '') {
             return Observable.of([]);
         }
@@ -37,22 +39,28 @@ export class PluginService {
         params.set('callback', 'JSONP_CALLBACK');
 
         return this._jsonp
-            .get(wikiUrl, { search: params })
-            .map(response => <string[]>response.json()[1]);
+          .get(wikiUrl, { search: params })
+          .map(res => res.json())
+          .map(response => {
+
+            this.store.dispatch(new pluginActions.ChangedAction(response));
+          });
     }
 
+  public get cachedList(): Array<IPlugin> {
+    let plugins = pluginsMock;//this.storage.getItem(StorageService.KEYS.PLUGINS);
+    this.log.debug(`Cached plugins:`);
+    this.log.debug(plugins);
+    if (plugins) {
+      for (let i = 0; i < plugins.length; i++) {
+        plugins[i] = new PluginModel(plugins[i]);
+      }
+      return plugins;
+    }
+    return null;
+  }
 
-}
 
-export declare class plugin {
-    title: string;
-    author: string;
-    stars: number;
-    description: string;
-    ios: boolean;
-    android: boolean;
-    repo: string;
-    readme: string;
 }
 var ReadMe: string = `[![npm](https://img.shields.io/npm/v/nativescript-sqlite.svg)](https://www.npmjs.com/package/nativescript-sqlite)
 [![npm](https://img.shields.io/npm/dt/nativescript-sqlite.svg?label=npm%20downloads)](https://www.npmjs.com/package/nativescript-sqlite)
@@ -386,7 +394,7 @@ This rolls back a transaction, if this is a nested transaction; only the nested 
 * RETURNS promise
 This rolls back the entire transaction group; everything is cancelled.`;
 
-var plugins: Array<plugin> = [
+var pluginsMock: Array<IPlugin> = [
     {
         title: 'SQLLite',
         author: 'nathanael',

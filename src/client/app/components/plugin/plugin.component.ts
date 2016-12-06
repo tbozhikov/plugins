@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { PluginService, plugin } from '../../frameworks/progress/services/plugins.service';
+import { PluginService } from '../../frameworks/progress/services/plugins.service';
+import { IPlugin } from '../../frameworks/progress/models/index';
 import * as showdown from 'showdown';
 
 @Component({
@@ -10,7 +11,7 @@ import * as showdown from 'showdown';
     styleUrls: ['plugin.component.css']
 })
 export class PluginComponent implements OnInit {
-    Plugin: plugin;
+    Plugin: IPlugin;
     title: string;
     readme: string;
     constructor(private route: ActivatedRoute, private pluginService: PluginService) { }
@@ -18,9 +19,11 @@ export class PluginComponent implements OnInit {
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
             this.title = params['id'];
-            this.Plugin = this.pluginService.findPlugin(this.title);
-            let converter = new showdown.Converter();
-            this.readme = converter.makeHtml(this.Plugin.readme);
+            this.pluginService.findPlugin(this.title).then((plugin) => {
+              this.Plugin = plugin;
+              let converter = new showdown.Converter();
+              this.readme = converter.makeHtml(this.Plugin.readme);
+            })
         });
     }
 }

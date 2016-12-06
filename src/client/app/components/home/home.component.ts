@@ -3,14 +3,14 @@ import { ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 // libs
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 // app
 import { BaseComponent, RouterExtensions } from '../../frameworks/core/index';
 import { IAppState } from '../../frameworks/ngrx/index';
-import { IUser } from '../../frameworks/progress/models/index';
+import { IUser, IPlugin } from '../../frameworks/progress/models/index';
 import { IAuthState } from '../../frameworks/progress/states/index';
 import * as authActions from '../../frameworks/progress/actions/auth.action';
-import { PluginService, plugin } from '../../frameworks/progress/services/plugins.service';
 
 @BaseComponent({
   moduleId: module.id,
@@ -22,10 +22,10 @@ import { PluginService, plugin } from '../../frameworks/progress/services/plugin
 export class HomeComponent implements OnInit, OnDestroy {
   public current: IUser;
   private _sub: Subscription;
-  plugins: Array<plugin>;
+  plugins$: Observable<any>;
   cardView: boolean;
-  constructor(private store: Store<any>, private pluginService: PluginService, private router: RouterExtensions) {
-    this.plugins = this.pluginService.getAll();
+  constructor(private store: Store<any>, private router: RouterExtensions) {
+    this.plugins$ = store.select('plugin');
     this.cardView = true;
   }
 
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.cardView = !this.cardView;
   }
 
-  public onSelect(plugin: plugin) {
+  public onSelect(plugin: IPlugin) {
     console.log('Click')
     this.router.navigate(['/plugin', plugin.title]);
   }

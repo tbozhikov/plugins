@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { SeedAdvancedConfig } from './seed-advanced.config';
-// import { ExtendPackages } from './seed.config.interfaces';
+import { ExtendPackages } from './seed.config.interfaces';
 
 /**
  * This class extends the basic seed configuration, allowing for project specific overrides. A few examples can be found
@@ -38,58 +38,31 @@ export class ProjectConfig extends SeedAdvancedConfig {
     this.SYSTEM_CONFIG.paths['npm:'] = `node_modules/`;
     if (!this.SYSTEM_CONFIG.map) this.SYSTEM_CONFIG.map = {};
     this.SYSTEM_CONFIG.map['angular2-jwt'] = `npm:angular2-jwt/angular2-jwt.js`;
-    this.SYSTEM_CONFIG.map['@ng-bootstrap/ng-bootstrap'] = `npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap`;
-    this.SYSTEM_CONFIG.map['showdown'] = `npm:showdown/dist/showdown.min.js`;
-
-    // debug tools
-    this.SYSTEM_CONFIG['packages']['@ngrx/store-devtools'] = {
-      main: 'bundles/store-devtools.umd.js',
-      defaultExtension: 'js'
-    };
-    this.SYSTEM_CONFIG['packages']['@ngrx/store-log-monitor'] = {
-      main: 'bundles/store-log-monitor.umd.js',
-      defaultExtension: 'js'
-    };
 
     // prod
     this.SYSTEM_BUILDER_CONFIG.paths['angular2-jwt'] = `node_modules/angular2-jwt/angular2-jwt.js`;
-    this.SYSTEM_BUILDER_CONFIG.paths['@ng-bootstrap/ng-bootstrap'] = `node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js`;
-    this.SYSTEM_BUILDER_CONFIG.paths['showdown'] = `node_modules/showdown/dist/showdown.min.js`;
 
-    this.SYSTEM_BUILDER_CONFIG['packages']['@ngrx/store-devtools'] = {
-      main: 'bundles/store-devtools.umd.js',
-      defaultExtension: 'js'
-    };
-    this.SYSTEM_BUILDER_CONFIG['packages']['@ngrx/store-log-monitor'] = {
-      main: 'bundles/store-log-monitor.umd.js',
-      defaultExtension: 'js'
-    };
+    let additionalPackages: ExtendPackages[] = [];
 
-    // Add packages (e.g. lodash)
-    // lodash is already added with the advanced seed - here for example only
-    // let additionalPackages: ExtendPackages[] = [{
-    //   name: 'lodash',
-    //   path: `${this.APP_BASE}node_modules/lodash/lodash.js`,
-    //   packageMeta: {
-    //     main: 'index.js',
-    //     defaultExtension: 'js'
-    //   }
-    // }];
-    //
-    // or
-    //
-    // let additionalPackages: ExtendPackages[] = [];
-    //
-    // additionalPackages.push({
-    //   name: 'lodash',
-    //   path: `${this.APP_BASE}node_modules/lodash/lodash.js`,
-    //   packageMeta: {
-    //     main: 'index.js',
-    //     defaultExtension: 'js'
-    //   }
-    // });
-    //
-    // this.addPackagesBundles(additionalPackages);
+    additionalPackages.push(
+      {
+        name: '@ng-bootstrap/ng-bootstrap',
+        path: `${this.APP_BASE}node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js`,
+        packageMeta: {
+          main: 'bundles/ng-bootstrap.js',
+          defaultExtension: 'js'
+        }
+      },
+      {
+        name: 'showdown',
+        packageMeta: {
+          main: 'dist/showdown.min.js',
+          defaultExtension: 'js'
+        }
+      }
+    );
+
+    this.addPackagesBundles(additionalPackages);
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });

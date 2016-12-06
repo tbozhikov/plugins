@@ -24,7 +24,7 @@ import { MultilingualModule, translateFactory } from './app/frameworks/i18n/mult
 import { MultilingualEffects } from './app/frameworks/i18n/effects/index';
 import { LibsModule } from './libs.module';
 import { AppConfig } from './app/frameworks/progress/utils/index';
-import { AuthEffects, ModalEffects } from './app/frameworks/progress/effects/index';
+import { AuthEffects, ModalEffects, PluginEffects } from './app/frameworks/progress/effects/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 
 // config
@@ -97,6 +97,7 @@ export function cons() {
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ModalEffects),
     EffectsModule.run(MultilingualEffects),
+    EffectsModule.run(PluginEffects),
     // 3rd party lib module
     LibsModule,
     // dev tools (empty in production)

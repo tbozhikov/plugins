@@ -9,13 +9,15 @@ const PREFIX: string = 'tns-plugins';
 interface ISTORAGE_KEYS {
   USER: string;
   RECENT_USERNAME: string;
+  PLUGINS: string;
 }
 
 @Injectable()
 export class StorageService {
   public static KEYS: ISTORAGE_KEYS = {
     USER: `${PREFIX}-user`,
-    RECENT_USERNAME: `${PREFIX}-recent-username`
+    RECENT_USERNAME: `${PREFIX}-recent-username`,
+    PLUGINS: `${PREFIX}-plugins`
   };
   private _storageType: any;
 

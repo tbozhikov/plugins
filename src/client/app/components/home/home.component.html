@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="row is-flex">
-    <div [ngClass]="{'col-sm-3': cardView, 'col-xs-12': !cardView }" *ngFor="let plugin of plugins">
+    <div [ngClass]="{'col-sm-3': cardView, 'col-xs-12': !cardView }" *ngFor="let plugin of (plugins$ | async)?.list">
       <div class="plugin-box" (click)="onSelect(plugin)">
         <div style="float: right"><i class="fa fa-star fa-lg"></i>{{plugin.stars}}</div>
         <h1>{{plugin.title}}</h1>
