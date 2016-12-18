@@ -58,6 +58,7 @@ module.exports = function (config) {
       // Plugins site
       { pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/@ng-bootstrap/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/showdown/**/*.js', included: false, watched: false },
       // { pattern: 'node_modules/js-base64/**/*.js', included: false, watched: false },
       // { pattern: 'node_modules/base64-js/**/*.js', included: false, watched: false },
       // { pattern: 'node_modules/buffer/**/*.js', included: false, watched: false },

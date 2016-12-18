@@ -19,18 +19,19 @@ export class SearchComponent {
 
     constructor(private pluginsService: PluginService) { }
 
-    search = (text$: Observable<string>) =>
-        text$
-            .debounceTime(300)
-            .distinctUntilChanged()
-            .do(() => this.searching = true)
-            .switchMap(term =>
-                this.pluginsService.search(term)
-                    .do(() => this.searchFailed = false)
-                    .catch(() => {
-                        this.searchFailed = true;
-                        return Observable.of([]);
-                    }))
-            .do(() => this.searching = false);
+    public search(text$: Observable<string>) {
+      text$
+        .debounceTime(300)
+        .distinctUntilChanged()
+        .do(() => this.searching = true)
+        .switchMap(term =>
+          this.pluginsService.search(term)
+            .do(() => this.searchFailed = false)
+            .catch(() => {
+              this.searchFailed = true;
+              return Observable.of([]);
+            }))
+        .do(() => this.searching = false);
+    }
 
 }

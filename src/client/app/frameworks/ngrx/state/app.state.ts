@@ -51,7 +51,7 @@ import * as fromProgress from '../../progress/index';
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface IAppState {
-  auth: progressState.IAuthState
+  auth: progressState.IAuthState;
   i18n: fromMultilingual.IMultilingualState;
   modal: progressState.IModalState;
   plugin: progressState.IPluginState;

@@ -33,7 +33,7 @@ export function main() {
             fixture.detectChanges();
             let aboutDOMEl = fixture.debugElement.children[0].nativeElement;
 
-	          t.e(aboutDOMEl.querySelectorAll('p')[0].textContent.trim()).toEqual('WIP');
+            t.e(aboutDOMEl.querySelectorAll('p')[0].textContent.trim()).toEqual('WIP');
           });
       }));
   });

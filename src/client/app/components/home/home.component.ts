@@ -21,9 +21,9 @@ import * as authActions from '../../frameworks/progress/actions/auth.action';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public current: IUser;
+  public plugins$: Observable<any>;
+  public cardView: boolean;
   private _sub: Subscription;
-  plugins$: Observable<any>;
-  cardView: boolean;
   constructor(private store: Store<any>, private router: RouterExtensions) {
     this.plugins$ = store.select('plugin');
     this.cardView = true;
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public onSelect(plugin: IPlugin) {
-    console.log('Click')
+    console.log('Click');
     this.router.navigate(['/plugin', plugin.title]);
   }
 }

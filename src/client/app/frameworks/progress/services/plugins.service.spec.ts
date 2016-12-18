@@ -28,7 +28,7 @@ export function main() {
     });
 
     t.it('should return hardcoded values', () => {
-      t.e(pluginService.getAll()).toEqual(pluginService.plugins);
+      t.e(pluginService.cachedList.length).toBe(8);
     });
   });
 }

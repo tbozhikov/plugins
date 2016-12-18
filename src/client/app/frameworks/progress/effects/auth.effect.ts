@@ -35,7 +35,7 @@ export class AuthEffects {
     .map(action => {
       this.authService.track(Tracking.Actions.LOGGED_IN, { label: action.payload.email });
       return (new actions.ChangeAction(action.payload));
-    })
+    });
 
   @Effect({dispatch: false}) loginFailed$ = this.actions$
     .ofType(actions.ActionTypes.LOGIN_FAILED)

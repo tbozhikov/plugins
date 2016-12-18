@@ -23,7 +23,7 @@ export class PluginComponent implements OnInit {
               this.Plugin = plugin;
               let converter = new showdown.Converter();
               this.readme = converter.makeHtml(this.Plugin.readme);
-            })
+            });
         });
     }
 }
