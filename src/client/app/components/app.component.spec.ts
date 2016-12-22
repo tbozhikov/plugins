@@ -1,17 +1,24 @@
+// angular
 import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Route } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
+// libs
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+// app
 import { t } from '../frameworks/test/index';
 import { TEST_CORE_PROVIDERS, TEST_HTTP_PROVIDERS } from '../frameworks/core/testing/index';
 import { MultilingualModule } from '../frameworks/i18n/multilingual.module';
 import { NavbarComponent, ToolbarComponent } from '../frameworks/progress/components/index';
 import { AUTH_LOCK } from '../frameworks/progress/services/auth.service';
 import { AuthLockMock } from '../frameworks/progress/testing/index';
+import { reducer } from '../frameworks/i18n/index';
+
+// module
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
@@ -29,7 +36,7 @@ const testModuleConfig = () => {
       FormsModule,
       MultilingualModule,
       NgbModule.forRoot(),
-      StoreModule.provideStore({}),
+      StoreModule.provideStore({ i18n: reducer }),
       RouterTestingModule.withRoutes(config)
     ],
     declarations: [
