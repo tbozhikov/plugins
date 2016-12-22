@@ -50,8 +50,6 @@ export class PluginService {
 
   public get cachedList(): Array<IPlugin> {
     let plugins = pluginsMock;//this.storage.getItem(StorageService.KEYS.PLUGINS);
-    this.log.debug(`Cached plugins:`);
-    this.log.debug(plugins);
     if (plugins) {
       for (let i = 0; i < plugins.length; i++) {
         plugins[i] = new PluginModel(plugins[i]);

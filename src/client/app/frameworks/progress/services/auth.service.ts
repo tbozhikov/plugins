@@ -70,7 +70,7 @@ export class AuthService extends Analytics {
   public set current(user: IUser) {
     if (user) {
       // this.http.authToken = user.auth_token;
-      this.log.debug(user);
+      // this.log.debug(user);
       // persist to storage
       this.storage.setItem(StorageService.KEYS.USER, user);
       // this.storage.setItem(StorageService.KEYS.RECENT_USERNAME, user.email);
@@ -82,10 +82,10 @@ export class AuthService extends Analytics {
 
   public get current(): IUser {
     let auth = this.authenticated();
-    this.log.debug(`Current User token valid? ${auth}`);
+    // this.log.debug(`Current User token valid? ${auth}`);
     let value = this.storage.getItem(StorageService.KEYS.USER);
-    this.log.debug(`Current User stored:`);
-    this.log.debug(value);
+    // this.log.debug(`Current User stored:`);
+    // this.log.debug(value);
     if (value) {
       return new UserModel(value);
     }

@@ -24,7 +24,6 @@ import { AnalyticsModule } from './app/frameworks/analytics/analytics.module';
 import { MultilingualModule, translateFactory } from './app/frameworks/i18n/multilingual.module';
 import { MultilingualEffects } from './app/frameworks/i18n/effects/index';
 import { LibsModule } from './libs.module';
-import { AppConfig } from './app/frameworks/progress/utils/index';
 import { AuthEffects, ModalEffects, PluginEffects } from './app/frameworks/progress/effects/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 

@@ -18,7 +18,6 @@ export class PluginEffects {
     .ofType(actions.ActionTypes.INIT)
     .startWith(new actions.InitAction())
     .map(action => {
-      this.log.debug(actions.ActionTypes.INIT);
       let cachedList = this.pluginService.cachedList;
       return (new actions.ChangedAction(cachedList));
     });

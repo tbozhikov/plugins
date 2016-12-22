@@ -19,7 +19,6 @@ export class AuthEffects {
     .ofType(actions.ActionTypes.INIT)
     .startWith(new actions.InitAction())
     .map(action => {
-      this.log.debug(actions.ActionTypes.INIT);
       let savedUser = this.authService.current;
       return (new actions.ChangeAction(savedUser));
     });
