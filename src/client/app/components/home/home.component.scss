@@ -1,6 +1,5 @@
 :host {
   display: block;
-  padding: 0 16px;
 }
 
 input {
@@ -131,4 +130,20 @@ a.link:hover {
 }
 .bg {
   font-size: 24px;
+}
+.search-container {
+  background-color: #042733;
+  width: 100%;
+  padding: 0 20px;
+}
+.pre-card {
+  height: 50px;
+  padding-top: 16px;
+}
+.icon {
+  float: left;
+  padding-right: 20px;
+}
+.viewing {
+  margin-top:-2px;
 }
