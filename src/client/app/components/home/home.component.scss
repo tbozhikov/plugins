@@ -20,16 +20,6 @@ h3 {
   font-weight: lighter;
   font-size: 20px;
 }
-.smile {
-  background: url("./assets/svg/smile.svg");
-  height: 48px;
-  width: 48px;
-  display: inline-block;
-  transform: scale(0.6);
-  margin-top: -25px;
-  position: relative;
-  top: 16px;
-}
 
 .auth {
   margin: 20px auto;
@@ -75,11 +65,6 @@ a.link:hover {
     flex-direction: column;
 }
 
-/*
-* And with max cross-browser enabled.
-* Nobody should ever write this by hand. 
-* Use a preprocesser with autoprefixing.
-*/
 .row.is-flex {
     display: -webkit-box;
     display: -webkit-flex;
@@ -139,6 +124,9 @@ a.link:hover {
 .pre-card {
   height: 50px;
   padding-top: 16px;
+  i {
+    color: #3d5afe;
+  }
 }
 .icon {
   float: left;
@@ -146,4 +134,10 @@ a.link:hover {
 }
 .viewing {
   margin-top:-2px;
+}
+.highlight {
+  border-left: #00caab;
+  border-left-style: solid;
+  margin-left: -10px;
+  padding-left: 10px;
 }
