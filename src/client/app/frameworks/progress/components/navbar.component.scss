@@ -1,7 +1,4 @@
 :host {
-  border-color: #e1e1e1;
-  border-style: solid;
-  border-width: 0 0 1px;
   display: block;
   height: 48px;
   padding: 0 16px;
@@ -9,7 +6,7 @@
 
 nav a {
   color: #8f8f8f;
-  font-size: 14px;
+  font-size: 16;
   font-weight: 500;
   line-height: 48px;
   margin-right: 20px;
@@ -20,4 +17,10 @@ nav a {
 
 nav a.router-link-active {
   color: #106cc8;
+}
+a {
+	font-family: Consolas,monaco,monospace;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
 }
