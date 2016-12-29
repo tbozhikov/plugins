@@ -25,7 +25,7 @@
         <div *ngIf="plugin.android && cardView == true" class="platform-icon icon-space"><i class="fa fa-android fa-lg"></i></div>
       </div>
       <div class="repo-box">
-        <a href="{{plugin.repo}}" target="_blank">{{plugin.repo}}</a>
+        <i class="fa-li fa fa-external-link"></i><a href="{{plugin.repo}}" target="_blank">{{plugin.repo | urlShorten}}</a>
         <div *ngIf="plugin.ios && cardView == false" class="platform-icon-line icon-space"><i class="fa fa-apple fa-lg"></i></div>
         <div *ngIf="plugin.android && cardView == false" class="platform-icon-line"><i class="fa fa-android fa-lg"></i></div>
       </div>

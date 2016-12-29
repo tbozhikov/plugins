@@ -27,6 +27,9 @@ import { LibsModule } from './libs.module';
 import { AuthEffects, ModalEffects, PluginEffects } from './app/frameworks/progress/effects/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 
+// pipes 
+import { urlShortenPipe } from './app/pipes/url-shorten.pipe';
+
 // config
 import { Config, WindowService, ConsoleService } from './app/frameworks/core/index';
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
@@ -36,7 +39,7 @@ let routerModule = RouterModule.forRoot(routes);
 if (String('<%= TARGET_DESKTOP %>') === 'true') {
   Config.PLATFORM_TARGET = Config.PLATFORMS.DESKTOP;
   // desktop (electron) must use hash
-  routerModule = RouterModule.forRoot(routes, {useHash: true});
+  routerModule = RouterModule.forRoot(routes, { useHash: true });
 }
 
 // dev tools (only used during development - not included in production)
@@ -46,7 +49,7 @@ if (String('<%= BUILD_TYPE %>') !== 'prod') {
 
   let devTools = require('@ngrx/store-devtools').StoreDevtoolsModule;
   DEV_TOOLS_EXPORT.push(devTools);
-// import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
+  // import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
   DEV_TOOLS = [
     devTools.instrumentOnlyWithExtension()
     // StoreDevtoolsModule.instrumentStore({
@@ -97,8 +100,8 @@ export function cons() {
     JsonpModule
   ],
   declarations: [
-    APP_COMPONENTS
-
+    APP_COMPONENTS,
+    urlShortenPipe
   ],
   providers: [
     {

@@ -32,8 +32,15 @@ h3 {
   }
 }
 
+.repo-box a {
+  color: #006968;
+  position: absolute;
+}
+.repo-box i {
+  position: static;
+}
 a.link {
-  color: #00e;
+  color: #006968;
   cursor: pointer;
   text-decoration: underline;
 }
@@ -43,7 +50,7 @@ a.link:hover {
 }
 
 .plugin-box {
-  border: 1px solid rgba(204, 204, 204, 1);
+  border-left: 1px solid #b1b8bc;
   padding: 10px;
 }
 .row {
@@ -88,6 +95,7 @@ a.link:hover {
 }
 .platform-icon {
   float: left;
+  color: #b1b8bc;
 }
 .platform-icon-line {
   float: right;
@@ -97,12 +105,10 @@ a.link:hover {
   margin-right: 5px;
 }
 .fa-star {
-  color: #106cc8;
+  color: #3d5afe;
 }
 .repo-box {
-  background-color: rgba(242, 242, 242, 1);
-  border: 1px solid rgba(204, 204, 204, 1);
-  border-top: none;
+  border-left: 1px solid #b1b8bc;
   height: 3em;
   padding-top: 0.7em;
   padding-left: 10px;
