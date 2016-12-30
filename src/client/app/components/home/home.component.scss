@@ -1,3 +1,5 @@
+@import '../../../assets/fonts/Geomanist/Regular/stylesheet.css';
+
 :host {
   display: block;
 }
@@ -12,13 +14,27 @@ ul {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 20px;
   margin-top: 0px;
+  font-family: geomanistregular;
+  font-weight: normal;
+}
+h2 {
+  font-size: 20px;
+  margin-top: 0px;
+  font-family: geomanistregular;
+  font-color: #000;
 }
 h3 {
   margin-top: -5px;
   font-weight: lighter;
-  font-size: 20px;
+  font-family: geomanistregular;
+  font-size: 15px;
+}
+
+p {
+    font-family: geomanistregular;
+    font-size: 18px;
 }
 
 .auth {
@@ -50,7 +66,7 @@ a.link:hover {
 }
 
 .plugin-box {
-  border-left: 1px solid #b1b8bc;
+  border-left: 1px solid #e8e8e8;
   padding: 10px;
 }
 .row {
@@ -108,7 +124,7 @@ a.link:hover {
   color: #3d5afe;
 }
 .repo-box {
-  border-left: 1px solid #b1b8bc;
+  border-left: 1px solid #e8e8e8;
   height: 3em;
   padding-top: 0.7em;
   padding-left: 10px;
@@ -146,4 +162,8 @@ a.link:hover {
   border-left-style: solid;
   margin-left: -10px;
   padding-left: 10px;
+}
+.contain {
+  padding-left: 20px;
+  padding-right: 20px;
 }
