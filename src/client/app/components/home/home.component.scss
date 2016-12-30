@@ -14,10 +14,10 @@ ul {
 }
 
 h1 {
-  font-size: 20px;
+  font-size: 24px;
   margin-top: 0px;
   font-family: geomanistregular;
-  font-weight: normal;
+  font-weight: bold;
 }
 h2 {
   font-size: 20px;
@@ -26,10 +26,11 @@ h2 {
   color: #000;
 }
 h3 {
-  margin-top: -5px;
+  margin-top: -8px;
   font-weight: lighter;
   font-family: geomanistregular;
   font-size: 15px;
+  color: #b1b8bc;
 }
 
 p {
@@ -50,6 +51,7 @@ p {
 
 .repo-box a {
   color: #006968;
+  font-family: geomanistregular;
   position: absolute;
 }
 .repo-box i {
@@ -166,4 +168,8 @@ a.link:hover {
 .contain {
   padding-left: 20px;
   padding-right: 20px;
+}
+.stars {
+  float: right;
+  margin-left: 5px;
 }

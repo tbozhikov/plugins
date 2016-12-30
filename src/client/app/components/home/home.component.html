@@ -12,7 +12,7 @@
   <div class="row is-flex">
     <div [ngClass]="{'col-sm-3': cardView, 'col-xs-12': !cardView }" *ngFor="let plugin of (plugins$ | async)?.list">
       <div class="plugin-box" (click)="onSelect(plugin)">
-        <div style="float: right"><i class="fa fa-star-o fa-lg"></i><h2>{{plugin.stars}}</h2></div>
+        <div style="float: right"><i class="fa fa-star-o fa-lg"></i><h2 class="stars">{{plugin.stars}}</h2></div>
         <div class="highlight">
           <h1>{{plugin.title}}</h1>
           <h3>{{plugin.author}}</h3>
