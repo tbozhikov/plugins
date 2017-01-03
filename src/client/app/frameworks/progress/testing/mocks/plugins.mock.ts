@@ -336,7 +336,7 @@ export const pluginsMock: Array<IPlugin> = [
   {
     title: 'SQLLite',
     author: 'nathanael',
-    stars: 5,
+    stars: 18,
     description: 'A sqlite Nativescript module for ios and android',
     ios: true,
     android: true,
@@ -346,7 +346,7 @@ export const pluginsMock: Array<IPlugin> = [
   {
     title: 'Shimer',
     author: 'walkerrunpdx',
-    stars: 5,
+    stars: 210,
     description: 'Facebook shimer effect plugin',
     ios: true,
     android: true,
@@ -356,7 +356,7 @@ export const pluginsMock: Array<IPlugin> = [
   {
     title: 'Orientation',
     author: 'nathanael',
-    stars: 5,
+    stars: 122,
     description: 'A sqlite Nativescript module for ios and android',
     ios: true,
     android: true,
@@ -366,7 +366,7 @@ export const pluginsMock: Array<IPlugin> = [
   {
     title: 'CardView',
     author: 'walkerrunpdx',
-    stars: 5,
+    stars: 9,
     description: 'Facebook shimer effect plugin',
     ios: true,
     android: true,
@@ -376,7 +376,7 @@ export const pluginsMock: Array<IPlugin> = [
   {
     title: 'SQLLite',
     author: 'nathanael',
-    stars: 5,
+    stars: 26,
     description: 'A sqlite Nativescript module for ios and android',
     ios: true,
     android: true,
@@ -386,7 +386,7 @@ export const pluginsMock: Array<IPlugin> = [
   {
     title: 'Shimer',
     author: 'walkerrunpdx',
-    stars: 5,
+    stars: 128,
     description: 'Facebook shimer effect plugin',
     ios: true,
     android: true,
