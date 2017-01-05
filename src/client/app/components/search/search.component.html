@@ -1,7 +1,8 @@
 <div class="form-group" [class.has-danger]="searchFailed">
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
-    <input type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" placeholder="Search" />
+    <!--<input type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" placeholder="Search" />-->
+    <input type="text" class="form-control" [(ngModel)]="model" placeholder="Search" />
   </div>
   <span *ngIf="searching">searching...</span>
   <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>

@@ -11,13 +11,13 @@ import { TranslateModule, TranslateStaticLoader } from 'ng2-translate';
 // app
 import { Config } from '../core/index';
 
-// module
+// moduleg
 import { LangSwitcherComponent } from './components/index';
 import { MultilingualService } from './services/index';
 
 // for AoT compilation
 export function translateFactory(http: Http) {
-  return new TranslateStaticLoader(http, `${Config.IS_MOBILE_NATIVE() ? '/' : ''}assets/i18n`, '.json');
+  return new TranslateStaticLoader(http, `/assets/i18n`, '.json');
 };
 
 /**
