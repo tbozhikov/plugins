@@ -1,5 +1,5 @@
 // angular
-import { ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 // any operators needed throughout your application
 import './operators';
 
@@ -9,12 +9,12 @@ import { ConfigService } from 'ng2-config';
 // app
 import { AnalyticsService } from '../frameworks/analytics/index';
 import { MultilingualService } from '../frameworks/i18n/index';
-import { BaseComponent, Config, LogService } from '../frameworks/core/index';
+import { Config, LogService } from '../frameworks/core/index';
 
 /**
  * This class represents the main application component.
  */
-@BaseComponent({
+@Component({
   moduleId: module.id,
   selector: 'sd-app',
   templateUrl: 'app.component.html',

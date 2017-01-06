@@ -24,7 +24,7 @@ export = () => {
     join(Config.APP_SRC, '**'),
     '!' + join(Config.APP_SRC, 'tsconfig.json'),
     '!' + join(Config.APP_SRC, '**', '*.ts'),
-    '!' + join(Config.APP_SRC, '**', '*.css'),
+    // '!' + join(Config.APP_SRC, '**', '*.css'),
     '!' + join(Config.APP_SRC, '**', '*.html'),
     '!' + join(Config.APP_SRC, '**', '*.scss'),
     '!' + join(Config.APP_SRC, '**', '*.sass'),

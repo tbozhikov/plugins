@@ -1,7 +1,7 @@
-import { Injector } from '@angular/core';
-import { BaseComponent, Config } from '../../frameworks/core/index';
+import { Component, Injector } from '@angular/core';
+import { Config } from '../../frameworks/core/index';
 
-@BaseComponent({
+@Component({
   moduleId: module.id,
   selector: 'sd-about',
   templateUrl: 'about.component.html',

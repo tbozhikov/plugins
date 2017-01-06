@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 
 // libs
 import { Store } from '@ngrx/store';
@@ -6,13 +6,13 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 // app
-import { BaseComponent, RouterExtensions } from '../../frameworks/core/index';
+import { RouterExtensions } from '../../frameworks/core/index';
 import { IAppState } from '../../frameworks/ngrx/index';
 import { IUser, IPlugin } from '../../frameworks/progress/models/index';
 import { IAuthState } from '../../frameworks/progress/states/index';
 import * as authActions from '../../frameworks/progress/actions/auth.action';
 
-@BaseComponent({
+@Component({
   moduleId: module.id,
   selector: 'sd-home',
   templateUrl: 'home.component.html',

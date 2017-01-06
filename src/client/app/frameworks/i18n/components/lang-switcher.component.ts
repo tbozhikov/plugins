@@ -1,17 +1,17 @@
 // angular
-import { OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // libs
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 // app
-import { BaseComponent, Config, LogService, ILang } from '../../core/index';
+import { Config, LogService, ILang } from '../../core/index';
 import { IAppState } from '../../ngrx/index';
 import { ElectronEventService } from '../../electron/index';
 import * as multilingual from '../index';
 
-@BaseComponent({
+@Component({
   moduleId: module.id,
   selector: 'lang-switcher',
   templateUrl: 'lang-switcher.component.html',
