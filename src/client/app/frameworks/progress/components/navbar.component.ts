@@ -1,7 +1,8 @@
+import { Component } from '@angular/core';
 // app
 import { BaseComponent } from '../../core/index';
 
-@BaseComponent({
+@Component({
   moduleId: module.id,
   selector: 'sd-navbar',
   templateUrl: 'navbar.component.html',

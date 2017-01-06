@@ -1,7 +1,8 @@
+import { Component } from '@angular/core';
 // app
-import { BaseComponent, LogService } from '../../core/index';
+import { LogService } from '../../core/index';
 
-@BaseComponent({
+@Component({
   moduleId: module.id,
   selector: 'sd-toolbar',
   templateUrl: 'toolbar.component.html',
