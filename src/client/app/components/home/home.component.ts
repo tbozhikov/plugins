@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public current: IUser;
   public plugins$: Observable<any>;
   public cardView: boolean;
+  public sideBar: boolean;
   private _sub: Subscription;
   constructor(private store: Store<any>, private router: RouterExtensions) {
     this.plugins$ = store.select('plugin');
@@ -46,8 +47,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new authActions.LogoutAction());
   }
 
-  public toggle() {
+  public toggleCard() {
     this.cardView = !this.cardView;
+  }
+
+  public toggleSideBar() {
+    this.sideBar = !this.sideBar;
   }
 
   public onSelect(plugin: IPlugin) {

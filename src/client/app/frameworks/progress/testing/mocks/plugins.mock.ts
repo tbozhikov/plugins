@@ -392,5 +392,65 @@ export const pluginsMock: Array<IPlugin> = [
     android: true,
     repo: 'https://github.com/walkerrunpdx/shimer',
     readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
+  },
+  {
+    title: 'SQLLite',
+    author: 'nathanael',
+    stars: 18,
+    description: 'A sqlite Nativescript module for ios and android',
+    ios: true,
+    android: true,
+    repo: 'https://github.com/nathanael/sqlite',
+    readme: ReadMe
+  },
+  {
+    title: 'Shimer',
+    author: 'walkerrunpdx',
+    stars: 210,
+    description: 'Facebook shimer effect plugin',
+    ios: true,
+    android: true,
+    repo: 'https://github.com/walkerrunpdx/shimer',
+    readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
+  },
+  {
+    title: 'Orientation',
+    author: 'nathanael',
+    stars: 122,
+    description: 'A sqlite Nativescript module for ios and android',
+    ios: true,
+    android: true,
+    repo: 'https://github.com/nathanael/sqlite',
+    readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
+  },
+  {
+    title: 'CardView',
+    author: 'walkerrunpdx',
+    stars: 9,
+    description: 'Facebook shimer effect plugin',
+    ios: true,
+    android: true,
+    repo: 'https://github.com/walkerrunpdx/shimer',
+    readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
+  },
+  {
+    title: 'SQLLite',
+    author: 'nathanael',
+    stars: 26,
+    description: 'A sqlite Nativescript module for ios and android',
+    ios: true,
+    android: true,
+    repo: 'https://github.com/nathanael/sqlite',
+    readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
+  },
+  {
+    title: 'Shimer',
+    author: 'walkerrunpdx',
+    stars: 128,
+    description: 'Facebook shimer effect plugin',
+    ios: true,
+    android: true,
+    repo: 'https://github.com/walkerrunpdx/shimer',
+    readme: 'This is a `.md` [demo](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) string.'
   }
 ];
