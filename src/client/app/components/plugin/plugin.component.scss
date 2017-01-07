@@ -2,3 +2,47 @@
     float: left;
     padding-right: 10px;
 }
+.detail {
+    padding-top: 100px;
+    width: 80vw;
+}
+.search-container {
+  background-color: #042733;
+  width: 100%;
+  padding: 0 20px;
+  position: fixed;
+  margin-top: 48px;
+  z-index: 3;
+}
+h1 {
+  font-size: 28px;
+  font-family: geomanistregular;
+  font-weight: bold;
+  color: #000;
+}
+h3 {
+    font-size: 18px;
+    font-family: geomanistregular;
+    color: #455b66;
+}
+.sidebar {
+    border-left: 2px solid #e8e8e8;
+    position: fixed;
+    width: 20vw;
+    margin-left: 80vw;
+    padding-top: 100px;
+    padding-left: 20px;
+    height: 100%;
+}
+.install {
+    background-color: #00caab;
+    margin-left: -20px;
+    padding-left: 20px;
+    padding-top: 1px;
+    margin-top: 20px;
+    padding-bottom: 10px;
+
+    h3 {
+        color: white;
+    }
+}
