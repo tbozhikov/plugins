@@ -6,6 +6,7 @@ import { Jsonp, URLSearchParams } from '@angular/http';
 import { ConfigService } from 'ng2-config';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { uniqBy, orderBy } from 'lodash';
 
 // app
 import { Analytics, AnalyticsService } from '../../analytics/index';
@@ -29,11 +30,11 @@ export class PluginService extends Analytics {
     super(analytics);
   }
 
-  public findPlugin(title: string): Promise<any> {
+  public findPlugin(id: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.store.select('plugin').take(1).subscribe((state: IPluginState) => {
         for (let plugin of state.list) {
-          if (plugin.title === title) {
+          if (plugin.id === id) {
             resolve(plugin);
           }
         }
@@ -65,18 +66,24 @@ export class PluginService extends Analytics {
   public get cachedList(): Array<IPlugin | any> {
     let plugins = this.storage.getItem(StorageService.KEYS.PLUGINS);
     if (plugins) {
-      return this.modelize(plugins);
+      return this.serialize(plugins);
     } else {
       return null;
     }
   }
 
   public set cachedList(list: Array<IPlugin | any>) {
-    this.storage.setItem(StorageService.KEYS.PLUGINS, list);
-    this.modelize(list);
+    this.store.select('plugin').take(1).subscribe((s: IPluginState) => {
+      if (s.list && s.list.length) {
+        // ensure uniqueness of list and order it
+        list = orderBy(uniqBy(s.list.concat(list), (item: IPlugin) => item.id), [s.orderBy], [s.order]);
+      }
+      this.storage.setItem(StorageService.KEYS.PLUGINS, list);
+      this.serialize(list);
+    });
   }
 
-  private modelize(list: Array<any>): Array<PluginModel> {
+  private serialize(list: Array<any>): Array<PluginModel> {
     for (let i = 0; i < list.length; i++) {
       list[i] = new PluginModel(list[i]);
     }

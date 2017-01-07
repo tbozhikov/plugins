@@ -9,6 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/let';
+import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/of';
 
 // ngrx

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // libs
 import { Store } from '@ngrx/store';
@@ -9,35 +9,46 @@ import { Observable } from 'rxjs/Observable';
 import { RouterExtensions } from '../../frameworks/core/index';
 import { IAppState } from '../../frameworks/ngrx/index';
 import { IUser, IPlugin } from '../../frameworks/progress/models/index';
-import { IAuthState } from '../../frameworks/progress/states/index';
+import { IAuthState, IPluginState } from '../../frameworks/progress/states/index';
 import * as authActions from '../../frameworks/progress/actions/auth.action';
+import * as pluginActions from '../../frameworks/progress/actions/plugin.action';
 
 @Component({
   moduleId: module.id,
   selector: 'sd-home',
   templateUrl: 'home.component.html',
-  styleUrls: ['home.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public current: IUser;
-  public plugins$: Observable<any>;
+  public plugins: Array<IPlugin> = [];
   public cardView: boolean;
   public sideBar: boolean;
-  private _sub: Subscription;
+  private _subs: Array<Subscription>;
   constructor(private store: Store<any>, private router: RouterExtensions) {
-    this.plugins$ = store.select('plugin');
+    this._subs = [];
+    // ensure no plugin is selected
+    this.store.dispatch(new pluginActions.ViewDetailAction(null));
     this.cardView = true;
   }
 
   ngOnInit() {
-    this._sub = this.store.select('auth').subscribe((auth: IAuthState) => {
+    this._subs.push(this.store.select('auth').subscribe((auth: IAuthState) => {
       this.current = auth.current;
-    });
+    }));
+    this._subs.push(this.store.select('plugin').subscribe((s: IPluginState) => {
+      this.plugins = s.list;
+
+      if (s.selected) {
+        this.router.navigate(['/plugin', s.selected.id]);
+      }
+    }));
   }
 
   ngOnDestroy() {
-    if (this._sub) this._sub.unsubscribe();
+    for (let sub of this._subs) {
+      sub.unsubscribe();
+    }
   }
   public login() {
     this.store.dispatch(new authActions.LoginAction());
@@ -57,6 +68,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public onSelect(plugin: IPlugin) {
     console.log('Click');
-    this.router.navigate(['/plugin', plugin.title]);
+    this.store.dispatch(new pluginActions.ViewDetailAction(plugin));
   }
 }

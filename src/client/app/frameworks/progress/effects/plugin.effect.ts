@@ -11,6 +11,7 @@ import { LogService } from '../../core/services/log.service';
 import { HttpService } from '../services/http.service';
 import { PluginService } from '../services/plugins.service';
 import * as actions from '../actions/plugin.action';
+import { IPluginState } from '../states/plugin.state';
 import { Tracking, Text } from '../utils/index';
 
 @Injectable()
@@ -19,12 +20,19 @@ export class PluginEffects {
   @Effect() init$ = this.actions$
     .ofType(actions.ActionTypes.INIT)
     .startWith(new actions.InitAction())
-    .map(action => {
+    .withLatestFrom(this.store)
+    .map(([action, state]) => {
       let cachedList = this.pluginService.cachedList;
       if (cachedList) {
         return (new actions.ChangedAction(cachedList));
       } else {
-        return (new actions.FetchAction());
+        let s: IPluginState = state.plugin;
+        return (new actions.FetchAction({
+          limit: s.limit,
+          offset: s.offset,
+          sort: s.orderBy,
+          order: s.order
+        }));
       }
     });
 
@@ -32,12 +40,12 @@ export class PluginEffects {
     .ofType(actions.ActionTypes.FETCH)
     .switchMap(action => {
       // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
-      return this.http.get('getPlugins')
+      let params = action.payload;
+      return this.http.get('getPlugins', { params })
         .map(res => {
           console.log(res);
           this.pluginService.cachedList = res;
-          this.store.dispatch(new actions.ChangedAction(res));
-          this.pluginService.track(Tracking.Actions.LOGGED_IN, { label: res.account.email });
+          this.pluginService.track(Tracking.Actions.PLUGIN_LIST_LOADED, { label: res.length });
           return (new actions.ChangedAction(res));
         })
         .catch(error => Observable.of(new actions.FetchFailedAction(error)));

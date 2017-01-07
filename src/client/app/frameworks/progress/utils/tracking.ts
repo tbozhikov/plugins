@@ -12,6 +12,7 @@ interface IActions {
   LOGGED_IN_USING_PROVIDER: string;
   LOGGED_IN_USING_PROVIDER_FROM_PAGE: string;
   PLUGIN_FETCH_ALL: string;
+  PLUGIN_LIST_LOADED: string;
 }
 
 export class Tracking {
@@ -28,6 +29,7 @@ export class Tracking {
     LOGGED_OUT: 'Logged out',
     LOGGED_IN_USING_PROVIDER: 'Logged in with provider',
     LOGGED_IN_USING_PROVIDER_FROM_PAGE: 'Logged in with provider from page',
-    PLUGIN_FETCH_ALL: 'Plugins fetch all'
+    PLUGIN_FETCH_ALL: 'Plugins fetch all',
+    PLUGIN_LIST_LOADED: 'Plugins list loaded'
   };
 }

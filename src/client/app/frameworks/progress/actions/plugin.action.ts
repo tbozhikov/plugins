@@ -16,6 +16,7 @@ export interface IPluginActions {
   INIT: string;
   FETCH: string;
   FETCH_FAILED: string;
+  VIEW_DETAIL: string;
   CHANGED: string;
 }
 
@@ -23,6 +24,7 @@ export const ActionTypes: IPluginActions = {
   INIT: type(`${PLUGIN} Init`),
   FETCH: type(`${PLUGIN} Fetch`),
   FETCH_FAILED: type(`${PLUGIN} Fetch Failed`),
+  VIEW_DETAIL:     type(`${PLUGIN} View Detail`),
   CHANGED:     type(`${PLUGIN} Changed`)
 };
 
@@ -39,7 +41,10 @@ export class InitAction implements Action {
 }
 
 export interface IFetchOptions {
-
+  limit?: number;
+  offset?: number;
+  sort?: string;
+  order?: string;
 }
 export class FetchAction implements Action {
   type = ActionTypes.FETCH;
@@ -49,6 +54,11 @@ export class FetchAction implements Action {
 export class FetchFailedAction implements Action {
   type = ActionTypes.FETCH_FAILED;
   constructor(public payload?: any) { }
+}
+
+export class ViewDetailAction implements Action {
+  type = ActionTypes.VIEW_DETAIL;
+  constructor(public payload?: IPlugin) { }
 }
 
 export class ChangedAction implements Action {
