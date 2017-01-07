@@ -28,7 +28,13 @@ export class AppComponent implements OnInit {
     log.debug(`Config env: ${Config.ENVIRONMENT().ENV}`);
   }
 
+  public onActivate(e, outlet){
+    // outlet.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
   ngOnInit(): void {
     this.multilang.init(this.config.getSettings().i18n);
   }
+
 }

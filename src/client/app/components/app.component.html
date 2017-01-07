@@ -1,7 +1,7 @@
 <div platform>
   <sd-toolbar></sd-toolbar>
   <!--<sd-navbar></sd-navbar>-->
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
 </div>
 
 <template ngbModalContainer></template>
