@@ -8,7 +8,6 @@ export function pluginReducer(
   switch (action.type) {
     case actions.ActionTypes.CHANGED:
       return (<any>Object).assign({}, state, { list: action.payload });
-
     default:
       return state;
   }

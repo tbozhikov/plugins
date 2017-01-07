@@ -1,7 +1,7 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "files.exclude": {
-    "**/nativescript/platforms": true,
+    "**/nativescript": true,
     "src/client/**/*.js": true,
     "nativescript/app/**/*.js": true,
     "ChromeDebugger-UserData/**/*": true
@@ -10,7 +10,7 @@
     "**/coverage_js": true,
     "**/coverage": true,
     "**/dist": true,
-    "**/nativescript/platforms": true,
+    "**/nativescript": true,
     "src/client/**/*.js": true,
     "nativescript/app/**/*.js": true,
     "ChromeDebugger-UserData/**/*": true

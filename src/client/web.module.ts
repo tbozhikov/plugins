@@ -27,12 +27,16 @@ import { LibsModule } from './libs.module';
 import { AuthEffects, ModalEffects, PluginEffects } from './app/frameworks/progress/effects/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 
-// pipes 
+// pipes
 import { urlShortenPipe } from './app/pipes/url-shorten.pipe';
 
 // config
 import { Config, WindowService, ConsoleService } from './app/frameworks/core/index';
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
+if (String('<%= BUILD_TYPE %>') === 'dev') {
+  // only output console logging in dev mode
+  Config.DEBUG.LEVEL_4 = true;
+}
 
 let routerModule = RouterModule.forRoot(routes);
 

@@ -14,11 +14,15 @@ import { IPluginState } from '../states/plugin.state';
  */
 export interface IPluginActions {
   INIT: string;
+  FETCH: string;
+  FETCH_FAILED: string;
   CHANGED: string;
 }
 
 export const ActionTypes: IPluginActions = {
   INIT: type(`${PLUGIN} Init`),
+  FETCH: type(`${PLUGIN} Fetch`),
+  FETCH_FAILED: type(`${PLUGIN} Fetch Failed`),
   CHANGED:     type(`${PLUGIN} Changed`)
 };
 
@@ -34,6 +38,19 @@ export class InitAction implements Action {
   payload: string = null;
 }
 
+export interface IFetchOptions {
+
+}
+export class FetchAction implements Action {
+  type = ActionTypes.FETCH;
+  constructor(public payload?: IFetchOptions) { }
+}
+
+export class FetchFailedAction implements Action {
+  type = ActionTypes.FETCH_FAILED;
+  constructor(public payload?: any) { }
+}
+
 export class ChangedAction implements Action {
   type = ActionTypes.CHANGED;
   constructor(public payload?: Array<IPlugin>) { }
@@ -45,4 +62,5 @@ export class ChangedAction implements Action {
  */
 export type Actions
   = InitAction
+  | FetchAction
   | ChangedAction;

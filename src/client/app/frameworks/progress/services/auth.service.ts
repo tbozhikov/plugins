@@ -43,7 +43,7 @@ export class AuthService extends Analytics {
 
         profile.authIdToken = authResult.idToken;
         this.ngZone.run(() => {
-          this.store.dispatch({ type: actions.ActionTypes.LOGIN_SUCCESS, payload: profile });
+          this.store.dispatch(new actions.LoginSuccessAction(profile));
         });
       });
     });

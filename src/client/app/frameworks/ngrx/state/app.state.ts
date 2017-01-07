@@ -52,6 +52,7 @@ import * as fromProgress from '../../progress/index';
  */
 export interface IAppState {
   auth: progressState.IAuthState;
+  http: progressState.IHttpState;
   i18n: fromMultilingual.IMultilingualState;
   modal: progressState.IModalState;
   plugin: progressState.IPluginState;
@@ -66,6 +67,7 @@ export interface IAppState {
  */
 const reducers = {
   auth: progressReducers.authReducer,
+  http: progressReducers.httpReducer,
   i18n: fromMultilingual.reducer,
   modal: progressReducers.modalReducer,
   plugin: progressReducers.pluginReducer
