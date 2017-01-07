@@ -27,9 +27,11 @@ h3 {
 }
 .sidebar {
     border-left: 2px solid #e8e8e8;
+    border-right: 2px solid #e8e8e8;
     position: fixed;
-    width: 20vw;
-    margin-left: 80vw;
+    width: calc(25vw - 20px);
+    margin-left: 75vw;
+    margin-right: 20px;
     padding-top: 100px;
     padding-left: 20px;
     height: 100%;
@@ -37,12 +39,13 @@ h3 {
 .install {
     background-color: #00caab;
     margin-left: -20px;
-    padding-left: 20px;
     padding-top: 1px;
     margin-top: 20px;
     padding-bottom: 10px;
+    text-align: center;
 
     h3 {
+        font-family: Consolas,monaco,monospace;
         color: white;
     }
 }
