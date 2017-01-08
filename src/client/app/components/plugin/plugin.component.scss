@@ -20,10 +20,37 @@ h1 {
   font-weight: bold;
   color: #000;
 }
-h3 {
+a {
+    color: #006968;
+}
+
+.detail h2 {
     font-size: 18px;
     font-family: geomanistregular;
     color: #455b66;
+}
+span {
+    font-family: geomanistregular;
+}
+
+/deep/ span{
+
+    h3 {
+        color: #00caab;
+    }
+    a {
+        color: #006968;
+    }
+    pre, code {
+        background-color: #e6f2ff;
+        border: none;
+        border-radius: 0px;
+    }
+    code {
+        font-family: Consolas,monaco,monospace;
+        font-size: 14px;
+        color: #404040;
+    }
 }
 .sidebar {
     border-left: 2px solid #e8e8e8;
@@ -47,5 +74,6 @@ h3 {
     h3 {
         font-family: Consolas,monaco,monospace;
         color: white;
+        font-size: 18px;
     }
 }

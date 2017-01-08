@@ -22,13 +22,13 @@ import { Config, LogService } from '../frameworks/core/index';
 })
 export class AppComponent implements OnInit {
   constructor(public analytics: AnalyticsService,
-              public log: LogService,
-              public config: ConfigService,
-              public multilang: MultilingualService) {
+    public log: LogService,
+    public config: ConfigService,
+    public multilang: MultilingualService) {
     log.debug(`Config env: ${Config.ENVIRONMENT().ENV}`);
   }
 
-  public onActivate(e, outlet){
+  public onActivate(e, outlet) {
     // outlet.scrollTop = 0;
     window.scrollTo(0, 0);
   }
