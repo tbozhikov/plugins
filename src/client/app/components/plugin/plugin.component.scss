@@ -54,9 +54,8 @@ span {
 }
 .sidebar {
     border-left: 2px solid #e8e8e8;
-    border-right: 2px solid #e8e8e8;
     position: fixed;
-    width: calc(25vw - 20px);
+    width: calc(25vw - 40px);
     margin-left: 75vw;
     margin-right: 20px;
     padding-top: 100px;
@@ -75,5 +74,30 @@ span {
         font-family: Consolas,monaco,monospace;
         color: white;
         font-size: 18px;
+    }
+}
+.section {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e8e8e8;
+    border-right: 2px solid #e8e8e8;
+    margin-left: -20px;
+    padding-left: 20px;
+    color: #006968;
+    p {
+        font-size: 18px;
+        span {
+            color: #00caab;
+            font-weight: bold;
+        }
+    }
+    h2 {
+        border-left: 2px solid #00caab;
+        margin-left: -22px;
+        padding-left: 22px;
+        font-family: geomanistregular;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-size: 22px;
     }
 }

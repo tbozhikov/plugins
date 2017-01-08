@@ -5,6 +5,7 @@ import { IPlugin } from '../../frameworks/progress/models/index';
 import * as showdown from 'showdown';
 // REMOVE BELOW AFTER API WIREUP
 import { ReadMe } from '../../frameworks/progress/testing/mocks/plugins.mock';
+
 @Component({
   moduleId: module.id,
   selector: 'sd-detail',
@@ -23,7 +24,9 @@ export class PluginComponent implements OnInit {
         this.Plugin = plugin;
         let converter = new showdown.Converter();
         //this.readme = converter.makeHtml(this.Plugin.readme);
-        this.readme = converter.makeHtml(ReadMe); // JUST FOR WIREFRAME
+        this.readme = converter.makeHtml(ReadMe); // <-- JUST FOR WIREFRAME
+        this.Plugin.os_support.ios = true; // <-- JUST FOR WIREFRAME
+        this.Plugin.os_support.android = true; // <-- JUST FOR WIREFRAME
       });
     });
   }
