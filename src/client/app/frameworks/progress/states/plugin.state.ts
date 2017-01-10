@@ -8,6 +8,7 @@ export interface IPluginState {
   orderBy?: string;
   order?: string;
   selected?: IPlugin;
+  freshFetch?: boolean;
 }
 
 export const initialPlugins: IPluginState = {
@@ -16,7 +17,8 @@ export const initialPlugins: IPluginState = {
   limit: 100,
   offset: 0,
   orderBy: 'marketplace_score',
-  order: 'desc'
+  order: 'desc',
+  freshFetch: true
 };
 
 

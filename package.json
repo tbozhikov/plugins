@@ -166,6 +166,7 @@
     "@ngrx/store": "^2.2.1",
     "@ngrx/store-devtools": "^3.2.2",
     "@ngrx/store-log-monitor": "^3.0.2",
+    "angular2-infinite-scroll": "^0.2.8",
     "angular2-jwt": "^0.1.24",
     "angulartics2": "^1.6.3",
     "auth0-lock": "^10.4.0",

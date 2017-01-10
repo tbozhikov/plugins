@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 
 // module
 import { LogService } from '../../core/services/log.service';
+import { IAppState } from '../../ngrx/state/app.state';
 import { HttpService } from '../services/http.service';
 import { PluginService } from '../services/plugins.service';
 import * as actions from '../actions/plugin.action';
@@ -24,29 +25,41 @@ export class PluginEffects {
     .map(([action, state]) => {
       let cachedList = this.pluginService.cachedList;
       if (cachedList) {
+        if (state.plugin.freshFetch) {
+          // dispatch a fresh fetch to grab any latest changes
+          this.store.dispatch(this.freshFetch(state));
+        }
+        // go ahead and populate list in view with previously cached list
         return (new actions.ChangedAction({ list: cachedList }));
       } else {
-        let s: IPluginState = state.plugin;
-        return (new actions.FetchAction({
-          limit: s.limit,
-          offset: s.offset,
-          sort: s.orderBy,
-          order: s.order
-        }));
+        return this.freshFetch(state, true);
       }
     });
 
   @Effect() fetch$ = this.actions$
     .ofType(actions.ActionTypes.FETCH)
-    .switchMap(action => {
+    .withLatestFrom(this.store)
+    .switchMap(([action, state]) => {
       // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
       let params = action.payload;
+      let changeSet: IPluginState = {
+        freshFetch: false, // reset since this is only used on init to fetch freshest data
+        offset: params.offset // update offset for next infinite load
+      };
       return this.http.get('getPlugins', { params })
         .map(res => {
           console.log(res);
-          this.pluginService.cachedList = res;
+          if (state.plugin.freshFetch) {
+            // we cache initial list for return visits to be fast
+            this.pluginService.cachedList = res;
+          } else {
+            // loading more
+            res = [...state.plugin.list, ...res];
+          }
+          // track each time plugin list (via fresh or infinite load) is loaded
           this.pluginService.track(Tracking.Actions.PLUGIN_LIST_LOADED, { label: res.length });
-          return (new actions.ChangedAction({ list: res }));
+          changeSet.list = res;
+          return (new actions.ChangedAction(changeSet));
         })
         .catch(error => Observable.of(new actions.FetchFailedAction(error)));
     });
@@ -65,4 +78,15 @@ export class PluginEffects {
     });
 
   constructor(private store: Store<any>, private actions$: Actions, private log: LogService, private pluginService: PluginService, private http: HttpService) { }
+
+  private freshFetch(state: IAppState, asObservable?: boolean) {
+    let s: IPluginState = state.plugin;
+    let action = new actions.FetchAction({
+      limit: s.limit,
+      offset: s.offset,
+      sort: s.orderBy,
+      order: s.order
+    });
+    return asObservable ? (action) : action;
+  }
 }

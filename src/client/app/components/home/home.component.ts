@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public total: number = 0;
   public cardView: boolean;
   public sideBar: boolean;
+  public isLoading: boolean = true;
   private _subs: Array<Subscription>;
   constructor(private store: Store<any>, private router: RouterExtensions) {
     this._subs = [];
@@ -40,6 +41,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._subs.push(this.store.select('plugin').subscribe((s: IPluginState) => {
       this.plugins = s.list;
       this.total = s.total;
+      if (this.plugins.length) {
+        this.isLoading = false;
+      }
 
       if (s.selected) {
         this.router.navigate(['/plugin', s.selected.id]);
@@ -71,5 +75,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   public onSelect(plugin: IPlugin) {
     console.log('Click');
     this.store.dispatch(new pluginActions.ViewDetailAction(plugin));
+  }
+
+  public onScroll() {
+    if (!this.isLoading) {
+      this.isLoading = true;
+      this.store.select('plugin').take(1).subscribe((s: IPluginState) => {
+        if (s.list.length !== s.total) {
+          // load next batch
+          this.store.dispatch(new pluginActions.FetchAction({
+            limit: s.limit,
+            offset: s.offset + 100,
+            order: s.order,
+            sort: s.orderBy
+          }));
+        } else {
+          // no more to load
+          this.isLoading = false;
+        }
+      });
+    }
   }
 }

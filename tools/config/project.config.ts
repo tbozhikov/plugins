@@ -53,6 +53,13 @@ export class ProjectConfig extends SeedAdvancedConfig {
           defaultExtension: 'js'
         }
       },
+     {
+        name: 'angular2-infinite-scroll',
+        packageMeta: {
+          main: 'angular2-infinite-scroll.js',
+          defaultExtension: 'js'
+        }
+      },
       {
         name: 'showdown',
         packageMeta: {

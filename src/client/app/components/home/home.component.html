@@ -10,7 +10,11 @@
       <i class="fa fa-sliders bg icon" (click)="toggleCard()"></i>
     </div>
   </div>
-  <div class="row is-flex plugin-disp" *ngIf="cardView">
+  <div class="row is-flex plugin-disp" *ngIf="cardView"
+    infinite-scroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="500"
+    (scrolled)="onScroll()">
     <div class="col-sm-3" *ngFor="let plugin of plugins">
       <div class="plugin-box" (click)="onSelect(plugin)">
           <div style="float: right">
