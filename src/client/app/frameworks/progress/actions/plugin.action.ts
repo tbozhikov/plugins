@@ -16,6 +16,7 @@ export interface IPluginActions {
   INIT: string;
   FETCH: string;
   FETCH_FAILED: string;
+  GET_TOTAL: string;
   VIEW_DETAIL: string;
   CHANGED: string;
 }
@@ -24,6 +25,7 @@ export const ActionTypes: IPluginActions = {
   INIT: type(`${PLUGIN} Init`),
   FETCH: type(`${PLUGIN} Fetch`),
   FETCH_FAILED: type(`${PLUGIN} Fetch Failed`),
+  GET_TOTAL: type(`${PLUGIN} Get Total`),
   VIEW_DETAIL:     type(`${PLUGIN} View Detail`),
   CHANGED:     type(`${PLUGIN} Changed`)
 };
@@ -56,6 +58,11 @@ export class FetchFailedAction implements Action {
   constructor(public payload?: any) { }
 }
 
+export class GetTotalAction implements Action {
+  type = ActionTypes.GET_TOTAL;
+  payload: string = null;
+}
+
 export class ViewDetailAction implements Action {
   type = ActionTypes.VIEW_DETAIL;
   constructor(public payload?: IPlugin) { }
@@ -63,7 +70,7 @@ export class ViewDetailAction implements Action {
 
 export class ChangedAction implements Action {
   type = ActionTypes.CHANGED;
-  constructor(public payload?: Array<IPlugin>) { }
+  constructor(public payload?: IPluginState) { }
 }
 
 /**

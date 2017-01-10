@@ -22,6 +22,7 @@ import * as pluginActions from '../../frameworks/progress/actions/plugin.action'
 export class HomeComponent implements OnInit, OnDestroy {
   public current: IUser;
   public plugins: Array<IPlugin> = [];
+  public total: number = 0;
   public cardView: boolean;
   public sideBar: boolean;
   private _subs: Array<Subscription>;
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }));
     this._subs.push(this.store.select('plugin').subscribe((s: IPluginState) => {
       this.plugins = s.list;
+      this.total = s.total;
 
       if (s.selected) {
         this.router.navigate(['/plugin', s.selected.id]);

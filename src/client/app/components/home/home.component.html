@@ -6,7 +6,7 @@
     <div class="col-sm-12">
       <i class="fa fa-th-large bg icon" *ngIf="cardView == false" (click)="toggleCard()"></i>
       <i class="fa fa-list bg icon" *ngIf="cardView" (click)="toggleCard()"></i>
-      <h4 class="viewing">Viewing 5 of 207 Plugins</h4>
+      <h4 class="viewing">Viewing {{plugins.length}} of {{total}} Plugins</h4>
       <i class="fa fa-sliders bg icon" (click)="toggleCard()"></i>
     </div>
   </div>

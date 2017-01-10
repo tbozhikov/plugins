@@ -24,7 +24,7 @@ export class PluginEffects {
     .map(([action, state]) => {
       let cachedList = this.pluginService.cachedList;
       if (cachedList) {
-        return (new actions.ChangedAction(cachedList));
+        return (new actions.ChangedAction({ list: cachedList }));
       } else {
         let s: IPluginState = state.plugin;
         return (new actions.FetchAction({
@@ -46,7 +46,20 @@ export class PluginEffects {
           console.log(res);
           this.pluginService.cachedList = res;
           this.pluginService.track(Tracking.Actions.PLUGIN_LIST_LOADED, { label: res.length });
-          return (new actions.ChangedAction(res));
+          return (new actions.ChangedAction({ list: res }));
+        })
+        .catch(error => Observable.of(new actions.FetchFailedAction(error)));
+    });
+
+  @Effect() getTotal$ = this.actions$
+    .ofType(actions.ActionTypes.GET_TOTAL)
+    .startWith(new actions.GetTotalAction())
+    .switchMap(action => {
+      // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
+      return this.http.get('getPluginCount')
+        .map(res => {
+          console.log(res.count);
+          return (new actions.ChangedAction({ total: res.count }));
         })
         .catch(error => Observable.of(new actions.FetchFailedAction(error)));
     });
