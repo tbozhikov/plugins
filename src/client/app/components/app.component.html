@@ -1,5 +1,8 @@
 <div platform>
   <sd-toolbar></sd-toolbar>
+  <div class="container search-container">
+    <sd-search></sd-search>
+  </div>
   <!--<sd-navbar></sd-navbar>-->
   <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
 </div>

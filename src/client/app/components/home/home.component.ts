@@ -72,16 +72,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.sideBar = !this.sideBar;
   }
 
-  public onSelect(plugin: IPlugin) {
-    console.log('Click');
-    this.store.dispatch(new pluginActions.ViewDetailAction(plugin));
-  }
-
   public onScroll() {
     if (!this.isLoading) {
       this.isLoading = true;
       this.store.select('plugin').take(1).subscribe((s: IPluginState) => {
-        if (s.list.length !== s.total) {
+        if (s.list.length < s.total) {
           // load next batch
           this.store.dispatch(new pluginActions.FetchAction({
             limit: s.limit,

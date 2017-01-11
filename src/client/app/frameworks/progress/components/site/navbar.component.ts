@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 // app
-import { BaseComponent } from '../../core/index';
+import { BaseComponent } from '../../../core/index';
 
 @Component({
   moduleId: module.id,

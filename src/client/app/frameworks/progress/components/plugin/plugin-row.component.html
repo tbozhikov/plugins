@@ -1,0 +1,12 @@
+<div class="col-xs-3 highlight" (click)="onSelect(plugin)">
+  <h1>{{plugin.name}}</h1>
+  <h3>{{plugin.author.name}}</h3>
+</div>
+<div class="col-xs-7">
+  <p>{{plugin.description}}</p>
+  <repo-link [plugin]="plugin"></repo-link>
+</div>
+<div class="col-xs-1">
+  <os-support [plugin]="plugin"></os-support>
+</div>
+<stars [plugin]="plugin" class="col-xs-1 starsLine"></stars>

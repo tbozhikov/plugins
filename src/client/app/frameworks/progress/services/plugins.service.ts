@@ -66,6 +66,7 @@ export class PluginService extends Analytics {
   public get cachedList(): Array<IPlugin | any> {
     let plugins = this.storage.getItem(StorageService.KEYS.PLUGINS);
     if (plugins) {
+      this.log.debug(`found ${plugins.length} cached plugins.`);
       return this.serialize(plugins);
     } else {
       return null;
@@ -78,6 +79,7 @@ export class PluginService extends Analytics {
         // ensure uniqueness of list and order it
         list = orderBy(uniqBy(s.list.concat(list), (item: IPlugin) => item.id), [s.orderBy], [s.order]);
       }
+      this.log.debug(`caching ${list.length} plugins.`);
       this.storage.setItem(StorageService.KEYS.PLUGINS, list);
       this.serialize(list);
     });

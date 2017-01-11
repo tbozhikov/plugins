@@ -26,8 +26,10 @@ export class PluginEffects {
       let cachedList = this.pluginService.cachedList;
       if (cachedList) {
         if (state.plugin.freshFetch) {
-          // dispatch a fresh fetch to grab any latest changes
-          this.store.dispatch(this.freshFetch(state));
+          setTimeout(() => {
+            // dispatch a fresh fetch to grab any latest changes
+            this.store.dispatch(this.freshFetch(state));
+          }, 1000);
         }
         // go ahead and populate list in view with previously cached list
         return (new actions.ChangedAction({ list: cachedList }));
@@ -71,8 +73,8 @@ export class PluginEffects {
       // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
       return this.http.get('getPluginCount')
         .map(res => {
-          console.log(res.count);
-          return (new actions.ChangedAction({ total: res.count }));
+          console.log(+res.count);
+          return (new actions.ChangedAction({ total: +res.count }));
         })
         .catch(error => Observable.of(new actions.FetchFailedAction(error)));
     });

@@ -1,12 +1,9 @@
-<div class="container search-container">
-    <sd-search></sd-search>
-</div>
 <div class="sidebar">
     <div class="install">
-        <h3>npm i {{Plugin?.name | lowercase}}</h3>
+        <h3>npm i {{plugin?.name | lowercase}}</h3>
     </div>
     <div class="section">
-        <p>walkerrunpdx published a month ago</p>
+        <p>{{plugin?.author?.name}} published a month ago</p>
         <p><span>1.2.0</span> is the latest of <span>23</span> releases</p>
         <a>github.com/walkerrunpdx/test</a>
     </div>
@@ -14,11 +11,11 @@
         <p>Apache 2.0</p>
     </div>
     <div class="section">
-        <div *ngIf="Plugin?.os_support.ios">
+        <div [hidden]="!plugin?.os_support?.ios">
             <i class="fa fa-apple fa-lg inline"></i>
             <p>iOS 7.0</p>
         </div>
-        <div *ngIf="Plugin?.os_support.ios">
+        <div [hidden]="!plugin?.os_support?.ios">
             <i class="fa fa-android fa-lg inline"></i>
             <p>API 2.1</p>
         </div>
@@ -39,8 +36,8 @@
 <div class="container detail">
     <div class="row">
         <div class="col-sm-8">
-            <h1>{{Plugin?.name}}</h1>
-            <h2>{{Plugin?.description}}</h2>
+            <h1>{{plugin?.name}}</h1>
+            <h2>{{plugin?.description}}</h2>
             <span [innerHTML]="readme" class="readme"></span>
         </div>
     </div>

@@ -13,7 +13,7 @@ import { ReadMe } from '../../frameworks/progress/testing/mocks/plugins.mock';
   styleUrls: ['plugin.component.css']
 })
 export class PluginComponent implements OnInit {
-  Plugin: IPlugin;
+  plugin: IPlugin;
   readme: string;
   constructor(private route: ActivatedRoute, private pluginService: PluginService) { }
 
@@ -21,12 +21,10 @@ export class PluginComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       let id = params['id'];
       this.pluginService.findPlugin(id).then((plugin: IPlugin) => {
-        this.Plugin = plugin;
+        this.plugin = plugin;
         let converter = new showdown.Converter();
         //this.readme = converter.makeHtml(this.Plugin.readme);
         this.readme = converter.makeHtml(ReadMe); // <-- JUST FOR WIREFRAME
-        this.Plugin.os_support.ios = true; // <-- JUST FOR WIREFRAME
-        this.Plugin.os_support.android = true; // <-- JUST FOR WIREFRAME
       });
     });
   }
