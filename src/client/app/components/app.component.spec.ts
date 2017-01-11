@@ -36,7 +36,7 @@ const testModuleConfig = () => {
       FormsModule,
       MultilingualModule,
       NgbModule.forRoot(),
-      StoreModule.provideStore({ i18n: reducer }),
+      StoreModule.provideStore({ }),
       RouterTestingModule.withRoutes(config)
     ],
     declarations: [
