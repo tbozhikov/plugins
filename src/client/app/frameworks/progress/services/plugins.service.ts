@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Jsonp, URLSearchParams } from '@angular/http';
 
 // libs
-import { ConfigService } from 'ng2-config';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { uniqBy, orderBy } from 'lodash';
@@ -25,7 +24,6 @@ export class PluginService extends Analytics {
     private store: Store<any>,
     private storage: StorageService,
     private log: LogService,
-    public config: ConfigService,
     private _jsonp: Jsonp) {
     super(analytics);
   }

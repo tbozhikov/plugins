@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
 import { isObject, isString, includes } from 'lodash';
-import { ConfigService } from 'ng2-config';
 
 // app
 import { LogService, WindowService } from '../../core/services/index';
@@ -34,7 +33,7 @@ export class HttpService extends Analytics {
   private _suffix: string = '';
   private _authToken: string;
 
-  constructor(analytics: AnalyticsService, private store: Store<any>, private log: LogService, private win: WindowService, private http: Http, private config: ConfigService) {
+  constructor(analytics: AnalyticsService, private store: Store<any>, private log: LogService, private win: WindowService, private http: Http) {
     super(analytics);
     this.category = Tracking.Categories.HTTP;
   }

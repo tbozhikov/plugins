@@ -160,7 +160,7 @@
     "@angular/platform-browser": "~2.4.0",
     "@angular/platform-browser-dynamic": "~2.4.0",
     "@angular/router": "~3.4.1",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.16",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.18",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "^2.0.0",
     "@ngrx/store": "^2.2.1",
@@ -181,7 +181,7 @@
     "ng2-translate": "^5.0.0",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.2",
-    "showdown": "^1.5.0",
+    "showdown": "^1.6.0",
     "systemjs": "0.19.41",
     "zone.js": "^0.7.2"
   }
