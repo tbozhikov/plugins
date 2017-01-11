@@ -10,6 +10,7 @@ import { uniqBy, orderBy } from 'lodash';
 // app
 import { Analytics, AnalyticsService } from '../../analytics/index';
 import { LogService } from '../../core/services/log.service';
+import { HttpService } from './http.service';
 import { StorageService } from './storage.service';
 import * as pluginActions from '../actions/plugin.action';
 import { PluginModel, IPlugin } from '../models/index';
@@ -24,6 +25,7 @@ export class PluginService extends Analytics {
     private store: Store<any>,
     private storage: StorageService,
     private log: LogService,
+    private http: HttpService,
     private _jsonp: Jsonp) {
     super(analytics);
   }
@@ -32,7 +34,7 @@ export class PluginService extends Analytics {
     return new Promise((resolve, reject) => {
       this.store.select('plugin').take(1).subscribe((state: IPluginState) => {
         for (let plugin of state.list) {
-          if (plugin.id === id) {
+          if (plugin.id === id || plugin.name === id) {
             resolve(plugin);
           }
         }
@@ -45,19 +47,11 @@ export class PluginService extends Analytics {
       return Observable.of([]);
     }
 
-    let wikiUrl = 'https://en.wikipedia.org/w/api.php';
-    let params = new URLSearchParams();
-    params.set('search', term);
-    params.set('action', 'opensearch');
-    params.set('format', 'json');
-    params.set('callback', 'JSONP_CALLBACK');
-
-    return this._jsonp
-      .get(wikiUrl, { search: params })
-      .map(res => res.json())
+    return this.http.get(`search/${term}`)
       .map(response => {
-
-        this.store.dispatch(new pluginActions.ChangedAction(response));
+        console.log('search result from pluginservice:', response);
+        this.store.dispatch(new pluginActions.ChangedAction({ searchResults: response, searching: true }));
+        return response;
       });
   }
 

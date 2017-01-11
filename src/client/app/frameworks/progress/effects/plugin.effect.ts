@@ -66,6 +66,21 @@ export class PluginEffects {
         .catch(error => Observable.of(new actions.FetchFailedAction(error)));
     });
 
+  @Effect() viewDetail$ = this.actions$
+    .ofType(actions.ActionTypes.VIEW_DETAIL)
+    .withLatestFrom(this.store)
+    .switchMap(([action, state]) => {
+      // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
+      return this.http.get(`getPlugin/${action.payload}`)
+        .map(res => {
+          console.log(res[0]);
+          // track each time plugin list (via fresh or infinite load) is loaded
+          this.pluginService.track(Tracking.Actions.PLUGIN_VIEWED_DETAIL, { label: action.payload });
+          return (new actions.ChangedAction({selected: res[0], searching: false}));
+        })
+        .catch(error => Observable.of(new actions.FetchFailedAction(error)));
+    });
+
   @Effect() getTotal$ = this.actions$
     .ofType(actions.ActionTypes.GET_TOTAL)
     .startWith(new actions.GetTotalAction())

@@ -65,7 +65,7 @@ export class GetTotalAction implements Action {
 
 export class ViewDetailAction implements Action {
   type = ActionTypes.VIEW_DETAIL;
-  constructor(public payload?: IPlugin) { }
+  constructor(public payload?: string) { }
 }
 
 export class ChangedAction implements Action {

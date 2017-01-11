@@ -213,13 +213,34 @@ p {
 .bg {
   font-size: 24px;
 }
+.searching {
+  position: absolute;
+  background-color: #042733;
+  left: 78px;
+  top: 34px;
+  margin: 0;
+  padding: 0;
+  line-height: 12px;
+  font-style: italic;
+  font-size: 12px;
+}
 .search-container {
   background-color: #042733;
   width: 100%;
   padding: 0 20px;
   position: fixed;
   margin-top: 48px;
-  z-index: 3;
+  z-index: 4;
+}
+.dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: #042733;
+  background-color: #fff;
+  &.active {
+    background-color: #adf9ed;
+  }
 }
 .pre-card {
   position: fixed;

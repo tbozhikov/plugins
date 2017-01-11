@@ -9,6 +9,8 @@ export interface IPluginState {
   order?: string;
   selected?: IPlugin;
   freshFetch?: boolean;
+  searching?: boolean;
+  searchResults?: Array<any>;
 }
 
 export const initialPlugins: IPluginState = {

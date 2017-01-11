@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private store: Store<any>, private router: RouterExtensions) {
     this._subs = [];
     // ensure no plugin is selected
-    this.store.dispatch(new pluginActions.ViewDetailAction(null));
+    this.store.dispatch(new pluginActions.ChangedAction({selected: null, searching: false}));
     this.cardView = true;
   }
 
@@ -43,10 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.total = s.total;
       if (this.plugins.length) {
         this.isLoading = false;
-      }
-
-      if (s.selected) {
-        this.router.navigate(['/plugin', s.selected.id]);
       }
     }));
   }
