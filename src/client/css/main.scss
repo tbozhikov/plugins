@@ -117,6 +117,10 @@ p {
     color: #006968;
     font-family: geomanistregular;
     position: absolute;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
   }
   i {
     position: static;
@@ -133,6 +137,7 @@ p {
     position: absolute;
     margin-top: 25px;
     margin-left: -7px;
+    width: calc(100% - 55px);
   }
 }
 
@@ -208,7 +213,11 @@ p {
   overflow: hidden;
 }
 .fixed-height {
-  height: 7em;
+  height: 6em;
+
+  p {
+    height: 1.5em;
+  }
 }
 .bg {
   font-size: 24px;
@@ -328,4 +337,8 @@ p {
 /* platform specific */
 .desktop lang-switcher {
   display: none;
+}
+
+.title-section {
+  height: 4em;
 }

@@ -1,8 +1,10 @@
 <div class="plugin-box" (click)="onSelect(plugin)">
-  <stars [plugin]="plugin" class="right"></stars>
-  <div class="highlight">
-    <h1>{{plugin.name}}</h1>
-    <h3>{{plugin.author.name}}</h3>
+  <div class="title-section">
+    <stars [plugin]="plugin" class="right"></stars>
+    <div class="highlight">
+      <h1>{{plugin.name}}</h1>
+      <h3>{{plugin.author.name}}</h3>
+    </div>
   </div>
   <div class="fixed-height">
     <p>{{plugin.description}}</p>
