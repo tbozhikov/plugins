@@ -4,7 +4,7 @@
   "description": "Plugins API",
   "main": "index.js",
   "dependencies": {
-	"request": "*",
+	  "request": "*",
     "oboe": "^2.1.3",
     "pg": "^6.1.2",
     "restify": "^4.3.0"
