@@ -19,7 +19,7 @@ export function httpReducer(
       if (req.url === resUrl) {
 
         if (status.updates) {
-          console.log(`updating pending request...${req.url}`, status.updates);
+          // console.log(`updating pending request...${req.url}`, status.updates);
           activeRequests[i] = Object.assign({}, req, status.updates);
         }
 

@@ -36,15 +36,15 @@ export class SearchComponent {
       .switchMap(term =>
         this.pluginsService.search(term)
           .do((res) => {
-            console.log(`search result:`, res);
-            this.searchFailed = false
+            // console.log(`search result:`, res);
+            this.searchFailed = false;
           })
           .catch(() => {
             this.searchFailed = true;
             return Observable.of([]);
           }))
       .do((res) => {
-        console.log(res);
+        // console.log(res);
         this.searching = false;
       });
   }

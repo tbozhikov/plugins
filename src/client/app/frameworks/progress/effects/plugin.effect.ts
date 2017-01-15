@@ -50,7 +50,7 @@ export class PluginEffects {
       };
       return this.http.get('getPlugins', { params })
         .map(res => {
-          console.log(res);
+          // console.log(res);
           if (state.plugin.freshFetch) {
             // we cache initial list for return visits to be fast
             this.pluginService.cachedList = res;
@@ -73,7 +73,7 @@ export class PluginEffects {
       // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
       return this.http.get(`getPlugin/${action.payload}`)
         .map(res => {
-          console.log(res[0]);
+          // console.log(res[0]);
           // track each time plugin list (via fresh or infinite load) is loaded
           this.pluginService.track(Tracking.Actions.PLUGIN_VIEWED_DETAIL, { label: action.payload });
           return (new actions.ChangedAction({selected: res[0], searching: false}));
@@ -88,7 +88,7 @@ export class PluginEffects {
       // this.store.dispatch({ type: ACTIVITY_ACTIONS.TOGGLE, payload: true });
       return this.http.get('getPluginCount')
         .map(res => {
-          console.log(+res.count);
+          // console.log(+res.count);
           return (new actions.ChangedAction({ total: +res.count }));
         })
         .catch(error => Observable.of(new actions.FetchFailedAction(error)));

@@ -47,7 +47,7 @@ export class PluginComponent implements OnInit, OnDestroy {
     }));
     this._subs.push(this.route.params.subscribe((params: Params) => {
       let id = params['id'];
-      console.log('route params:', id);
+      // console.log('route params:', id);
       this.pluginService.findPlugin(id).then((plugin: IPlugin) => {
         // try to show some details off cached data if available
         this.pluginName = plugin.name;
