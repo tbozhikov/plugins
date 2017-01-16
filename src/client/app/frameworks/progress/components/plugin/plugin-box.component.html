@@ -1,4 +1,4 @@
-<div class="plugin-box" (click)="onSelect(plugin)">
+<div class="plugin-box" on-mouseover='over()' (click)="onSelect(plugin)">
   <div class="title-section">
     <stars [plugin]="plugin" class="right"></stars>
     <div class="highlight">
@@ -7,7 +7,9 @@
     </div>
   </div>
   <div class="fixed-height">
-    <p>{{plugin.description}}</p>
+    <div class="desc">
+      <p #pluginBox class="block-with-text">{{plugin.description}}</p>
+    </div>
     <os-support [plugin]="plugin"></os-support>
     <div class="links">
       <repo-link [plugin]="plugin"></repo-link>

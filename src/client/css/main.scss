@@ -16,6 +16,36 @@ div {
 
 .right { float: right; }
 
+
+.isHovered::after {
+        background-color: #e8e8e8 !important;
+}
+/* mixin for multiline */
+@mixin multiLineEllipsis($lineHeight: 1em, $lineCount: 3, $bgColor: white){
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount; 
+  text-align: justify;
+  //margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: $bgColor;
+  }
+}
+
 /* Set up a default font and some padding to provide breathing room */
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -139,6 +169,14 @@ p {
     margin-left: -7px;
     width: calc(100% - 55px);
   }
+
+  .block-with-text {
+    @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 3, $bgColor: white);  
+  }
+
+  .desc {
+    height: 3.6em;
+  }
 }
 
 .plugin-box {
@@ -214,10 +252,6 @@ p {
 }
 .fixed-height {
   height: 6em;
-
-  p {
-    height: 1.5em;
-  }
 }
 .bg {
   font-size: 24px;
