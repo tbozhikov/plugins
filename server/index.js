@@ -2,7 +2,7 @@
  * (c) 2016, Master Technology
  *
  * Any questions please feel free to email me or put a issue up on the github repo
- * Version 0.0.1                                      Nathan@master-technology.com
+ * Version 0.0.2                                      Nathan@master-technology.com
  *********************************************************************************/
 "use strict";
 
@@ -52,6 +52,7 @@ if (config.static) {
 server.get('/', serveData );
 server.get('/index.html', serveData);
 server.get(/\/dist\/?.*/, serveData);
+server.get(/^(?!\/api\/).*/, serveData);
 
 // Activate the Server for taking requests
 server.listen(config.port, function() {

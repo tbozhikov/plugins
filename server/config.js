@@ -8,7 +8,7 @@
 module.exports =
 	{		
 		server: {
-			port: 80,
+			port: process.env.PORT, // Specific to Modulus
 			api: false,
 			static: true
 		}
