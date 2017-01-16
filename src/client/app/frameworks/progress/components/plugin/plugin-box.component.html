@@ -1,16 +1,17 @@
 <div class="plugin-box" on-mouseover='over()' (click)="onSelect(plugin)">
-  <div class="title-section">
-    <stars [plugin]="plugin" class="right"></stars>
-    <div class="highlight">
+  <div class="row">
+    <div class="col-xs-12 highlight">
       <h1>{{plugin.name}}</h1>
       <h3>{{plugin.author.name}}</h3>
     </div>
   </div>
-  <div class="fixed-height">
-    <div class="desc">
+  <div class="row">
+    <div class="col-xs-12 desc">
       <p #pluginBox class="block-with-text">{{plugin.description}}</p>
+      <os-support [plugin]="plugin"></os-support>
     </div>
-    <os-support [plugin]="plugin"></os-support>
+  </div>
+  <div class="row">
     <div class="links">
       <repo-link [plugin]="plugin"></repo-link>
     </div>
