@@ -77,8 +77,7 @@ span {
     }
 }
 .section {
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 23px;
     border-bottom: 2px solid #e8e8e8;
     border-right: 2px solid #e8e8e8;
     margin-left: -20px;
@@ -86,6 +85,7 @@ span {
     color: #006968;
     p {
         font-size: 18px;
+        margin-top: -7px;
         span {
             color: #00caab;
             font-weight: bold;
