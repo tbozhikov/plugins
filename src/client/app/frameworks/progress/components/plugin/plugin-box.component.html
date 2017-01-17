@@ -1,6 +1,7 @@
 <div class="plugin-box" on-mouseover='over()' (click)="onSelect(plugin)">
   <div class="row">
     <div class="col-xs-12 highlight">
+      <stars [plugin]="plugin" class="right"></stars> 
       <h1>{{plugin.name}}</h1>
       <h3>{{plugin.author.name}}</h3>
     </div>
