@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Renderer } from '@angular/core';
 
 // libs
 import { Store } from '@ngrx/store';
@@ -24,13 +24,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   public plugins: Array<IPlugin> = [];
   public total: number = 0;
   public cardView: boolean;
-  public sideBar: boolean;
+  public sideBar: boolean = false;
   public isLoading: boolean = true;
   private _subs: Array<Subscription>;
-  constructor(private store: Store<any>, private router: RouterExtensions) {
+  @ViewChild('sidebar') el: ElementRef;
+  @ViewChild('mainBody') elBody: ElementRef;
+  @ViewChild('preBar') elBar: ElementRef;
+  constructor(private store: Store<any>, private router: RouterExtensions, public renderer: Renderer) {
     this._subs = [];
     // ensure no plugin is selected
-    this.store.dispatch(new pluginActions.ChangedAction({selected: null, searching: false}));
+    this.store.dispatch(new pluginActions.ChangedAction({ selected: null, searching: false }));
     this.cardView = true;
   }
 
@@ -66,6 +69,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public toggleSideBar() {
     this.sideBar = !this.sideBar;
+    if (this.sideBar) {
+      this.renderer.setElementClass(this.elBody.nativeElement, 'hasSideBar', true);
+      this.renderer.setElementClass(this.el.nativeElement, 'hide', false);
+      this.renderer.setElementClass(this.elBar.nativeElement, 'hasSideBar', true);
+    } else {
+      this.renderer.setElementClass(this.elBody.nativeElement, 'hasSideBar', false);
+      this.renderer.setElementClass(this.elBar.nativeElement, 'hasSideBar', false);
+      this.renderer.setElementClass(this.el.nativeElement, 'hide', true);
+    }
   }
 
   public onScroll() {

@@ -15,7 +15,6 @@ import { RouterExtensions } from '../../../core/services/router-extensions.servi
   host: {
     '(mouseenter)': 'over()',
     '(mouseleave)': 'off()'
-
   }
 
 })
@@ -28,12 +27,9 @@ export class PluginBoxComponent extends BasePlugin {
   }
 
   over(){
-    console.log('on');
     this.renderer.setElementClass(this.el.nativeElement, 'isHovered', true);
   }
   off() {
-    console.log('off');
-    //this.renderer.setElementStyle(this.el.nativeElement, 'backgroundColor', 'grey');
     this.renderer.setElementClass(this.el.nativeElement, 'isHovered', false);
   }
 }

@@ -370,3 +370,18 @@ p {
 .title-section {
   height: 4em;
 }
+.sidebar {
+  position: fixed;
+  margin-top: 97px;
+  z-index: 10;
+  height: calc(100vh - 97px);
+  background-color: white;
+  width: 20%;
+  margin-left: 80%;
+}
+.hide {
+  visibility: hidden;
+}
+.hasSideBar {
+  padding-right: 20%
+}
