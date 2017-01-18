@@ -8,6 +8,7 @@
 
 const restify = require('restify');
 const config = require('./config').server;
+const fs = require('fs');
 
 let database;
 if (config.api) {
@@ -53,6 +54,31 @@ server.get('/', serveData );
 server.get('/index.html', serveData);
 server.get(/\/dist\/?.*/, serveData);
 server.get(/^(?!\/api\/).*/, serveData);
+server.on('ResourceNotFound', errorRedirect);
+
+let cachedIndex = null;
+function errorRedirect(req, res, error, next) {
+	if (cachedIndex) {
+		res.setHeader('Content-Type', 'text/html');
+		res.writeHead(200);
+		res.end(cachedIndex);
+		next();
+	} else {
+		fs.readFile('./dist/index.html', function (err, data) {
+			if (err) {
+				res.send("Error occurred, please try again.");
+				next();
+				return;
+			}
+			cachedIndex = data;
+
+			res.setHeader('Content-Type', 'text/html');
+			res.writeHead(200);
+			res.end(data);
+			next();
+		});
+	}
+}
 
 // Activate the Server for taking requests
 server.listen(config.port, function() {
@@ -69,6 +95,15 @@ let authorsData = null, categoriesData=null;
 setTimeout(function() {
 	authorsData = null; categoriesData = null;
 }, 60000 * 12);
+
+function toProperCase(val) {
+	return val.toLowerCase().replace(/^(.)|\s(.)/g, function(v) { return v.toUpperCase(); });
+}
+
+function pluginData(req, res, next) {
+	res.send("Hey we are looking at a plugin");
+	next();
+}
 
 function fixGroupData(data) {
 	let dataSet = {};
@@ -100,6 +135,9 @@ function fixData(data, callback) {
 
 	for (let i=0;i<count;i++) {
 		let curData = data[i];
+		if (!curData.shortName) {
+			curData.shortName = toProperCase(curData.name.replace('nativescript-', '').replace(/\-/g, ' '));
+		}
 		curData.author =  {id: curData.author, name: authorsData[curData.author]};
 		curData.category = {id: curData.category, name: categoriesData[curData.category]};
 		curData.os_support = {android: ((curData.os_support & 1) === 1), ios: ((curData.os_support & 2) === 2) };
@@ -108,7 +146,6 @@ function fixData(data, callback) {
 
 	callback(newData);
 }
-
 
 function categories(req, res, next) {
     database.getCategories(function(err, results) {
@@ -145,7 +182,7 @@ function search(req, res, next) {
             handleError(res,  err.toString() );
             next();
         } else {
-			fixData(results.row, function(data) {
+			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
@@ -222,7 +259,7 @@ function pluginsKeyValue(req, res, next) {
             handleError(res,  err.toString() );
 			next();
         } else {
-			fixData(results.row, function(data) {
+			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
@@ -242,7 +279,10 @@ function pluginById(req, res, next) {
         if (err) {
             handleError(res,  err.toString() );
         } else {
-            res.send(results.rows);
+			fixData(results.rows, function(data) {
+				res.send(data);
+				next();
+			});
         }
         next();
     });
