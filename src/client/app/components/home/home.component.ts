@@ -70,8 +70,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public toggleSideBar() {
     this.sideBar = !this.sideBar;
     if (this.sideBar) {
+      // Resize main body of plugins
       this.renderer.setElementClass(this.elBody.nativeElement, 'hasSideBar', true);
+      // Show the sidebar
       this.renderer.setElementClass(this.el.nativeElement, 'hide', false);
+      // Resize the icon bar to show the toggle icon
       this.renderer.setElementClass(this.elBar.nativeElement, 'hasSideBar', true);
     } else {
       this.renderer.setElementClass(this.elBody.nativeElement, 'hasSideBar', false);

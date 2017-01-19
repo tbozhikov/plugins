@@ -378,6 +378,12 @@ p {
   background-color: white;
   width: 20%;
   margin-left: 80%;
+  padding: 20px;
+  border-left: #e8e8e8 solid 2px;
+  h2 {
+    margin-left: -26px;
+    padding-left: 23px;
+  }
 }
 .hide {
   visibility: hidden;

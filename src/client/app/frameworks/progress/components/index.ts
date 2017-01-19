@@ -5,7 +5,6 @@ import { PluginRowComponent } from './plugin/plugin-row.component';
 import { RepoLinkComponent } from './plugin/repo-link.component';
 import { StarsComponent } from './plugin/stars.component';
 import { ToolbarComponent } from './site/toolbar.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 
 export const PROGRESS_COMPONENTS: any[] = [
   NavbarComponent,
@@ -14,8 +13,7 @@ export const PROGRESS_COMPONENTS: any[] = [
   PluginRowComponent,
   RepoLinkComponent,
   StarsComponent,
-  ToolbarComponent,
-  SidebarComponent
+  ToolbarComponent
 ];
 
 export * from './site/navbar.component';
@@ -25,4 +23,3 @@ export * from './plugin/plugin-row.component';
 export * from './plugin/repo-link.component';
 export * from './plugin/stars.component';
 export * from './site/toolbar.component';
-export * from './sidebar/sidebar.component';
