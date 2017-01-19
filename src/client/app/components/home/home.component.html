@@ -8,24 +8,41 @@
     <div class="row">
       <div class="col-sm-12">
         <h2 class="highlight">SORT BY</h2>
-        <select>
-          <option value="name">Name</option>
-          <option value="thing1">Thing1</option>
-          <option value="thing2">Thing2</option>
-          <option value="thing3">Thing3</option>
+        <select class="form-control">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12">
         <h2 class="highlight">CATEGORIES</h2>
-        <input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
-        <input type="checkbox" name="vehicle" value="Car" checked> I have a car<br>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Filter 1
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Filter 2
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Filter 3
+          </label>
+        </div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12">
-<button class="btn btn-default" type="submit">Button</button>
+        <button class="btn btn-default" type="submit">Clear Filters</button>
       </div>
     </div>
   </div>
