@@ -3,8 +3,11 @@
     padding-right: 10px;
 }
 .detail {
-    padding-top: 100px;
-    width: 80vw;
+    padding-top: 120px;
+    width: 100vw;
+    margin-left: 20px;
+    padding-right: calc(20vw + 120px);
+
 }
 .search-container {
   background-color: #042733;
@@ -57,7 +60,6 @@ span {
     width: calc(25vw - 40px);
     margin-left: 75vw;
     margin-right: 20px;
-    padding-top: 100px;
     padding-left: 20px;
     height: 100%;
 }
