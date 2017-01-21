@@ -118,7 +118,6 @@ h2 {
   color: #000;
 }
 h3 {
-  margin-top: -8px;
   font-weight: lighter;
   font-family: geomanistregular;
   font-size: 15px;
@@ -408,4 +407,7 @@ p {
 
 .pre-card h4 {
   padding-top: 2px;
+}
+pre {
+  margin: 5px 5px 20px !important;
 }
