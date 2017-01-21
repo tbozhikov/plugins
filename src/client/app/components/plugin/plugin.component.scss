@@ -79,7 +79,8 @@ span {
     }
 }
 .section {
-    padding-top: 23px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     border-bottom: 2px solid #e8e8e8;
     border-right: 2px solid #e8e8e8;
     margin-left: -20px;
@@ -104,4 +105,7 @@ span {
         padding-bottom: 8px;
         font-size: 22px;
     }
+}
+.install h3 {
+    margin-top: -6px;
 }
