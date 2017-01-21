@@ -10,8 +10,6 @@ import { IPlugin } from '../../frameworks/progress/models/index';
 import * as pluginActions from '../../frameworks/progress/actions/plugin.action';
 import { IPluginState } from '../../frameworks/progress/states/plugin.state';
 import * as showdown from 'showdown';
-// REMOVE BELOW AFTER API WIREUP
-import { ReadMe } from '../../frameworks/progress/testing/mocks/plugins.mock';
 
 @Component({
   moduleId: module.id,
@@ -36,8 +34,8 @@ export class PluginComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.plugin = s.selected;
         this.pluginName = this.plugin.name;
-        let converter = new showdown.Converter();
-        //this.readme = converter.makeHtml(this.Plugin.readme);
+        let converter: any = new showdown.Converter({tables: true});
+        converter.setFlavor('github');
         if (this.plugin.readme) {
           this.readme = converter.makeHtml(this.plugin.readme); // <-- JUST FOR WIREFRAME
         } else {
