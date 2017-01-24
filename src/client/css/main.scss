@@ -21,29 +21,44 @@ div {
         background-color: #e8e8e8 !important;
 }
 /* mixin for multiline */
-@mixin multiLineEllipsis($lineHeight: 1em, $lineCount: 3, $bgColor: white){
+// @mixin multiLineEllipsis($lineHeight: 1em, $lineCount: 3, $bgColor: white){
+//   overflow: hidden;
+//   position: relative;
+//   line-height: $lineHeight;
+//   max-height: $lineHeight * $lineCount;
+//   text-align: justify;
+//   //margin-right: -1em;
+//   padding-right: 1em;
+//   &:before {
+//     content: '...';
+//     position: absolute;
+//     right: 0;
+//     bottom: 0;
+//   }
+//   &:after {
+//     content: '';
+//     position: absolute;
+//     right: 0;
+//     width: 1em;
+//     height: 1em;
+//     margin-top: 0.2em;
+//     background: $bgColor;
+//   }
+// }
+@mixin multiLineEllipsis($max-height, $lines: 2) {
+  // Fallback for non-webkit browsers.
+  // Fallback does not render ellipsis.
   overflow: hidden;
-  position: relative;
-  line-height: $lineHeight;
-  max-height: $lineHeight * $lineCount; 
-  text-align: justify;
-  //margin-right: -1em;
-  padding-right: 1em;
-  &:before {
-    content: '...';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    width: 1em;
-    height: 1em;
-    margin-top: 0.2em;
-    background: $bgColor;
-  }
+  max-height: $max-height;
+  margin:5px 0 0;
+
+  // Webkit solution for multiline ellipsis
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+
+  // Solution for Opera
+  text-overflow: -o-ellipsis-lastline;
 }
 
 /* Set up a default font and some padding to provide breathing room */
@@ -73,11 +88,27 @@ li {
 }
 
 input {
-  border: 1px solid #106cc8;
+  // border: 1px solid #106cc8;
   font-size: 14px;
   height: 40px;
   outline: none;
   padding: 8px;
+  opacity: .9;
+  text-indent:20px;
+
+  &:focus, &:active, &:hover {
+    border-color:none;
+    opacity:1;
+  }
+}
+sd-search {
+  input{
+    &.form-control {
+      &:focus {
+        border-color:#fff;
+      }
+    }
+  }
 }
 
 button {
@@ -164,7 +195,8 @@ p {
   }
 
   .block-with-text {
-    @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 3, $bgColor: white);  
+    // @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 3, $bgColor: white);
+    @include multiLineEllipsis($max-height: 100px, $lines: 3);
   }
 
   .desc {
@@ -274,6 +306,8 @@ p {
   text-align: left;
   color: #042733;
   background-color: #fff;
+  font-size: 20px;
+  line-height: 20px;
   &.active {
     background-color: #adf9ed;
   }

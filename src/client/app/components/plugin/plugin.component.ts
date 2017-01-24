@@ -38,6 +38,8 @@ export class PluginComponent implements OnInit, OnDestroy {
         converter.setFlavor('github');
         if (this.plugin.readme) {
           this.readme = converter.makeHtml(this.plugin.readme); // <-- JUST FOR WIREFRAME
+          // fixup what can be reasonably fixed up
+          this.readme = this.readme.replace(/<img src="screenshots/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/screenshots`);
         } else {
           this.readme = 'No readme found.';
         }

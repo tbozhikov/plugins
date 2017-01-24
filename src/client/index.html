@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="<%= APP_BASE %>">
+  <base href="/">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><%= APP_TITLE %></title>
@@ -37,10 +37,67 @@
   </script>
   <% } %>
 
+  <style>
+  body,
+  sd-app {
+    width:100%;
+    height:100%;
+  }
+
+    .loader-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top:28vh;
+      background-color: #3d5afe;
+      padding-bottom:70vh;
+    }
+
+    .loader {
+      color: #fff;
+
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-weight: bold;
+      font-size: 30vh;
+
+      opacity: 0.8;
+    }
+    .loader div {
+      display:inline-block;
+      animation: pulse2 0.4s alternate infinite ease-in-out;
+    }
+    .loader span {
+      display: inline-block;
+      animation: pulse 0.4s alternate infinite ease-in-out;
+    }
+    .loader span.l-bracket {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes pulse {
+      to {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+    }
+    @keyframes pulse2 {
+      to {
+        transform: scale(1.1);
+        opacity: 0.9;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
-  <sd-app>Loading...</sd-app>
+  <sd-app>
+    <div class="loader-wrapper">
+      <div class="loader">
+        <span class="l-bracket">{</span><div>N</div><span>}</span>
+      </div>
+    </div>
+  </sd-app>
 
   <script>
   // Fixes undefined module function in SystemJS bundle

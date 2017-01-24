@@ -9,6 +9,13 @@
     padding-right: calc(25vw + 60px);
 
 }
+.repo-link {
+    text-overflow: ellipsis;
+    max-width: 230px;
+    display: block;
+    word-wrap: break-word;
+    cursor:pointer;
+}
 .search-container {
   background-color: #042733;
   width: 100%;
@@ -62,13 +69,15 @@ span {
     margin-left: 75vw;
     margin-right: 20px;
     padding-left: 20px;
-    height: 100%;
+    // height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .install {
     background-color: #00caab;
     margin-left: -20px;
     padding-top: 25px;
-    margin-top: 20px;
+    margin-top: 0;//20px;
     padding-bottom: 10px;
     text-align: center;
 
@@ -87,7 +96,7 @@ span {
     padding-left: 20px;
     color: #006968;
     overflow: hidden;
-    
+
     p {
         font-size: 18px;
         margin-top: -7px;
@@ -109,8 +118,52 @@ span {
 .install h3 {
     margin-top: -6px;
 }
+// .loader {
+//     height: 70px;
+//     margin-left: calc(50vw - 35px);
+//     margin-top: 10%;
+// }
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // padding-top:28vh;
+  // background-color: #4684ee;
+  // padding-bottom:70vh;
+      padding-top: 0;
+    background-color: #ebf0f9;
+}
 .loader {
-    height: 70px;
-    margin-left: calc(50vw - 35px);
-    margin-top: 10%;
+  color: #fff;
+
+  font-family: Consolas, Menlo, Monaco, monospace;
+  font-weight: bold;
+  font-size: 30vh;
+
+  opacity: 0.8;
+}
+.loader div {
+  display:inline-block;
+  animation: pulse2 0.4s alternate infinite ease-in-out;
+}
+.loader span {
+  display: inline-block;
+  animation: pulse 0.4s alternate infinite ease-in-out;
+}
+.loader span.l-bracket {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+@keyframes pulse2 {
+  to {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
 }

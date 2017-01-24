@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 // app
-import { BaseComponent } from '../../../core/index';
+import { RouterExtensions } from '../../../core/services/router-extensions.service';
 
 @Component({
   moduleId: module.id,
@@ -9,4 +10,14 @@ import { BaseComponent } from '../../../core/index';
   styleUrls: ['navbar.component.css']
 })
 export class NavbarComponent {
+
+  public showViewAll: boolean;
+
+  constructor(private router: Router) {
+    router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        this.showViewAll = e.url.indexOf('/plugin/') > -1;
+      }
+    });
+  }
 }

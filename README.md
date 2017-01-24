@@ -1,10 +1,8 @@
-[![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
+[![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 [![Build Status](https://travis-ci.org/NativeScript/plugins.svg?branch=master)](https://travis-ci.org/NativeScript/plugins)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://david-dm.org/NativeScript/plugins.svg)](https://david-dm.org/NativeScript/plugins)
 [![devDependency Status](https://david-dm.org/NativeScript/plugins/dev-status.svg)](https://david-dm.org/NativeScript/plugins#info=devDependencies)
-[![Stack Share](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](http://stackshare.io/NativeScript/plugins)
-[![Stories in Progress](https://badge.waffle.io/NativeScript/plugins.png?label=in%20progress&title=Stories%20In%20Progress)](https://waffle.io/NativeScript/plugins)
 
 # The Official NativeScript Plugins Resource
 
@@ -14,6 +12,7 @@ Currently a work in progress.
 
 ## Table of Contents
 
+- [Credits](#credits)
 - [Prerequisites](#prerequisites)
 - [How to start](#how-to-start)
 - [How to start with AoT compilation](#how-to-start-with-aot-compilation)
@@ -23,6 +22,10 @@ Currently a work in progress.
 - [Framework How-Tos](#framework-how-tos)
 - [Web Configuration Options](#web-configuration-options)
 - [License](#license)
+
+## Credits
+
+- [site loader](https://codepen.io/ashmind/pen/zqaqpB)
 
 ### Prerequisites
 
@@ -72,23 +75,6 @@ In order to start the seed with AoT use:
 $ npm run build.prod.exp
 ```
 
-When using AoT compilation, please consider the following:
-
-Currently you cannot use custom component decorators with AoT compilation. This may change in the future but for now you can use this pattern for when you need to create AoT builds for the web:
-
-```
-import { Component } from '@angular/core';
-import { BaseComponent } from '../frameworks/core/index';
-
-// @BaseComponent({   // just comment this out and use Component from 'angular/core'
-@Component({
-  // etc.
-```
-
-After doing the above, running AoT build via `npm run build.prod.exp` will succeed. :)
-
-`BaseComponent` custom component decorator does the auto `templateUrl` switching to use {N} views when running in the {N} app therefore you don't need it when creating AoT builds for the web. However just note that when going back to run your {N} app, you should comment back in the `BaseComponent`. Again this temporary inconvenience may be unnecessary in the future.
-
 ## NativeScript App
 
 #### Setup
@@ -116,46 +102,6 @@ Android (livesync device):    npm run start.livesync.android.device
 OR...
 
 * [GenyMotion Android Emulator](https://www.genymotion.com/)
-
-##### Building with Webpack for release builds
-
-You can greatly reduce the final size of your NativeScript app by the following:
-
-```
-cd nativescript
-npm i nativescript-dev-webpack --save-dev
-```
-Then you will need to modify your components to *not* use `moduleId: module.id` and change `templateUrl` to true relative app, for example:
-
-before:
-
-```
-@BaseComponent({
-  moduleId: module.id,
-  selector: 'sd-home',
-  templateUrl: 'home.component.html',
-  styleUrls: ['home.component.css']
-})
-```
-after:
-
-```
-@BaseComponent({
-  // moduleId: module.id,
-  selector: 'sd-home',
-  templateUrl: './app/components/home/home.component.html',
-  styleUrls: ['./app/components/home/home.component.css']
-})
-```
-
-Then to build:
-
-Ensure you are in the `nativescript` directory when running these commands.
-
-* iOS: `WEBPACK_OPTS="--display-error-details" tns build ios --bundle`
-* Android: `WEBPACK_OPTS="--display-error-details" tns build android --bundle`
-
-Notice your final build will be drastically smaller. In some cases 120 MB -> ~28 MB. 👍 
 
 ## Electron App
 

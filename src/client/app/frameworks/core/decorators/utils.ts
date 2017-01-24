@@ -35,12 +35,12 @@ export class DecoratorUtils {
 
     metadata.directives = metadata.directives ? metadata.directives.concat(DIRECTIVES) : DIRECTIVES;
 
-    if (metadata.changeDetection) {
-      metadata.changeDetection = metadata.changeDetection;
-    } else {
-      // default OnPush
-      metadata.changeDetection = ChangeDetectionStrategy.OnPush;
-    }
+    // if (metadata.changeDetection) {
+    //   metadata.changeDetection = metadata.changeDetection;
+    // } else {
+    //   // default OnPush
+    //   metadata.changeDetection = ChangeDetectionStrategy.OnPush;
+    // }
 
     if (metadata.encapsulation) {
       metadata.encapsulation = metadata.encapsulation;
