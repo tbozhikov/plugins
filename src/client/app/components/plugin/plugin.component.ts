@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Title }  from '@angular/platform-browser';
 
 // libs
 import { Store } from '@ngrx/store';
@@ -19,12 +20,19 @@ import * as showdown from 'showdown';
 })
 export class PluginComponent implements OnInit, OnDestroy {
   plugin: IPlugin;
+  modifiedDate: number;
   pluginName: string;
+  authorHandle: string;
   readme: string;
   loading: boolean = true;
   private _subs: Array<Subscription>;
 
-  constructor(private store: Store<any>, private route: ActivatedRoute, private pluginService: PluginService) {
+  constructor(
+    private store: Store<any>,
+    private route: ActivatedRoute,
+    private pluginService: PluginService,
+    private titleService: Title
+  ) {
     this._subs = [];
   }
 
@@ -33,6 +41,9 @@ export class PluginComponent implements OnInit, OnDestroy {
       if (s.selected && !s.searching) {
         this.loading = false;
         this.plugin = s.selected;
+        this.modifiedDate = +this.plugin.modified_date;
+        this.authorHandle = '/' + (this.plugin.repo_url ? this.plugin.repo_url.split('/')[0] : '');
+        this.titleService.setTitle(`${this.plugin.name} - NativeScript plugin`);
         this.pluginName = this.plugin.name;
         let converter: any = new showdown.Converter({tables: true});
         converter.setFlavor('github');

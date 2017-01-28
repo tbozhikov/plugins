@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('sidebar') el: ElementRef;
   @ViewChild('mainBody') elBody: ElementRef;
   @ViewChild('preBar') elBar: ElementRef;
+
   constructor(private store: Store<any>, private router: RouterExtensions, public renderer: Renderer) {
     this._subs = [];
     // ensure no plugin is selected

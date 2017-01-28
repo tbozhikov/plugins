@@ -14,6 +14,8 @@ interface IPlatforms {
 
 export class Config {
 
+  public static APP_TITLE: string = 'Official source for NativeScript plugins';
+
   public static PageClass: any;
 
   public static DEBUG: any = {

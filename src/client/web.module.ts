@@ -26,9 +26,6 @@ import { LibsModule } from './libs.module';
 import { AuthEffects, ModalEffects, PluginEffects } from './app/frameworks/progress/effects/index';
 import { ProgressModule } from './app/frameworks/progress/progress.module';
 
-// pipes
-import { urlShortenPipe } from './app/pipes/url-shorten.pipe';
-
 // config
 import { Config, WindowService, ConsoleService } from './app/frameworks/core/index';
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
@@ -108,8 +105,7 @@ export function cons() {
     JsonpModule
   ],
   declarations: [
-    APP_COMPONENTS,
-    urlShortenPipe
+    APP_COMPONENTS
   ],
   providers: [
     {

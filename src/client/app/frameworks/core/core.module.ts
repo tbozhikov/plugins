@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 
 // module
 import { CORE_DIRECTIVES } from './directives/index';
+import { CORE_PIPES } from './pipes/index';
 import { CORE_PROVIDERS } from './services/index';
 import { Config } from './utils/index';
 
@@ -26,6 +27,7 @@ interface ICoreModuleOptions {
     HttpModule
   ],
   declarations: [
+    CORE_PIPES,
     CORE_DIRECTIVES
   ],
   exports: [
@@ -34,6 +36,7 @@ interface ICoreModuleOptions {
     ReactiveFormsModule,
     RouterModule,
     HttpModule,
+    CORE_PIPES,
     CORE_DIRECTIVES
   ],
   providers: [

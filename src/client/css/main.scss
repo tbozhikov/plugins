@@ -339,6 +339,10 @@ p {
   float: left;
   padding-right: 20px;
 }
+.toggle-view,
+.fa-sliders {
+  cursor: pointer;
+}
 .viewing {
   margin-top:-2px;
 }

@@ -12,7 +12,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
   constructor() {
     super();
-    this.APP_TITLE = 'The Official NativeScript Plugins Resource';
+    this.APP_TITLE = 'Official source for NativeScript plugins';
     this.ENABLE_SCSS = true;
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
@@ -33,7 +33,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
     // dev
     this.SYSTEM_CONFIG.packages['angular2-jwt'] = {
-      defaultExtension : 'js'
+      defaultExtension: 'js'
     };
     this.SYSTEM_CONFIG.paths['npm:'] = `node_modules/`;
     if (!this.SYSTEM_CONFIG.map) this.SYSTEM_CONFIG.map = {};
@@ -53,7 +53,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
           defaultExtension: 'js'
         }
       },
-     {
+      {
         name: 'angular2-infinite-scroll',
         packageMeta: {
           main: 'angular2-infinite-scroll.js',
@@ -64,6 +64,20 @@ export class ProjectConfig extends SeedAdvancedConfig {
         name: 'showdown',
         packageMeta: {
           main: 'dist/showdown.min.js',
+          defaultExtension: 'js'
+        }
+      },
+      {
+        name: 'moment',
+        packageMeta: {
+          main: 'min/moment.min.js',
+          defaultExtension: 'js'
+        }
+      },
+      {
+        name: 'angular2-moment',
+        packageMeta: {
+          main: 'index.js',
           defaultExtension: 'js'
         }
       }
