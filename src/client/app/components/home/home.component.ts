@@ -26,10 +26,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public cardView: boolean;
   public sideBar: boolean = false;
   public isLoading: boolean = true;
-  private _subs: Array<Subscription>;
   @ViewChild('sidebar') el: ElementRef;
   @ViewChild('mainBody') elBody: ElementRef;
   @ViewChild('preBar') elBar: ElementRef;
+
+  private _subs: Array<Subscription>;
 
   constructor(private store: Store<any>, private router: RouterExtensions, public renderer: Renderer) {
     this._subs = [];

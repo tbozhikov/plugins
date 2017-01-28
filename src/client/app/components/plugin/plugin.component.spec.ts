@@ -14,6 +14,7 @@ import { MockBackend } from '@angular/http/testing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MomentModule } from 'angular2-moment';
 
 import { t } from '../../frameworks/test/index';
 import { CoreModule } from '../../frameworks/core/core.module';
@@ -32,6 +33,7 @@ const testModuleConfig = () => {
   TestBed.configureTestingModule({
     imports: [
       CoreModule, RouterTestingModule, AnalyticsModule, JsonpModule,
+      MomentModule,
       NgbModule.forRoot(),
       StoreModule.provideStore({ auth: authReducer }),
       EffectsModule.run(AuthEffects),

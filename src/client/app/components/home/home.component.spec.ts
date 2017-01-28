@@ -14,6 +14,7 @@ import { MockBackend } from '@angular/http/testing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 import { t } from '../../frameworks/test/index';
 import { CoreModule } from '../../frameworks/core/core.module';
@@ -33,6 +34,7 @@ const testModuleConfig = () => {
   TestBed.configureTestingModule({
     imports: [
       CoreModule, RouterTestingModule, AnalyticsModule, JsonpModule,
+      InfiniteScrollModule,
       NgbModule.forRoot(),
       StoreModule.provideStore({ auth: authReducer }),
       EffectsModule.run(AuthEffects),

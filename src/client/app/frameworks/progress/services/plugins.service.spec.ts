@@ -4,6 +4,7 @@ import { JsonpModule } from '@angular/http';
 
 // app
 import { t } from '../../test/index';
+import { TEST_CORE_PROVIDERS } from '../../core/testing/index';
 import { PluginService } from './plugins.service';
 
 // test module configuration for each test
@@ -11,6 +12,7 @@ const testModuleConfig = () => {
   TestBed.configureTestingModule({
     imports: [JsonpModule],
     providers: [
+      TEST_CORE_PROVIDERS(),
       PluginService
     ]
   });

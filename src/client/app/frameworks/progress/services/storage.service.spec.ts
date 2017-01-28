@@ -51,7 +51,8 @@ export function main() {
     t.it('KEYS', () => {
       t.e(StorageService.KEYS).toEqual({
         USER: 'tns-plugins-user',
-        RECENT_USERNAME: 'tns-plugins-recent-username'
+        RECENT_USERNAME: 'tns-plugins-recent-username',
+        PLUGINS: 'tns-plugins-plugins'
       });
     });
 

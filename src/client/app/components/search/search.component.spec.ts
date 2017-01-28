@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { t } from '../../frameworks/test/index';
 import { CoreModule } from '../../frameworks/core/core.module';
+import { TEST_CORE_PROVIDERS } from '../../frameworks/core/testing/index';
 import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
 import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
 import { authReducer } from '../../frameworks/progress/reducers/index';
@@ -39,6 +40,7 @@ const testModuleConfig = () => {
     ],
     declarations: [SearchComponent, TestComponent],
     providers: [
+      TEST_CORE_PROVIDERS(),
       AuthService,
       StorageService,
       PluginService,

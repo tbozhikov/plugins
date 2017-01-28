@@ -1,4 +1,4 @@
-import { Component, Input, Renderer } from '@angular/core';
+import { Component, Input, Renderer, HostListener } from '@angular/core';
 import {ElementRef, ViewChild} from '@angular/core';
 
 // libs
@@ -11,12 +11,7 @@ import { RouterExtensions } from '../../../core/services/router-extensions.servi
 @Component({
   moduleId: module.id,
   selector: 'plugin-box',
-  templateUrl: 'plugin-box.component.html',
-  host: {
-    '(mouseenter)': 'over()',
-    '(mouseleave)': 'off()'
-  }
-
+  templateUrl: 'plugin-box.component.html'
 })
 export class PluginBoxComponent extends BasePlugin {
   @Input() plugin;
@@ -26,10 +21,13 @@ export class PluginBoxComponent extends BasePlugin {
     super(store, router);
   }
 
-  over(){
+  @HostListener('mouseenter')
+  public over() {
     this.renderer.setElementClass(this.el.nativeElement, 'isHovered', true);
   }
-  off() {
+
+  @HostListener('mouseleave')
+  public off() {
     this.renderer.setElementClass(this.el.nativeElement, 'isHovered', false);
   }
 }
