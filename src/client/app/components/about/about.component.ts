@@ -1,11 +1,13 @@
 import { Component, Injector } from '@angular/core';
-import { Config } from '../../frameworks/core/index';
+import { Config } from '../../shared/core/index';
 
 @Component({
   moduleId: module.id,
   selector: 'sd-about',
   templateUrl: 'about.component.html',
-  styleUrls: ['about.component.css']
+  styleUrls: [
+    'about.component.css',
+  ],
 })
 export class AboutComponent {
 

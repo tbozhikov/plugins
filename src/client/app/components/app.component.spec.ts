@@ -11,13 +11,13 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // app
-import { t } from '../frameworks/test/index';
-import { TEST_CORE_PROVIDERS, TEST_HTTP_PROVIDERS } from '../frameworks/core/testing/index';
-import { MultilingualModule } from '../frameworks/i18n/multilingual.module';
-import { NavbarComponent, ToolbarComponent } from '../frameworks/progress/components/index';
-import { AUTH_LOCK } from '../frameworks/progress/services/auth.service';
-import { AuthLockMock } from '../frameworks/progress/testing/index';
-import { reducer } from '../frameworks/i18n/index';
+import { t } from '../shared/test/index';
+import { TEST_CORE_PROVIDERS, TEST_HTTP_PROVIDERS } from '../shared/core/testing/index';
+import { MultilingualModule } from '../shared/i18n/multilingual.module';
+import { NavbarComponent, ToolbarComponent } from '../shared/progress/components/index';
+import { AUTH_LOCK } from '../shared/progress/services/auth.service';
+import { AuthLockMock } from '../shared/progress/testing/index';
+import { reducer } from '../shared/i18n/index';
 
 // module
 import { AppComponent } from './app.component';

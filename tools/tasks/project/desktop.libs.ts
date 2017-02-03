@@ -12,7 +12,7 @@ export = () => {
     'node_modules/ng2-translate/**/*',
     'node_modules/@ngrx/**/*',
     'node_modules/ngrx-store-freeze/**/*',
-    'node_modules/deep-freeze/**/*',
+    'node_modules/deep-freeze-strict/**/*',
     'node_modules/angular2-jwt/**/*',
     'node_modules/@ng-bootstrap/**/*',
     'node_modules/angular2-infinite-scroll/**/*',

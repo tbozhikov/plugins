@@ -53,7 +53,7 @@ module.exports = function (config) {
       { pattern: 'node_modules/@ngrx/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/angulartics2/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/ngrx-store-freeze/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/deep-freeze/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/deep-freeze-strict/**/*.js', included: false, watched: false },
 
       // Plugins site
       { pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false },

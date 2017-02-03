@@ -1,15 +1,13 @@
-// angular
+// libs
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-// libs
-import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
-
 // app
-import { t } from '../../frameworks/test/index';
-import { CoreModule } from '../../frameworks/core/core.module';
-import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
+import { t } from '../../shared/test/index';
+import { CoreModule } from '../../shared/core/core.module';
+import { AnalyticsModule } from '../../shared/analytics/analytics.module';
+import { MultilingualModule } from '../../shared/i18n/multilingual.module';
 import { AboutComponent } from './about.component';
 
 // test module configuration for each test

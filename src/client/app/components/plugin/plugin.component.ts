@@ -6,10 +6,10 @@ import { Title }  from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { PluginService } from '../../frameworks/progress/services/plugins.service';
-import { IPlugin } from '../../frameworks/progress/models/index';
-import * as pluginActions from '../../frameworks/progress/actions/plugin.action';
-import { IPluginState } from '../../frameworks/progress/states/plugin.state';
+import { PluginService } from '../../shared/progress/services/plugins.service';
+import { IPlugin } from '../../shared/progress/models/index';
+import * as pluginActions from '../../shared/progress/actions/plugin.action';
+import { IPluginState } from '../../shared/progress/states/plugin.state';
 import * as showdown from 'showdown';
 
 @Component({

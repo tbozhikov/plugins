@@ -16,16 +16,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'angular2-moment';
 
-import { t } from '../../frameworks/test/index';
-import { CoreModule } from '../../frameworks/core/core.module';
-import { AnalyticsModule } from '../../frameworks/analytics/analytics.module';
-import { MultilingualModule } from '../../frameworks/i18n/multilingual.module';
-import { authReducer } from '../../frameworks/progress/reducers/index';
-import { AuthEffects } from '../../frameworks/progress/effects/index';
-import { AuthService, AUTH_LOCK } from '../../frameworks/progress/services/auth.service';
-import { PluginService } from '../../frameworks/progress/services/plugins.service';
-import { StorageService } from '../../frameworks/progress/services/storage.service';
-import { AuthLockMock } from '../../frameworks/progress/testing/index';
+import { t } from '../../shared/test/index';
+import { CoreModule } from '../../shared/core/core.module';
+import { AnalyticsModule } from '../../shared/analytics/analytics.module';
+import { MultilingualModule } from '../../shared/i18n/multilingual.module';
+import { authReducer } from '../../shared/progress/reducers/index';
+import { AuthEffects } from '../../shared/progress/effects/index';
+import { AuthService, AUTH_LOCK } from '../../shared/progress/services/auth.service';
+import { PluginService } from '../../shared/progress/services/plugins.service';
+import { StorageService } from '../../shared/progress/services/storage.service';
+import { AuthLockMock } from '../../shared/progress/testing/index';
 import { PluginComponent } from './plugin.component';
 
 // test module configuration for each test

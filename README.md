@@ -16,27 +16,20 @@ Currently a work in progress.
 - [Prerequisites](#prerequisites)
 - [How to start](#how-to-start)
 - [How to start with AoT compilation](#how-to-start-with-aot-compilation)
-- [NativeScript App](#nativescript-app)
-- [Electron App](#electron-app)
+- [Mobile App](#mobile-app)
+- [Desktop App](#desktop-app)
 - [Running tests](#running-tests)
-- [Framework How-Tos](#framework-how-tos)
 - [Web Configuration Options](#web-configuration-options)
 - [License](#license)
 
 ## Credits
 
 - [site loader](https://codepen.io/ashmind/pen/zqaqpB)
+- Project seeded from [angular-seed-advanced](https://github.com/NathanWalker/angular-seed-advanced)
 
 ### Prerequisites
 
-* node v5.x.x or higher and npm 3 or higher.
-
-* To run the NativeScript app:
-
-```
-npm install -g nativescript
-npm install -g typescript
-```
+**node v6.5.0 or higher** and **npm 3.10.3 or higher**.
 
 ## How to start
 
@@ -72,10 +65,12 @@ In order to start the seed with AoT use:
 
 ```bash
 # prod build with AoT compilation
-$ npm run build.prod.exp
+$ npm run build.prod.aot
 ```
 
-## NativeScript App
+## Mobile App
+
+The mobile app is provided via [NativeScript](https://www.nativescript.org/), an open source framework for building truly native mobile apps.
 
 #### Setup
 
@@ -87,14 +82,12 @@ npm install -g nativescript
 
 ```
 iOS:                      npm run start.ios
-iOS (livesync emulator):  npm run start.livesync.ios
-iOS (livesync device):    npm run start.livesync.ios.device
+iOS (device):             npm run start.ios.device
 
 // or...
 
 Android:                      npm run start.android
-Android (livesync emulator):  npm run start.livesync.android
-Android (livesync device):    npm run start.livesync.android.device
+Android (device):             npm run start.android.device
 ```
 
 * Requires an image setup via AVD Manager. [Learn more here](http://developer.android.com/intl/zh-tw/tools/devices/managing-avds.html) and [here](https://github.com/NativeScript/nativescript-cli#the-commands).
@@ -103,7 +96,10 @@ OR...
 
 * [GenyMotion Android Emulator](https://www.genymotion.com/)
 
-## Electron App
+## Desktop App
+
+The desktop app is provided via [Electron](http://electron.atom.io/), cross platform desktop apps
+with JavaScript, HTML, and CSS.
 
 #### Develop
 

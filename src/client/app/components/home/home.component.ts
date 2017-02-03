@@ -6,12 +6,12 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 // app
-import { RouterExtensions } from '../../frameworks/core/index';
-import { IAppState } from '../../frameworks/ngrx/index';
-import { IUser, IPlugin } from '../../frameworks/progress/models/index';
-import { IAuthState, IPluginState } from '../../frameworks/progress/states/index';
-import * as authActions from '../../frameworks/progress/actions/auth.action';
-import * as pluginActions from '../../frameworks/progress/actions/plugin.action';
+import { RouterExtensions } from '../../shared/core/index';
+import { IAppState } from '../../shared/ngrx/index';
+import { IUser, IPlugin } from '../../shared/progress/models/index';
+import { IAuthState, IPluginState } from '../../shared/progress/states/index';
+import * as authActions from '../../shared/progress/actions/auth.action';
+import * as pluginActions from '../../shared/progress/actions/plugin.action';
 
 @Component({
   moduleId: module.id,

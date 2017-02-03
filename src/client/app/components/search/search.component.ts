@@ -6,9 +6,9 @@ import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
 // app
-import { RouterExtensions } from '../../frameworks/core/services/router-extensions.service';
-import { PluginService } from '../../frameworks/progress/services/plugins.service';
-import * as pluginActions from '../../frameworks/progress/actions/plugin.action';
+import { RouterExtensions } from '../../shared/core/services/router-extensions.service';
+import { PluginService } from '../../shared/progress/services/plugins.service';
+import * as pluginActions from '../../shared/progress/actions/plugin.action';
 
 @Component({
   moduleId: module.id,

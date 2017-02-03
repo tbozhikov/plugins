@@ -1,11 +1,12 @@
-// angular
-import { Component, ChangeDetectionStrategy } from '@angular/core';
 // any operators needed throughout your application
 import './operators';
 
+// angular
+import { Component } from '@angular/core';
+
 // app
-import { AnalyticsService } from '../frameworks/analytics/index';
-import { Config, LogService } from '../frameworks/core/index';
+import { AnalyticsService } from '../shared/analytics/index';
+import { Config, LogService, AppService } from '../shared/core/index';
 
 /**
  * This class represents the main application component.
@@ -13,11 +14,15 @@ import { Config, LogService } from '../frameworks/core/index';
 @Component({
   moduleId: module.id,
   selector: 'sd-app',
-  templateUrl: 'app.component.html',
-  changeDetection: ChangeDetectionStrategy.Default // Everything else uses OnPush
+  templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  constructor(public analytics: AnalyticsService, public log: LogService) {
+
+  constructor(
+    public analytics: AnalyticsService,
+    public log: LogService,
+    private appService: AppService
+  ) {
     log.debug(`Config env: ${Config.ENVIRONMENT().ENV}`);
   }
 
