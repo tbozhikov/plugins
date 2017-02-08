@@ -1,6 +1,6 @@
 <div class="sidebar" *ngIf="!loading">
   <div class="install">
-    <h3>npm i {{plugin?.name | lowercase}}</h3>
+    <h3>tns plugin add {{plugin?.name | lowercase}}</h3>
   </div>
   <div class="section">
     <p><a [attr.href]="'https://' + plugin?.repo_site + authorHandle" target="_blank">{{plugin?.author?.name}}</a> published {{modifiedDate | amTimeAgo}}</p>
