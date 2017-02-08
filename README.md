@@ -168,6 +168,14 @@ var DOCS_PORT        = 4003;
 var APP_BASE         = '/';
 ```
 
+## Deploying
+
+```
+npm run build.prod
+cd server
+modulus deploy
+```
+
 ## License
 
 Apache 2.0
