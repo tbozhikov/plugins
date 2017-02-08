@@ -172,6 +172,7 @@ var APP_BASE         = '/';
 
 ```
 npm run build.prod
+node prep
 cd server
 modulus deploy
 ```

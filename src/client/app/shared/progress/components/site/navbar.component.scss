@@ -34,3 +34,9 @@ a {
 	font-variant: normal;
 	font-weight: 500;
 }
+
+@media (max-width: 500px) {
+  :host {
+    display:none;
+  }
+}

@@ -10,7 +10,19 @@ import { RouterExtensions } from '../../../core/services/router-extensions.servi
 @Component({
   moduleId: module.id,
   selector: 'plugin-row',
-  templateUrl: 'plugin-row.component.html'
+  templateUrl: 'plugin-row.component.html',
+  styles: [
+    `
+    @media (max-width: 500px) {
+      repo-link {
+        display:none;
+      }
+      .col-xs-3 {
+        width:100%;
+      }
+    }
+    `
+  ]
 })
 export class PluginRowComponent extends BasePlugin {
   @Input() plugin;

@@ -167,3 +167,12 @@ span {
     opacity: 0.9;
   }
 }
+
+@media (max-width: 500px) {
+  .sidebar {
+    display:none;
+  }
+  .detail {
+    padding-right:calc(16vw + 0px);
+  }
+}

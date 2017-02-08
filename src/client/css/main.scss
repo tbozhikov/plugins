@@ -469,3 +469,10 @@ pre code {
 nav {
   padding-right: 20px;
 }
+
+@media (max-width:500px) {
+  .listView {
+    width:100%;
+    margin-left:-8px;
+  }
+}
