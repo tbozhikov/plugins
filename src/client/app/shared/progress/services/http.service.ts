@@ -29,7 +29,7 @@ export interface IHttpOptions {
 
 @Injectable()
 export class HttpService extends Analytics {
-  private _prefix: string = 'http://nativescript.rocks:3004/api/';
+  private _prefix: string = 'http://plugins.nativescript.org/api/';
   private _suffix: string = '';
   private _authToken: string;
 

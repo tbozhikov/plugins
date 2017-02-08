@@ -6,10 +6,11 @@
  *********************************************************************************/
 
 module.exports =
-	{		
+	{
 		server: {
 			port: process.env.PORT, // Specific to Modulus
 			api: false,
-			static: true
+			static: true,
+			forward: true
 		}
 	};

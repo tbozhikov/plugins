@@ -1,8 +1,8 @@
 /**********************************************************************************
- * (c) 2016, Master Technology
+ * (c) 2016-2017, Master Technology
  *
  * Any questions please feel free to email me or put a issue up on the github repo
- * Version 0.0.2                                      Nathan@master-technology.com
+ * Version 0.0.3                                      Nathan@master-technology.com
  *********************************************************************************/
 "use strict";
 
@@ -34,7 +34,30 @@ if (config.api) {
 	server.get({path: '/api/getPlugins/:key/:value', version: '1.0.0'}, pluginsKeyValue);
 	server.get({path: '/api/getPlugin/:key', version: '1.0.0'}, pluginById);
 	server.get({path: '/api/getPluginCount', version: '1.0.0'}, pluginCount);
+} else if (config.forward) {
+	server.get({path: /\/api\/?.*/, version: '1.0.0'}, followRedirects);
 }
+
+const http = require('http');
+function followRedirects(req, res, next) {
+	http.get({host: "nativescript.rocks", port: 3004, path: req.url}, function(response) {
+		let body = '';
+		response.on('data', (d) => {
+			body += d;
+		});
+		response.on('end', () => {
+			let data = {error: true};
+			try {
+				data = JSON.parse(body)
+			} catch (err) {
+				data = {error: "please try again" };
+			}
+			res.send(data);
+			next();
+		});
+	});
+}
+
 
 
 // Setup which type of Static server we are going to be.
@@ -148,46 +171,46 @@ function fixData(data, callback) {
 }
 
 function categories(req, res, next) {
-    database.getCategories(function(err, results) {
-        if (err) {
-            handleError(res, err.toString());
-        } else {
-            res.send(results.rows);
-        }
-        next();
-    });
+	database.getCategories(function(err, results) {
+		if (err) {
+			handleError(res, err.toString());
+		} else {
+			res.send(results.rows);
+		}
+		next();
+	});
 }
 
 function authors(req, res, next) {
-    database.getAuthors(function(err, results) {
-        if (err) {
-            console.log(err);
-            handleError(res, err.toString());
-        } else {
-            res.send(results.rows);
-        }
-        next();
-    });
+	database.getAuthors(function(err, results) {
+		if (err) {
+			console.log(err);
+			handleError(res, err.toString());
+		} else {
+			res.send(results.rows);
+		}
+		next();
+	});
 }
 
 function search(req, res, next) {
-    if (req.params.value == null || req.params.value.length === 0) {
-        handleError(res, "Search requires a parameter");
-        next();
-        return;
-    }
+	if (req.params.value == null || req.params.value.length === 0) {
+		handleError(res, "Search requires a parameter");
+		next();
+		return;
+	}
 	const options = getOptions(req.params);
-    database.search(req.params.value, options, function (err, results) {
-        if (err) {
-            handleError(res,  err.toString() );
-            next();
-        } else {
+	database.search(req.params.value, options, function (err, results) {
+		if (err) {
+			handleError(res,  err.toString() );
+			next();
+		} else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-        }
-    })
+		}
+	})
 }
 
 const validSortFields = ['name', 'author', 'category', 'description', 'os_support', 'user_score', 'version', 'language', 'marketplace_score', 'modified_date'];
@@ -203,14 +226,14 @@ function getOptions(params) {
 		}
 	}
 	if (params.offset) {
-	    const newOffset = parseInt(params.offset, 10);
+		const newOffset = parseInt(params.offset, 10);
 		if (newOffset > 0) {
 			options.offset = newOffset;
 		}
 	}
 	if (params.limit) {
 		const newLimit = parseInt(params.limit, 10);
-	    if (newLimit > 0) {
+		if (newLimit > 0) {
 			options.limit = newLimit;
 		}
 	}
@@ -220,72 +243,72 @@ function getOptions(params) {
 function pluginsAll(req, res, next) {
 	const options = getOptions(req.params);
 
-    database.getAllPlugins(options, function (err, results) {
-        if (err) {
-            handleError(res,  err.toString() );
+	database.getAllPlugins(options, function (err, results) {
+		if (err) {
+			handleError(res,  err.toString() );
 			next();
-        } else {
+		} else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-        }
-    })
+		}
+	})
 }
 
 function pluginsKeyValue(req, res, next) {
-    if (req.params.key == null || req.params.value == null || req.params.key.length === 0 || req.params.value.length === 0 ) {
-        handleError(res, "Plugins requires a type & value");
-        next();
-        return;
-    }
+	if (req.params.key == null || req.params.value == null || req.params.key.length === 0 || req.params.value.length === 0 ) {
+		handleError(res, "Plugins requires a type & value");
+		next();
+		return;
+	}
 
 	const options = getOptions(req.params);
 
-    let func;
-    switch(req.params.key) {
-        case 'author': func = 'getPluginsOfAuthor'; break;
-        case 'category': func = 'getPluginsInCategory'; break;
-    }
+	let func;
+	switch(req.params.key) {
+		case 'author': func = 'getPluginsOfAuthor'; break;
+		case 'category': func = 'getPluginsInCategory'; break;
+	}
 
-    if (!func) {
-        handleError(res, "Plugins requires a valid type");
-        next();
-        return;
-    }
+	if (!func) {
+		handleError(res, "Plugins requires a valid type");
+		next();
+		return;
+	}
 
-    database[func](req.params.value, options, function (err, results) {
-        if (err) {
-            handleError(res,  err.toString() );
+	database[func](req.params.value, options, function (err, results) {
+		if (err) {
+			handleError(res,  err.toString() );
 			next();
-        } else {
+		} else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-        }
+		}
 
-    });
+	});
 }
 
 function pluginById(req, res, next) {
-    if (req.params.key == null || req.params.key.length === 0 ) {
-        handleError(res, "Plugins requires a id");
-        next();
-        return;
-    }
+	if (req.params.key == null || req.params.key.length === 0 ) {
+		handleError(res, "Plugins requires a id");
+		next();
+		return;
+	}
 
-    database.getPluginById(req.params.key, function (err, results) {
-        if (err) {
-            handleError(res,  err.toString() );
-        } else {
+	database.getPluginById(req.params.key, function (err, results) {
+		if (err) {
+			handleError(res,  err.toString() );
+		} else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-        }
-        next();
-    });
+		}
+		next();
+	});
 }
 
 function pluginCount(req, res, next) {
@@ -300,7 +323,7 @@ function pluginCount(req, res, next) {
 }
 
 function handleError(res, error) {
-    console.error(error);
-    res.send("{error: '" +error + "'}");
+	console.error(error);
+	res.send("{error: '" +error + "'}");
 }
 
