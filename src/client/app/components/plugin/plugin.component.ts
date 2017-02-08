@@ -50,7 +50,13 @@ export class PluginComponent implements OnInit, OnDestroy {
         if (this.plugin.readme) {
           this.readme = converter.makeHtml(this.plugin.readme); // <-- JUST FOR WIREFRAME
           // fixup what can be reasonably fixed up
-          this.readme = this.readme.replace(/<img src="screenshots/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/screenshots`);
+          this.readme = this.readme.
+            replace(/<img src="screenshots/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/screenshots`).
+            replace(/<img src="screens/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/screens`).
+            replace(/<img src=".\/screens/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/screens`).
+            replace(/<img src="docs\/images/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/docs/images`).
+            replace(/<img src="ss\/android/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/ss/android`).
+            replace(/<img src="ss\/ios/ig, `<img src="https://raw.githubusercontent.com/${this.plugin.repo_url}/master/ss/ios`);
         } else {
           this.readme = 'No readme found.';
         }
