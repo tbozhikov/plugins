@@ -21,45 +21,46 @@ export class AuthService extends Analytics {
   // Auth0
   private lock: any;
 
-  constructor(public analytics: AnalyticsService, private store: Store<any>, private storage: StorageService, private log: LogService, @Inject(AUTH_LOCK) private authLock: any, private win: WindowService, private ngZone: NgZone) {
+  constructor(public analytics: AnalyticsService, private store: Store<any>, private storage: StorageService, private log: LogService, private win: WindowService, private ngZone: NgZone,
+    /*@Inject(AUTH_LOCK) private authLock: any*/) {
     super(analytics);
     this.category = Tracking.Categories.USERS;
 
     // config Auth0
-    this.lock = new authLock('r96lh3DyVfFMGdyAgrZTSsO8y8bX7eY4', 'progress.auth0.com', {});
+    // this.lock = new authLock('r96lh3DyVfFMGdyAgrZTSsO8y8bX7eY4', 'progress.auth0.com', {});
 
-    // Add callback for lock `authenticated` event
-    this.lock.on('authenticated', (authResult: any) => {
-      this.log.debug('authenticated');
-      // this.log.debug(authResult);
+    // // Add callback for lock `authenticated` event
+    // this.lock.on('authenticated', (authResult: any) => {
+    //   this.log.debug('authenticated');
+    //   // this.log.debug(authResult);
 
-      // Fetch profile information
-      this.lock.getProfile(authResult.idToken, (error, profile) => {
-        if (error) {
-          // Handle error
-          this.win.alert(error);
-          return;
-        }
+    //   // Fetch profile information
+    //   this.lock.getProfile(authResult.idToken, (error, profile) => {
+    //     if (error) {
+    //       // Handle error
+    //       this.win.alert(error);
+    //       return;
+    //     }
 
-        profile.authIdToken = authResult.idToken;
-        this.ngZone.run(() => {
-          this.store.dispatch(new actions.LoginSuccessAction(profile));
-        });
-      });
-    });
+    //     profile.authIdToken = authResult.idToken;
+    //     this.ngZone.run(() => {
+    //       this.store.dispatch(new actions.LoginSuccessAction(profile));
+    //     });
+    //   });
+    // });
   }
 
   public login() {
     // Call the show method to display the widget.
-    this.lock.show((error: string, profile: Object, id_token: string) => {
-      this.log.debug('lock.show');
-      this.log.debug(error);
-      if (error) {
-        console.log(error);
-      }
-      this.log.debug(profile);
-      this.log.debug(id_token);
-    });
+    // this.lock.show((error: string, profile: Object, id_token: string) => {
+    //   this.log.debug('lock.show');
+    //   this.log.debug(error);
+    //   if (error) {
+    //     console.log(error);
+    //   }
+    //   this.log.debug(profile);
+    //   this.log.debug(id_token);
+    // });
   }
 
   public authenticated() {

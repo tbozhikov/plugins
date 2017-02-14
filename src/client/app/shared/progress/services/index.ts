@@ -4,10 +4,10 @@ import { ModalService } from './modal.service';
 import { PluginService } from './plugins.service';
 import { StorageService } from './storage.service';
 
-declare var Auth0Lock: any;
-export function authLockFactory() {
-  return Auth0Lock;
-};
+// declare var Auth0Lock: any;
+// export function authLockFactory() {
+//   return Auth0Lock;
+// };
 
 export const PROGRESS_PROVIDERS: any[] = [
   AuthService,
@@ -15,7 +15,7 @@ export const PROGRESS_PROVIDERS: any[] = [
   ModalService,
   PluginService,
   StorageService,
-  { provide: AUTH_LOCK, useFactory: (authLockFactory) }
+  // { provide: AUTH_LOCK, useFactory: (authLockFactory) }
 ];
 
 // services
