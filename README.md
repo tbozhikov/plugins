@@ -122,6 +122,8 @@ Windows:  npm run build.desktop.windows
 Linux:    npm run build.desktop.linux
 ```
 
+
+
 ## Running tests
 
 ```bash

@@ -48,7 +48,7 @@ function followRedirects(req, res, next) {
 		response.on('end', () => {
 			let data = {error: true};
 			try {
-				data = JSON.parse(body)
+				data = JSON.parse(body);
 			} catch (err) {
 				data = {error: "please try again" };
 			}
