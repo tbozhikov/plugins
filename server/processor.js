@@ -2,22 +2,34 @@
  * (c) 2016-2017, Master Technology
  *
  * Any questions please feel free to email me or put a issue up on the github repo
- * Version 0.0.2                                      Nathan@master-technology.com
+ * Version 0.0.3                                      Nathan@master-technology.com
  *********************************************************************************/
 "use strict";
 
 const fs = require('fs');
-const pgsql = require('./pgsql');
+const database = require('./json');
 const request = require('request');
+const oboe = require("oboe");
+
+// Our configuration files
+const config = require('./config').processing;
+
+
+// Used to enable Debugging
+const _debugging = !!config.debugging;
+const _debugFlags = {
+	// Use fake downloader (requires the npm.json file to already exist
+	fakeDownloading: false,
+	// Just totally skip the download / pre-process code
+	skipUpdates:false
+};
+
 
 // These are our hard coded automatic Developer tools, because they do not have a `nativescript` key
 const nativescriptDeveloperTools = ['nativescript','tns-core-modules','tns-android','tns-ios','angular2-seed-advanced','nativescript-hook'];
 
 // The Scoring System
 const SCORING = require('./scoring');
-
-// Our configuration files
-const config = require('./config').processing;
 
 // Keep track of all our static categories; eliminate SQL lookups for this while doing all our work
 let categories = {};
@@ -39,9 +51,13 @@ function scheduleNextPlugin(long) {
 
 	if (long === true) {
 		processPluginNPMStats(function() {
-			process.exit(0);
+			database.saveDatabase(() => {
+				database.close(() => {
+					console.log("Completed Processing");
+					process.exit();
+				});
+			});
 		});
-		//setTimeout(handlePlugins, config.longWaitTime);
 	} else {
 		setTimeout(handlePlugins, config.waitTime);
 	}
@@ -62,7 +78,7 @@ function handlePlugins() {
 	};
 
 	// Ask database for the next batch of plugins
-	pgsql.getNextPluginsToProcess(config.worker, config.maxPlugins, function(err, results) {
+	database.getNextPluginsToProcess(config.worker, config.maxPlugins, function(err, results) {
 		if (config.debugging) { console.log("Tagged and processing", results.rows.length); }
 
 		// if we have no valid rows, then schedule the next set, and exit this routine
@@ -98,18 +114,19 @@ function handleRequest(data, url, options, processCallback, doneCallback) {
 	currentRequest.url = url;
 
 	if (config.debugging) {
-	   console.log("Downloading url ", url, "for package:", data.name);
-        }
+	   console.log("Starting Downloading url ", url, "for package:", data.name);
+	}
 
 	request.get(currentRequest, function(err, response, body) {
 		if (err) {
 			console.error("Error on retrieving data for:", data.name, err);
-			pgsql.addLog(data.id, "Unable to retrieve " + url, doneCallback);
+			database.addLog(data.id, "Unable to retrieve " + url, doneCallback);
 			return;
 		}
 
 		if (config.debugging) {
-	//	    console.log("Response is:", response.statusCode, "data:", body);
+			//console.log("Response received", response.statusCode, currentRequest);
+		    //console.log("Response is:", response.statusCode, "data:", body);
 		}
 
 		if (response.statusCode !== 200) {
@@ -117,7 +134,7 @@ function handleRequest(data, url, options, processCallback, doneCallback) {
 			if (url.indexOf("raw.githubusercontent.com") === -1) {
 				console.error(currentRequest);
 				console.error("Response != 200 on retrieving data for:", url, "Got:", response.statusCode);
-				pgsql.addLog(data.id, "Non 200 (" + response.statusCode + ") response on " + url, doneCallback);
+				database.addLog(data.id, "Non 200 (" + response.statusCode + ") response on " + url, doneCallback);
 			} else {
 				doneCallback();
 			}
@@ -136,7 +153,7 @@ function handleRequest(data, url, options, processCallback, doneCallback) {
  */
 function getPluginResources(pluginData, finishedCallback) {
 
-	let requestCount = 2;
+	let requestCount = 1;
 	let requestCounter = 0;
 	let newData = {};
 
@@ -157,7 +174,7 @@ function getPluginResources(pluginData, finishedCallback) {
 						} else if (key === 'status') {
 							// Disabling of plugin has the highest priority, this means a check failed in one of the sub-systems
 							if (newData[key] === -1) { continue; }
-							if (data[key === -1]) { newData[key] = -1; }
+							if (data[key] === -1) { newData[key] = -1; continue; }
 						}
 						console.log("Conflicting information for", pluginData.name, key, newData[key], '!=', data[key]);
 					}
@@ -174,6 +191,7 @@ function getPluginResources(pluginData, finishedCallback) {
 				newData.processing_count = 0;
 			}
 
+			// Set to disabled
 			newData.processing_id = -1;
 
 			handleOverrides(pluginData, newData);
@@ -188,12 +206,12 @@ function getPluginResources(pluginData, finishedCallback) {
 			}
 
 			// Update the database
-			pgsql.updatePlugin(pluginData.id, newData, finishedCallback);
+			database.updatePlugin(pluginData.id, newData, finishedCallback);
 		}
 	};
 
 	// Convert the JSON Text into JSON Object
-	let overrides = {};
+	/* let overrides = {};
 	try {
 		overrides = JSON.parse(pluginData.overrides);
 	}
@@ -210,27 +228,28 @@ function getPluginResources(pluginData, finishedCallback) {
 	catch (err) {
 		npm_downloads = {};
 	}
-	pluginData.npm_download_info = npm_downloads;
+	pluginData.npm_download_info = npm_downloads; */
 
 
-	pgsql.clearLog(pluginData.id, function() {
+	database.clearLog(pluginData.id, function() {
+		requestCount++;
 		handleRequest(pluginData, "https://registry.npmjs.com/" + pluginData.name, handleNPM, completed);
 
 		let startDate = "2014-01-01";
-		//noinspection JSUnresolvedVariable
 		if (pluginData.created_date) {
-			//noinspection JSUnresolvedVariable
 			let tempDate = new Date();
 			tempDate.setTime(pluginData.created_date);
 			startDate = tempDate.toISOString().substr(0,10);
 		}
+
+		// Download the NPM Stats
+		requestCount++;
 		handleRequest(pluginData, "https://npm-stat.com/downloads/range/"+startDate+":"+new Date().toISOString().substr(0, 10)+"/"+pluginData.name, handleNPMStats, completed);
 
-		//noinspection JSUnresolvedVariable
-		if (pluginData.repo_site === "github.com" && pluginData.repo_url) {
-			requestCount+=1;
 
-			//noinspection JSUnresolvedVariable
+		// Download the Github info
+		if (pluginData.repo_site === "github.com" && pluginData.repo_url) {
+			requestCount++;
 			handleRequest(pluginData, "https://api.github.com/repos/" + pluginData.repo_url, {
 				headers: { 'User-Agent': 'request' },
 				auth: {
@@ -247,6 +266,9 @@ function getPluginResources(pluginData, finishedCallback) {
 		} else if (pluginData.repo_site === "bitbucket.org") {
 			// TODO: Add bitbucket parsing as part of v2
 		}
+
+		// This triggers the final completed callback; so that we don't accidentally not run any of our handleRequests before they are all assigned
+		completed({});
 	});
 }
 
@@ -281,7 +303,7 @@ function processPluginNPMStats(callback) {
 	let endDate = new Date().toISOString().substr(0, 10);
 
 	// Load any records that weren't processed today.
-	pgsql.getPluginsForStats(function(err, results) {
+	database.getPluginsForStats(function(err, results) {
 
 		let finishedCount = 0, finishedTotal = results.rows.length, recordId;
 
@@ -310,7 +332,7 @@ function processPluginNPMStats(callback) {
 			newData.last_updated = endDate;
 
 			// Update this plugin
-			pgsql.updatePlugin(recordId, newData, recordDone);
+			database.updatePlugin(recordId, newData, recordDone);
 		};
 
 
@@ -423,11 +445,11 @@ function handleNPM(oldData, responseData, finishedCallback) {
 	//noinspection JSUnresolvedVariable
 	if (!responseData["dist-tags"] || !responseData['dist-tags'].latest)  {
 		if (responseData.time && responseData.time.unpublished) {
-			pgsql.disablePlugin(oldData.id, "Process NPM Data: unpublished", finishedCallback, -10);
+			database.disablePlugin(oldData.id, "Process NPM Data: unpublished", finishedCallback, -10);
 		} else {
 			console.error("Unable to find dist-tags for", oldData.name);
 			//console.log(responseData);
-			pgsql.disablePlugin(oldData.id, "Process NPM Data: unable to find latest distribution tags", finishedCallback);
+			database.disablePlugin(oldData.id, "Process NPM Data: unable to find latest distribution tags", finishedCallback);
 		}
 		return;
 	}
@@ -464,7 +486,7 @@ function handleNPM(oldData, responseData, finishedCallback) {
 
 		if (!curData.nativescript) {
 			console.error("Not tagged for NativeScript: ", oldData.name);
-			pgsql.disablePlugin(oldData.id, "No valid platforms, requires a nativescript key.", finishedCallback);
+			database.disablePlugin(oldData.id, "No valid platforms, requires a nativescript key.", finishedCallback);
 			return;
 		}
 
@@ -498,7 +520,7 @@ function handleNPM(oldData, responseData, finishedCallback) {
 			}
 
 		} else {
-			pgsql.addLog(oldData.id, "Malformed package.json file -- missing `nativescript.platforms` key (-5 points).");
+			database.addLog(oldData.id, "Malformed package.json file -- missing `nativescript.platforms` key (-5 points).");
 			marketplace_issues |= SCORING.MALFORMED_PACKAGE_1;
 
 
@@ -516,7 +538,7 @@ function handleNPM(oldData, responseData, finishedCallback) {
 
 			if (platforms === 0) {
 				platforms = 3;
-				pgsql.addLog(oldData.id, "Malformed package.json -- No platforms listed at all.  (-5 points)");
+				database.addLog(oldData.id, "Malformed package.json -- No platforms listed at all.  (-5 points)");
 				marketplace_issues |= SCORING.MALFORMED_PACKAGE_2;
 			}
 
@@ -571,7 +593,7 @@ function handleNPM(oldData, responseData, finishedCallback) {
 			}
 		} else {
 			console.error("Invalid category", curData.nativescript.category);
-			pgsql.addLog(oldData.id, "Invalid category: "+curData.nativescript.category);
+			database.addLog(oldData.id, "Invalid category: "+curData.nativescript.category);
 		}
 	}
 
@@ -637,7 +659,7 @@ function handleNPM(oldData, responseData, finishedCallback) {
 
 	if (config.debugging) {
 	    // console.log("OldData:", oldData);
-	    // console.log("NewData", newData);
+	     //console.log("NewData", newData);
 	}
 
 	// All done processing NPM Log
@@ -652,7 +674,7 @@ function handleGIT(oldData, responseData, finishedCallback) {
 	// Disable forks by default
 	if (responseData.fork || oldData.overrides.fork === true) {
 		if (oldData.overrides.fork !== false) {
-			pgsql.disablePlugin(oldData.id, "Fork of another project.", finishedCallback);
+			database.disablePlugin(oldData.id, "Fork of another project.", finishedCallback);
 			return;
 		}
 	}
@@ -695,17 +717,189 @@ function handleGIT(oldData, responseData, finishedCallback) {
 	finishedCallback(newData);
 }
 
+/**
+ * Start the processing of the valid records file
+ * @param valid
+ * @returns {Promise}
+ */
+function processRecords(valid) {
 
+	return new Promise(function (resolve) {
+
+		const totalRecords = valid.length;
+		let currentRecord = -1;
+
+		const updateRecord = function (currentRecord, done) {
+			console.log("Processing ", currentRecord.name);
+			database.saveNPMRecord(currentRecord, function () {
+				console.log("Done with: ", currentRecord.name);
+				if (currentRecord % 10 === 0) {
+					setTimeout(done, 0);
+
+				} else {
+					done();
+				}
+			});
+		};
+
+		const processRec = function () {
+			currentRecord++;
+			if (currentRecord === totalRecords) {
+				resolve();
+				return;
+			}
+			const curRec = valid[currentRecord];
+			updateRecord(curRec, processRec)
+		};
+		processRec();
+	});
+}
+
+/**
+ * Search through all the NPM data and see what are potentially valid plugins from it
+ * @returns {Promise}
+ */
+function processJSON() {
+	return new Promise(function (resolve) {
+		oboe(fs.createReadStream('./npm.json'))
+		.node('!.*', function (curData) {
+
+			// Does the name start with it?
+			if (curData.name && curData.name.toLowerCase().startsWith("nativescript-")) {
+				// Return means we like the record
+				return curData;
+			}
+
+			// Is NativeScript used inside the description?
+			if (curData.description && curData.description.toLowerCase().indexOf("nativescript") > -1) {
+				// Return means we like the record
+				return curData;
+			}
+
+			if (curData.keywords) {
+				for (let k = 0; k < curData.keywords.length; k++) {
+					if (curData.keywords[k].toLowerCase() === "nativescript") {
+						// Return means we like the record
+						return curData;
+					}
+				}
+			}
+
+			// Means we don't want the record
+			return oboe.drop;
+		}).done(function (data) {
+			let validData = [];
+
+			// Dropped Data has a ton of NULL records, so lets clean it up.
+			if (Array.isArray(data)) {
+				for (let i = 0; i < data.length; i++) {
+					if (data[i] != null) {
+						validData.push(data[i]);
+					}
+				}
+			} else {
+				for (let key in data) {
+					if (data.hasOwnProperty(key)) {
+						validData.push(data[key]);
+					}
+				}
+			}
+			resolve(validData);
+		});
+	})
+}
+
+// Used to Test w/o re-downloading file
+function fakeDownload() {
+	return new Promise(function (resolve) {
+		resolve();
+	});
+}
+
+/**
+ * Downloads a file
+ * @param url - url to download
+ * @param dest - file to save
+ * @returns {Promise}
+ */
+function download(url, dest) {
+	return new Promise(function (resolve, reject) {
+		const file = fs.createWriteStream(dest);
+		const request = http.get(url, function (response) {
+			response.pipe(file);
+			file.on('finish', function () {
+				file.close(resolve);
+			});
+		}).on('error', function (err) { // Handle errors
+			fs.unlinkSync(dest);
+			reject(err);
+		});
+		request.setTimeout(20000, function () {
+			console.log("Aborting request");
+			request.abort();
+		});
+	});
+}
+
+
+/**
+ * Starts the Downloading system
+ * @returns {Promise}
+ */
+function startDownloads() {
+	return new Promise((resolve) => {
+		let downloadType = "all"; //"yesterday";
+
+		if (database.getDataUpdatedDate() === "0000-00-00") {
+			downloadType = "all";
+		}
+
+		let downloader = download;
+		if (_debugging) {
+			if (_debugFlags.skipUpdates) {
+				resolve(); return;
+			}
+
+			if (_debugFlags.fakeDownloading) {
+				downloader = fakeDownload;
+			}
+		}
+
+		console.log("Downloading", downloadType);
+
+		downloader("https://registry.npmjs.org/-/all/static/" + downloadType + ".json", "npm.json")
+		.then(() => {
+			console.log("Done Downloading");
+			return processJSON();
+		})
+		.then((valid) => {
+			console.log("Found", valid.length, "records...");
+			return processRecords(valid);
+		})
+		.then(() => {
+			database.setDataUpdatedDate();
+			database.saveDatabase(resolve);
+		})
+		.catch((err) => {
+			console.log("Error", err, err.stack);
+		});
+	});
+}
 
 
 // --------------------------------------------------------------------------------------
 // This actually starts the processing of plugins, we cache the categories, then start
 // the first load of plugins
 // --------------------------------------------------------------------------------------
-pgsql.getCategories(function(err, results) {
-	for (let i=0;i<results.rows.length;i++) {
-		categories[results.rows[i].name.toLowerCase()] = results.rows[i].id;
-	}
-	handlePlugins();
-});
+database.dataReady().then( () => {
+	console.log("Starting...");
 
+	startDownloads().then(function() {
+		database.getCategories(function (err, results) {
+			for (let i = 0; i < results.rows.length; i++) {
+				categories[results.rows[i].name.toLowerCase()] = results.rows[i].id;
+			}
+			handlePlugins();
+		});
+	});
+});

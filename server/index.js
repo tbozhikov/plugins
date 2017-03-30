@@ -2,17 +2,33 @@
  * (c) 2016-2017, Master Technology
  *
  * Any questions please feel free to email me or put a issue up on the github repo
- * Version 0.0.3                                      Nathan@master-technology.com
+ * Version 0.0.5                                      Nathan@master-technology.com
  *********************************************************************************/
 "use strict";
 
 const restify = require('restify');
 const config = require('./config').server;
 const fs = require('fs');
+const child = require('child_process');
+
+const DBSettingKey = process.env.DBSETTINGKEY || "";
 
 let database;
 if (config.api) {
-	database = require('./pgsql');
+	if (config.database === "postgres") {
+		database = require('./pgsql');
+	} else {
+		database = require('./json');
+		startProcessingHandler();
+
+		// On database changes, reload the database...
+		database.watch(function() {
+			database.loadDatabase(() => {
+				authorsData = null;
+				categoriesData = null;
+			});
+		});
+	}
 }
 
 // Setup the server options
@@ -34,6 +50,10 @@ if (config.api) {
 	server.get({path: '/api/getPlugins/:key/:value', version: '1.0.0'}, pluginsKeyValue);
 	server.get({path: '/api/getPlugin/:key', version: '1.0.0'}, pluginById);
 	server.get({path: '/api/getPluginCount', version: '1.0.0'}, pluginCount);
+
+	server.get({path: '/api/setValue/:key/:table/:id/:field/:value'}, DBSetValue);
+	server.get({path: '/api/getValue/:key/:table/:id/:field'}, DBGetValue);
+	server.get({path: '/api/getRow/:key/:table/:id'}, DBGetRow);
 } else if (config.forward) {
 	server.get({path: /\/api\/?.*/, version: '1.0.0'}, followRedirects);
 }
@@ -114,18 +134,9 @@ server.listen(config.port, function() {
 // --------------------------------------------------------------------------------
 let authorsData = null, categoriesData=null;
 
-// Clear Data of these every 12 hours;
-setTimeout(function() {
-	authorsData = null; categoriesData = null;
-}, 60000 * 12);
 
 function toProperCase(val) {
 	return val.toLowerCase().replace(/^(.)|\s(.)/g, function(v) { return v.toUpperCase(); });
-}
-
-function pluginData(req, res, next) {
-	res.send("Hey we are looking at a plugin");
-	next();
 }
 
 function fixGroupData(data) {
@@ -158,39 +169,67 @@ function fixData(data, callback) {
 
 	for (let i=0;i<count;i++) {
 		let curData = data[i];
+		delete curData.meta;
+		delete curData.$loki;
 		if (!curData.shortName) {
 			curData.shortName = toProperCase(curData.name.replace('nativescript-', '').replace(/\-/g, ' '));
 		}
 		curData.author =  {id: curData.author, name: authorsData[curData.author]};
 		curData.category = {id: curData.category, name: categoriesData[curData.category]};
 		curData.os_support = {android: ((curData.os_support & 1) === 1), ios: ((curData.os_support & 2) === 2) };
+		if (curData.npm_download_info) { delete curData.npm_download_info; }
+
+		if (curData.contributors) {
+			let cons = [], maintainers = [];
+			for (let j=0;j<curData.contributors.length;j++) {
+				let author = {id: curData.contributors[j].authorid, author: authorsData[curData.contributors[j].authorid]};
+				if (curData.contributors[j].type === 'C') {
+					cons.push(author);
+				} else {
+					maintainers.push(author);
+				}
+			}
+			curData.contributors = cons;
+			curData.maintainers = maintainers;
+		}
+
+
 		newData.push(curData);
 	}
 
 	callback(newData);
 }
 
+function stripLokiResults(results) {
+	for (let i=0;i<results.length;i++) {
+		delete(results[i].meta);
+		delete(results[i].$loki);
+	}
+}
+
 function categories(req, res, next) {
-	database.getCategories(function(err, results) {
-		if (err) {
-			handleError(res, err.toString());
-		} else {
-			res.send(results.rows);
-		}
-		next();
-	});
+    database.getCategories(function(err, results) {
+        if (err) {
+            handleError(res, err.toString());
+        } else {
+			stripLokiResults(results.rows);
+            res.send(results.rows);
+        }
+        next();
+    });
 }
 
 function authors(req, res, next) {
-	database.getAuthors(function(err, results) {
-		if (err) {
-			console.log(err);
-			handleError(res, err.toString());
-		} else {
-			res.send(results.rows);
-		}
-		next();
-	});
+    database.getAuthors(function(err, results) {
+        if (err) {
+            console.error(err);
+            handleError(res, err.toString());
+        } else {
+			stripLokiResults(results.rows);
+            res.send(results.rows);
+        }
+        next();
+    });
 }
 
 function search(req, res, next) {
@@ -257,10 +296,22 @@ function pluginsAll(req, res, next) {
 }
 
 function pluginsKeyValue(req, res, next) {
-	if (req.params.key == null || req.params.value == null || req.params.key.length === 0 || req.params.value.length === 0 ) {
-		handleError(res, "Plugins requires a type & value");
-		next();
-		return;
+    if (req.params.key == null || req.params.key.length === 0  ) {
+        handleError(res, "Plugins requires a type & value");
+        next();
+        return;
+    }
+
+    if (req.params.value == null || req.params.value.length === 0) {
+		if (req.params.key.length === 36) {
+			req.params.value = req.params.key;
+			req.params.key = "category";
+
+		} else {
+			handleError(res, "Plugins requires a type & value");
+			next();
+			return;
+		}
 	}
 
 	const options = getOptions(req.params);
@@ -327,3 +378,77 @@ function handleError(res, error) {
 	res.send("{error: '" +error + "'}");
 }
 
+function DBGetRow(req, res, next) {
+	if (req.params.key == null || req.params.key.length === 0 || req.params.key !== DBSettingKey) {
+		handleError(res, "API requires a id");
+		next();
+		return;
+	}
+
+	database.getRow(req.params.table, req.params.id, function(err, results) {
+		res.send(results);
+		next();
+	});
+}
+
+
+function DBGetValue(req, res, next) {
+	if (req.params.key == null || req.params.key.length === 0 || req.params.key !== DBSettingKey) {
+		handleError(res, "API requires a id");
+		next();
+		return;
+	}
+
+	database.getValue(req.params.table, req.params.id, req.params.field, function(err, results) {
+		res.send({result: results});
+		next();
+	});
+}
+
+function DBSetValue(req, res, next) {
+	if (req.params.key == null || req.params.key.length === 0 || req.params.key !== DBSettingKey) {
+		handleError(res, "API requires a id");
+		next();
+		return;
+	}
+
+	database.setValue(req.params.table, req.params.id, req.params.field, req.params.value);
+	res.send({changed: "maybe"});
+	next();
+
+}
+
+/**
+ * Starts the processor, every 24 hours at 3am.
+ */
+function startProcessingHandler() {
+	let processor = child.spawn("node", "processor.js", {});
+	processor.stdout.on('data', (data) => {
+		console.log(`Processor: ${data}`);
+	});
+
+	processor.stderr.on('data', (data) => {
+		console.error(`Processor: ${data}`);
+	});
+
+	processor .on('close', (code) => {
+		console.log(`Processor exited: ${code}`);
+	});
+
+	// Figure out the next timestamp to run the next processing run
+	let tomorrow = new Date();
+	tomorrow.setMinutes(60);
+	tomorrow.setSeconds(0);
+	if (tomorrow.getHours() > 3) {
+		// Next Day
+		tomorrow.setHours(24);
+		tomorrow.setHours(3);
+	} else {
+		// Today
+		tomorrow.setHours(3);
+	}
+	let nextTimeStamp = parseInt(tomorrow.getTime()-Date.now()/1000,10);
+	console.log("Setting next Processing Run for", nextTimeStamp);
+
+	setTimeout(startProcessingHandler, nextTimeStamp);
+}
