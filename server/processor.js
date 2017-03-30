@@ -10,6 +10,8 @@ const fs = require('fs');
 const database = require('./json');
 const request = require('request');
 const oboe = require("oboe");
+const http = require('https');
+
 
 // Our configuration files
 const config = require('./config').processing;
@@ -21,7 +23,7 @@ const _debugFlags = {
 	// Use fake downloader (requires the npm.json file to already exist
 	fakeDownloading: false,
 	// Just totally skip the download / pre-process code
-	skipUpdates:false
+	skipUpdates: false
 };
 
 
@@ -831,11 +833,12 @@ function download(url, dest) {
 				file.close(resolve);
 			});
 		}).on('error', function (err) { // Handle errors
+			console.error("Download Error", err);
 			fs.unlinkSync(dest);
 			reject(err);
 		});
 		request.setTimeout(20000, function () {
-			console.log("Aborting request");
+			console.error("Aborting request");
 			request.abort();
 		});
 	});
@@ -848,7 +851,7 @@ function download(url, dest) {
  */
 function startDownloads() {
 	return new Promise((resolve) => {
-		let downloadType = "all"; //"yesterday";
+		let downloadType = "yesterday";
 
 		if (database.getDataUpdatedDate() === "0000-00-00") {
 			downloadType = "all";
@@ -869,7 +872,11 @@ function startDownloads() {
 
 		downloader("https://registry.npmjs.org/-/all/static/" + downloadType + ".json", "npm.json")
 		.then(() => {
-			console.log("Done Downloading");
+			const stats = fs.statSync("npm.json");
+			console.log("Done Downloading, Size:", stats.size);
+			if (stats.size < 100) {
+				process.exit(255);
+			}
 			return processJSON();
 		})
 		.then((valid) => {

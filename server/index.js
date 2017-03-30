@@ -23,7 +23,10 @@ if (config.api) {
 
 		// On database changes, reload the database...
 		database.watch(function() {
+			console.log("Loading Database");
 			database.loadDatabase(() => {
+				console.log("Loaded");
+				database._getDBSizes();
 				authorsData = null;
 				categoriesData = null;
 			});
@@ -54,6 +57,7 @@ if (config.api) {
 	server.get({path: '/api/setValue/:key/:table/:id/:field/:value'}, DBSetValue);
 	server.get({path: '/api/getValue/:key/:table/:id/:field'}, DBGetValue);
 	server.get({path: '/api/getRow/:key/:table/:id'}, DBGetRow);
+	server.get({path: '/api/process/:key'}, StartProcessing);
 } else if (config.forward) {
 	server.get({path: /\/api\/?.*/, version: '1.0.0'}, followRedirects);
 }
@@ -233,23 +237,23 @@ function authors(req, res, next) {
 }
 
 function search(req, res, next) {
-	if (req.params.value == null || req.params.value.length === 0) {
-		handleError(res, "Search requires a parameter");
-		next();
-		return;
-	}
+    if (req.params.value == null || req.params.value.length === 0) {
+        handleError(res, "Search requires a parameter");
+        next();
+        return;
+    }
 	const options = getOptions(req.params);
-	database.search(req.params.value, options, function (err, results) {
-		if (err) {
-			handleError(res,  err.toString() );
-			next();
-		} else {
+    database.search(req.params.value, options, function (err, results) {
+        if (err) {
+            handleError(res,  err.toString() );
+            next();
+        } else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-		}
-	})
+        }
+    })
 }
 
 const validSortFields = ['name', 'author', 'category', 'description', 'os_support', 'user_score', 'version', 'language', 'marketplace_score', 'modified_date'];
@@ -265,14 +269,14 @@ function getOptions(params) {
 		}
 	}
 	if (params.offset) {
-		const newOffset = parseInt(params.offset, 10);
+	    const newOffset = parseInt(params.offset, 10);
 		if (newOffset > 0) {
 			options.offset = newOffset;
 		}
 	}
 	if (params.limit) {
 		const newLimit = parseInt(params.limit, 10);
-		if (newLimit > 0) {
+	    if (newLimit > 0) {
 			options.limit = newLimit;
 		}
 	}
@@ -282,17 +286,17 @@ function getOptions(params) {
 function pluginsAll(req, res, next) {
 	const options = getOptions(req.params);
 
-	database.getAllPlugins(options, function (err, results) {
-		if (err) {
-			handleError(res,  err.toString() );
+    database.getAllPlugins(options, function (err, results) {
+        if (err) {
+            handleError(res,  err.toString() );
 			next();
-		} else {
+        } else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-		}
-	})
+        }
+    })
 }
 
 function pluginsKeyValue(req, res, next) {
@@ -314,52 +318,53 @@ function pluginsKeyValue(req, res, next) {
 		}
 	}
 
+
 	const options = getOptions(req.params);
 
-	let func;
-	switch(req.params.key) {
-		case 'author': func = 'getPluginsOfAuthor'; break;
-		case 'category': func = 'getPluginsInCategory'; break;
-	}
+    let func;
+    switch(req.params.key) {
+        case 'author': func = 'getPluginsOfAuthor'; break;
+        case 'category': func = 'getPluginsInCategory'; break;
+    }
 
-	if (!func) {
-		handleError(res, "Plugins requires a valid type");
-		next();
-		return;
-	}
+    if (!func) {
+        handleError(res, "Plugins requires a valid type");
+        next();
+        return;
+    }
 
-	database[func](req.params.value, options, function (err, results) {
-		if (err) {
-			handleError(res,  err.toString() );
+    database[func](req.params.value, options, function (err, results) {
+        if (err) {
+            handleError(res,  err.toString() );
 			next();
-		} else {
+        } else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-		}
+        }
 
-	});
+    });
 }
 
 function pluginById(req, res, next) {
-	if (req.params.key == null || req.params.key.length === 0 ) {
-		handleError(res, "Plugins requires a id");
-		next();
-		return;
-	}
+    if (req.params.key == null || req.params.key.length === 0 ) {
+        handleError(res, "Plugins requires a id");
+        next();
+        return;
+    }
 
-	database.getPluginById(req.params.key, function (err, results) {
-		if (err) {
-			handleError(res,  err.toString() );
-		} else {
+    database.getPluginById(req.params.key, function (err, results) {
+        if (err) {
+            handleError(res,  err.toString() );
+        } else {
 			fixData(results.rows, function(data) {
 				res.send(data);
 				next();
 			});
-		}
-		next();
-	});
+        }
+        next();
+    });
 }
 
 function pluginCount(req, res, next) {
@@ -374,8 +379,8 @@ function pluginCount(req, res, next) {
 }
 
 function handleError(res, error) {
-	console.error(error);
-	res.send("{error: '" +error + "'}");
+    console.error(error);
+    res.send("{error: '" +error + "'}");
 }
 
 function DBGetRow(req, res, next) {
@@ -418,11 +423,23 @@ function DBSetValue(req, res, next) {
 
 }
 
+function StartProcessing() {
+	if (req.params.key == null || req.params.key.length === 0 || req.params.key !== DBSettingKey) {
+		handleError(res, "API requires a id");
+		next();
+		return;
+	}
+	startProcessingHandler(true);
+	res.send({started: "true"});
+	next();
+}
+
+
 /**
  * Starts the processor, every 24 hours at 3am.
  */
-function startProcessingHandler() {
-	let processor = child.spawn("node", "processor.js", {});
+function startProcessingHandler(noTimer) {
+	let processor = child.spawn("node", ["processor.js"], {});
 	processor.stdout.on('data', (data) => {
 		console.log(`Processor: ${data}`);
 	});
@@ -431,10 +448,18 @@ function startProcessingHandler() {
 		console.error(`Processor: ${data}`);
 	});
 
-	processor .on('close', (code) => {
+	processor.on('close', (code) => {
 		console.log(`Processor exited: ${code}`);
+		if (code === 255 || code === -1) {
+			// Start Processing again in 5 minutes.
+			console.log("Processor Exited with failed to download, restarting download in 5 minutes.")
+			setTimeout(() => {startProcessingHandler(true); }, 5*60*1000);
+		}
 	});
 
+	if (noTimer === true) {
+		return;
+	}
 	// Figure out the next timestamp to run the next processing run
 	let tomorrow = new Date();
 	tomorrow.setMinutes(60);
@@ -447,8 +472,8 @@ function startProcessingHandler() {
 		// Today
 		tomorrow.setHours(3);
 	}
-	let nextTimeStamp = parseInt(tomorrow.getTime()-Date.now()/1000,10);
-	console.log("Setting next Processing Run for", nextTimeStamp);
+	let nextTimeStamp = (tomorrow.getTime()-Date.now());
+	console.log("Setting next Processing Run for", nextTimeStamp/1000);
 
 	setTimeout(startProcessingHandler, nextTimeStamp);
 }

@@ -82,6 +82,7 @@ function _getDBSizes() {
 	}
 	console.log("", "-------------------------", "\r\n");
 }
+exports._getDBSizes = _getDBSizes;
 
 /**
  * Allows us to wait until the database is ready
@@ -898,7 +899,7 @@ exports.saveDatabase = function(callback) {
 };
 
 exports.loadDatabase = function(callback) {
-	db.loadDatabase(callback);
+	db.loadDatabase({}, callback);
 };
 
 exports.close = function(callback) {
@@ -921,8 +922,8 @@ exports.watch = function(callback) {
 	}
   fs.watch("database.db", (eventType, fileName) => {
   	if (dbChangedByUs > 0) { return; }
+	  console.log("EventType", eventType, fileName);
   	if (eventType === "rename") { return; }
-  	console.log("EventType", eventType, fileName);
   	if (typeof callback === 'function') {
 		if (_watchTimer !== null) {
 			clearTimeout(_watchTimer);
