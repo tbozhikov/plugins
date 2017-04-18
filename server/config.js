@@ -11,7 +11,7 @@ module.exports =
 			port: process.env.PORT, // Specific to Modulus
 			api: true,				// Activate API handling
 			static: true,			// Activate Static Server
-			forward: false,			// Forward API requests
+			forward: true,			// Forward API requests
 			database: 'lokijs'		// Database Driver for server
 		},
 		lokijs: {

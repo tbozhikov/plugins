@@ -13,7 +13,6 @@ export class ProjectConfig extends SeedAdvancedConfig {
   constructor() {
     super();
     this.APP_TITLE = 'Official source for NativeScript plugins';
-    this.ENABLE_SCSS = true;
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
@@ -26,7 +25,6 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
-      ...this.APP_ASSETS,
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
     ];
@@ -46,17 +44,23 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
     additionalPackages.push(
       {
+        name: 'angulartics2',
+        packageMeta: {
+          main: 'dist/core.umd.js',
+          defaultExtension: 'js'
+        }
+      },
+      {
         name: '@ng-bootstrap/ng-bootstrap',
-        path: `${this.APP_BASE}node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js`,
         packageMeta: {
           main: 'bundles/ng-bootstrap.js',
           defaultExtension: 'js'
         }
       },
       {
-        name: 'angular2-infinite-scroll',
+        name: 'ngx-infinite-scroll',
         packageMeta: {
-          main: 'angular2-infinite-scroll.js',
+          main: 'bundles/ngx-infinite-scroll.umd.js',
           defaultExtension: 'js'
         }
       },
@@ -85,8 +89,13 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
     this.addPackagesBundles(additionalPackages);
 
+    /* Add proxy middleware */
+    // this.PROXY_MIDDLEWARE = [
+    //   require('http-proxy-middleware')({ ws: false, target: 'http://localhost:3003' })
+    // ];
+
     /* Add to or override NPM module configurations: */
-    // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
+    // this.PLUGIN_CONFIGS['browser-sync'] = { ghostMode: false };
   }
 
 }

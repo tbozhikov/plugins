@@ -1,17 +1,16 @@
 // nativescript
-import {
-  NativeScriptModule,
-  NativeScriptFormsModule,
-  NativeScriptHttpModule,
-  NativeScriptRouterModule
-} from 'nativescript-angular';
+import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
+import { NativeScriptFormsModule } from 'nativescript-angular/forms';
+import { NativeScriptHttpModule } from 'nativescript-angular/http';
+import { NativeScriptRouterModule } from 'nativescript-angular/router';
 import { Http } from '@angular/http';
 
 // angular
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 // libs
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // app
 import { AppComponent } from './app/components/app.component';
@@ -24,6 +23,7 @@ import { CoreModule } from './app/shared/core/core.module';
 import { AnalyticsModule } from './app/shared/analytics/analytics.module';
 import { MultilingualModule, translateLoaderFactory } from './app/shared/i18n/multilingual.module';
 import { SampleModule } from './app/shared/sample/sample.module';
+import { ConsoleService, ConsoleTarget, LogLevel } from "./app/shared/core/index";
 
 // intermediate component module
 // helps encapsulate custom native modules in with the components
@@ -69,4 +69,8 @@ export class ComponentsModule { }
 // For AoT compilation to work:
 export function cons() {
   return console;
+}
+
+export function consoleLogTarget(service: ConsoleService) {
+  return new ConsoleTarget(service, { minLogLevel: LogLevel.Debug });
 }
