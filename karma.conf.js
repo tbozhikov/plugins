@@ -49,7 +49,7 @@ module.exports = function (config) {
 
       // Advanced seed
       { pattern: 'node_modules/lodash/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/ng2-translate/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/@ngx-translate/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/@ngrx/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/angulartics2/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/ngrx-store-freeze/**/*.js', included: false, watched: false },
@@ -61,7 +61,7 @@ module.exports = function (config) {
       { pattern: 'node_modules/showdown/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/angular2-moment/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/angular2-infinite-scroll/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/ngx-infinite-scroll/**/*.js', included: false, watched: false },
       // { pattern: 'node_modules/js-base64/**/*.js', included: false, watched: false },
       // { pattern: 'node_modules/base64-js/**/*.js', included: false, watched: false },
       // { pattern: 'node_modules/buffer/**/*.js', included: false, watched: false },

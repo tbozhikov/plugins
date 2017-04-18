@@ -7,7 +7,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 // module
-import { LogService } from '../../core/services/log.service';
+import { LogService } from '../../core/services/logging/log.service';
 import { ModalService } from '../services/modal.service';
 import * as actions from '../actions/modal.action';
 

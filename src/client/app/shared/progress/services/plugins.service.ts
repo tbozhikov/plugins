@@ -9,7 +9,7 @@ import { uniqBy, orderBy } from 'lodash';
 
 // app
 import { Analytics, AnalyticsService } from '../../analytics/index';
-import { LogService } from '../../core/services/log.service';
+import { LogService } from '../../core/services/logging/log.service';
 import { HttpService } from './http.service';
 import { StorageService } from './storage.service';
 import * as pluginActions from '../actions/plugin.action';

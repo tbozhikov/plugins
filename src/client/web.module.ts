@@ -9,7 +9,7 @@ import { Http, JsonpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader } from 'ng2-translate';
+import { TranslateLoader } from '@ngx-translate/core';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 // app
@@ -27,7 +27,7 @@ import { AuthEffects, ModalEffects, PluginEffects } from './app/shared/progress/
 import { ProgressModule } from './app/shared/progress/progress.module';
 
 // config
-import { Config, WindowService, ConsoleService } from './app/shared/core/index';
+import { Config, WindowService, ConsoleService, createConsoleTarget, provideConsoleTarget, LogTarget, LogLevel, ConsoleTarget } from './app/shared/core/index';
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
 if (String('<%= BUILD_TYPE %>') === 'dev') {
   // only output console logging in dev mode
@@ -42,26 +42,6 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
   routerModule = RouterModule.forRoot(routes, { useHash: true });
 }
 
-// dev tools (only used during development - not included in production)
-let DEV_TOOLS: any[] = [];
-let DEV_TOOLS_EXPORT: any[] = [];
-if (String('<%= BUILD_TYPE %>') !== 'prod') {
-
-  let devTools = require('@ngrx/store-devtools').StoreDevtoolsModule;
-  DEV_TOOLS_EXPORT.push(devTools);
-  // import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
-  DEV_TOOLS = [
-    devTools.instrumentOnlyWithExtension()
-    // StoreDevtoolsModule.instrumentStore({
-    //   monitor: useLogMonitor({
-    //     visible: false,
-    //     position: 'right'
-    //   })
-    // }),
-    // StoreLogMonitorModule
-  ];
-}
-
 declare var window, console;
 
 // For AoT compilation to work:
@@ -71,13 +51,26 @@ export function win() {
 export function cons() {
   return console;
 }
+export function consoleLogTarget(consoleService: ConsoleService) {
+  return new ConsoleTarget(consoleService, { minLogLevel: LogLevel.Debug });
+}
+
+let DEV_IMPORTS: any[] = [];
+
+if (String('<%= BUILD_TYPE %>') === 'dev') {
+  DEV_IMPORTS = [
+    ...DEV_IMPORTS,
+    StoreDevtoolsModule.instrumentOnlyWithExtension()
+  ];
+}
 
 @NgModule({
   imports: [
     BrowserModule,
     CoreModule.forRoot([
       { provide: WindowService, useFactory: (win) },
-      { provide: ConsoleService, useFactory: (cons) }
+      { provide: ConsoleService, useFactory: (cons) },
+      { provide: LogTarget, useFactory: (consoleLogTarget), deps: [ConsoleService], multi: true }
     ]),
     routerModule,
     AnalyticsModule,
@@ -95,7 +88,7 @@ export function cons() {
     // 3rd party lib module
     LibsModule,
     // dev tools (empty in production)
-    DEV_TOOLS,
+    DEV_IMPORTS,
     JsonpModule
   ],
   declarations: [

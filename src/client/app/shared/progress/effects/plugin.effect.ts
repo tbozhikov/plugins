@@ -7,7 +7,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 // module
-import { LogService } from '../../core/services/log.service';
+import { LogService } from '../../core/services/logging/log.service';
 import { IAppState } from '../../ngrx/state/app.state';
 import { HttpService } from '../services/http.service';
 import { PluginService } from '../services/plugins.service';

@@ -7,8 +7,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 // libs
 import { StoreModule } from '@ngrx/store';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Angulartics2Module, Angulartics2Segment } from 'angulartics2';
 
 // app
 import { t } from '../shared/test/index';
@@ -36,6 +37,9 @@ const testModuleConfig = () => {
     imports: [
       FormsModule,
       InfiniteScrollModule,
+      Angulartics2Module.forRoot([
+        Angulartics2Segment
+      ]),
       MultilingualModule,
       NgbModule.forRoot(),
       StoreModule.provideStore({ }),
